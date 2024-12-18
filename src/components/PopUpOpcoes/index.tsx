@@ -3,13 +3,11 @@ import "./styles.sass"
 
 const PopUpOpcoes = (
     {
-        onButtonClick,
         title, 
         buttonTitle1, 
         buttonTitle2
     } : 
     {
-        onButtonClick: (buttonValue: string) => void
         title : string, 
         buttonTitle1 : string, 
         buttonTitle2 : string

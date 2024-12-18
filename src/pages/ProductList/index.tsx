@@ -3,7 +3,6 @@ import { Clear, Edit, LockReset, Logout, AccountBox, AccountCircle } from '@mui/
 import { useNavigate } from "react-router-dom";
 
 import ButtonValue from '@Components/ButtonValue';
-import PopUpOpcoes from '@Components/PopUpOpcoes';
 import Title from '@Components/Title';
 import Table from '@Components/Table';
 import Search from '@Components/Search';
@@ -13,9 +12,9 @@ import Menu, { OptionMenuType } from '@Components/Menu';
 import Notification, { NotificationType } from '@Components/Notification';
 
 import { listProducts, deleteProduct, getProductByName } from '@Api/services/products';
+import { Product } from '@Models/product';
 
 import { exportExcelProduct } from '@Utils/exportExcel';
-import { ProductGet } from '@Models/productsGet';
 import formatPrice from '@Utils/formatPrice';
 import formatPercent from '@Utils/formatPercent'
 
@@ -36,7 +35,7 @@ const HomePage = () => {
   const [search, setSearch] = useState<string>('');
   const [startPage, setStartPage] = useState<number>(0);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  const [selectedProduct, setSelectedProduct] = useState<ProductGet>();
+  const [selectedProduct, setSelectedProduct] = useState<Product>();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [note, setNote] = useState<NotificationType>({
@@ -45,9 +44,9 @@ const HomePage = () => {
     type: "info"
   });
 
-  const [results, setResults] = useState<ProductGet[]>();
-  const [productList, setProductList] = useState<ProductGet[]>([]);
-  const [dataProduct, setDataProduct] = useState<ProductGet[]>([]);
+  const [results, setResults] = useState<Product[]>();
+  const [productList, setProductList] = useState<Product[]>([]);
+  const [dataProduct, setDataProduct] = useState<Product[]>([]);
 
   const handleVoltar = (setButtons : React.Dispatch<React.SetStateAction<boolean>>) => {
     setButtons(false) 
@@ -83,13 +82,13 @@ const HomePage = () => {
   }
 
   const setRangeList = (start : number, amount : number) => {
-    let rangeList : ProductGet[] = [];
-    let dataBase = search && results ? results : dataProduct;
+    const rangeList: Product[] = [];
+    const dataBase = search && results ? results : dataProduct;
 
     if (start < dataBase.length && start >= 0) {
-      for (var index = 0; index < amount; index++) {
+      for (let index = 0; index < amount; index++) {
         if (start + index < dataBase.length) {
-          var product = dataBase[start + index];
+          const product = dataBase[start + index];
           rangeList.push(product);
         }
       }
@@ -160,11 +159,10 @@ const HomePage = () => {
     if(!search) {
       setResults(dataProduct);
     } else {
-      let searchResult : ProductGet[] = dataProduct.filter((element) => 
+      const searchResult : Product[] = dataProduct.filter((element) => 
         element.nome.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
         element.data_validade.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
         element.valor_compra.toString().indexOf(search.toLowerCase()) != -1 ||
-        element._valor_venda.toString().indexOf(search.toLowerCase()) != -1 ||
         element.quantidade.toString().indexOf(search.toLowerCase()) != -1
       );
       setResults(searchResult);

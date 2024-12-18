@@ -1,5 +1,4 @@
-import React, { useState } from "react"
-import ButtonValue from "@Components/ButtonValue";
+import { useState } from "react";
 import './style.sass';
 
 const TableSales = (

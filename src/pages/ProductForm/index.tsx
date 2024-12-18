@@ -73,12 +73,12 @@ const ProductForm = () => {
     }
 
     const formatDateFromApi = (date : string) => {
-        let dateParts : string[] = date.split("/");
+        const dateParts: string[] = date.split("/");
         return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
     }
 
     const formatDateToApi = (date : string) => {
-        let dateParts : string[] = date.split("-");
+        const dateParts: string[] = date.split("-");
         return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
     }
 
@@ -90,7 +90,7 @@ const ProductForm = () => {
             && product.tamanho !== ""
             && product.tipo !== ""
             && product.valor_compra > 0
-            && product.valor_venda > 0
+            && product.valor_venda !== undefined
         ) {
             setLoading(true);
             const submitProduct : Product = {
@@ -190,7 +190,7 @@ const ProductForm = () => {
 
                     <Input
                         title="Preço Venda"
-                        value={product.valor_venda}
+                        value={product.valor_venda ? product.valor_venda : 0}
                         setValue={(value : number) => changeProduct('valor_venda', value)}
                         width="30%"
                         type="number"
