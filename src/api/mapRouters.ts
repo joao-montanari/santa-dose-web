@@ -43,8 +43,6 @@ const backEndRouters : Router[] = [
         name: "deleteProduct",
         method: "DELETE"
     },
-
-
     {
         router: "/usuarios",
         name: "listUsers",
@@ -75,6 +73,27 @@ const backEndRouters : Router[] = [
         name: "deleteUser",
         method: "DELETE",
     },
+    {
+        router: "/meses_venda/adicionar",
+        name: "addMonthValues",
+        method: "POST"
+    },
+    {
+        router: "/meses_venda/atualizar_valores/",
+        name: "updateMonthValues",
+        method: "PUT"
+    },
+    {
+        router: "/meses_venda/deletar_valores/",
+        name: "deleteMonthValues",
+        method: "DELETE"
+    },
+    {
+        router: "/meses_venda",
+        name: "getMonthValues",
+        method: "GET"
+    },
+
 ]
 
 export async function findRouter(router : string) {

@@ -1,11 +1,9 @@
 import TableSales from "@Components/TableSales"
 import Title from "@Components/Title"
 import "./style.sass"
-import Button from "@Components/Button"
 import SelectOption from "@Components/SelectOption"
 import { useState } from "react"
-import { month_select, TypeMonthSelect } from "@Utils/selectsMonths.const"
-import { Preview } from "@mui/icons-material"
+import { month_select } from "@Utils/selectsMonths.const"
 import { OptionSelect } from "@Utils/optionSelect"
 
 
@@ -26,12 +24,12 @@ const DailySells = () =>{
                 ...prev,
                 [product.tipo] : total
             }));
+            console.log("Valor variavel monthsTotal: ", monthsTotal)
         }
     }
 
     return(
         <div id="product-list-main">
-            
             <div id="product-list-header">
                 <Title
                 title='Vendas Diárias'
@@ -58,13 +56,18 @@ const DailySells = () =>{
             />
 
             <div>
+                <button>Enviar Valores</button>
+                <button>Atualizar Valores Do Mês</button>
+            </div>
+
+            {/* <div>
                 <h2>Totais dos Meses:</h2>
                 {Object.entries(monthsTotal).map(([month, total]) => (
                     <p key={month}>
                         {month}: {total.toFixed(2)}
                     </p>
                 ))}
-            </div>
+            </div> */}
         </div>
     )
 }

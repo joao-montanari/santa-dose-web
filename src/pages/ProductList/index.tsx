@@ -95,7 +95,7 @@ const HomePage = () => {
         setShowButtonsSalgadinhos(true)
       } else if(button === "Doces"){
         setShowButtonsDoces(true)
-      } else if (button === "Carvão" || button === "Gelo" || button == "Copao" || button == "Drinks Prontos"){
+      } else if (button === "Carvão" || button === "Gelo" || button == "Copao" || button == "Drinks Prontos" || button == "Doses"){
         setShowButtonsCarvaoGeloDrinksP(true)
       } else {
         setDataProduct([]);
