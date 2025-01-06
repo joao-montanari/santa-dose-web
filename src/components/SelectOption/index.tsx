@@ -1,9 +1,8 @@
 import Select from 'react-select';
 
-import { TypeSelect } from '@Utils/selects.const';
 import { selectStyle } from '@Components/SelectOption/style.const';
-
 import './style.sass';
+import { OptionSelect } from '@Utils/optionSelect';
 
 const SelectOption = ({ 
     title, 
@@ -14,9 +13,9 @@ const SelectOption = ({
 } : { 
     title : string,
     type?: string, 
-    value : TypeSelect, 
-    setValue : any, 
-    selectList : TypeSelect[],
+    value : OptionSelect, 
+    setValue : (selected : OptionSelect) => void, 
+    selectList : OptionSelect[],
     width? : string,
 }) => {  
     
@@ -26,7 +25,7 @@ const SelectOption = ({
             <Select
                 styles={selectStyle}
                 value={value}
-                onChange={(element) => setValue(element!.value)}
+                onChange={(element) => setValue(element as OptionSelect)}
                 options={selectList}
             />
         </div>

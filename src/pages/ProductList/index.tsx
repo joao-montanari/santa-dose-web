@@ -3,7 +3,6 @@ import { Clear, Edit, LockReset, Logout, AccountBox, AccountCircle } from '@mui/
 import { useNavigate } from "react-router-dom";
 
 import ButtonValue from '@Components/ButtonValue';
-import PopUpOpcoes from '@Components/PopUpOpcoes';
 import Title from '@Components/Title';
 import Table from '@Components/Table';
 import Search from '@Components/Search';
@@ -13,9 +12,9 @@ import Menu, { OptionMenuType } from '@Components/Menu';
 import Notification, { NotificationType } from '@Components/Notification';
 
 import { listProducts, deleteProduct, getProductByName } from '@Api/services/products';
+import { Product } from '@Models/product';
 
 import { exportExcelProduct } from '@Utils/exportExcel';
-import { ProductGet } from '@Models/productsGet';
 import formatPrice from '@Utils/formatPrice';
 import formatPercent from '@Utils/formatPercent'
 
@@ -25,18 +24,26 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const [showAllButtons, setShowAllButtons] = useState(true)
+
   const [showButtonsCerveja, setShowButtonsCerveja] = useState(false)
+  const [showButtonsAlcoólicos, setShowButtonsAlcoólicos] = useState(false)
+
+  const [showButtonsCopao, setShowButtonsCopao] = useState(false)
+  const [showButtonsCombo, setShowButtonsCombo] = useState(false)
+  const [showButtonsCopaoOptions, setShowButtonsCopaoOptions] = useState(false)
+
   const [showButtonsRefrigerante, setShowButtonsRefrigerante] = useState(false)
   const [showButtonsBebidasQuente, setShowButtonsBebidasQuentes] = useState(false)
   const [showButtonsEnergeticos, setShowButtonsEnergeticos] = useState(false)
   const [showButtonsTabacaria, setShowButtonsTabacaria] = useState(false)
   const [showButtonsSalgadinhos, setShowButtonsSalgadinhos] = useState(false)
-  const [showButtonsCarvaoGeloDoce, setShowButtonsCarvaoGeloDoce] = useState(false)
+  const [showButtonsCarvaoGeloDrinksP, setShowButtonsCarvaoGeloDrinksP] = useState(false)
+  const [showButtonsDoces, setShowButtonsDoces] = useState(false)
 
   const [search, setSearch] = useState<string>('');
   const [startPage, setStartPage] = useState<number>(0);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  const [selectedProduct, setSelectedProduct] = useState<ProductGet>();
+  const [selectedProduct, setSelectedProduct] = useState<Product>();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [note, setNote] = useState<NotificationType>({
@@ -45,9 +52,9 @@ const HomePage = () => {
     type: "info"
   });
 
-  const [results, setResults] = useState<ProductGet[]>();
-  const [productList, setProductList] = useState<ProductGet[]>([]);
-  const [dataProduct, setDataProduct] = useState<ProductGet[]>([]);
+  const [results, setResults] = useState<Product[]>();
+  const [productList, setProductList] = useState<Product[]>([]);
+  const [dataProduct, setDataProduct] = useState<Product[]>([]);
 
   const handleVoltar = (setButtons : React.Dispatch<React.SetStateAction<boolean>>) => {
     setButtons(false) 
@@ -63,18 +70,33 @@ const HomePage = () => {
       setShowAllButtons(false)
       if(button === "Cerveja"){
         setShowButtonsCerveja(true)
+      } else if(button == "Cervejas Alcoólicas"){
+        setShowButtonsCerveja(false)
+        setShowButtonsAlcoólicos(true)
       } else if (button === "Refrigerante"){
         setShowButtonsRefrigerante(true)
       } else if (button === "Bebidas Quentes"){
         setShowButtonsBebidasQuentes(true)
+      } else if(button === "Copao"){
+        setShowButtonsCopao(true)
+      } else if(button === "Copao Whisky" || button === "Copao Gim" || button === "Copao Vodka"){
+        setShowButtonsCopao(false)
+        setShowButtonsCopaoOptions(true)
+      } else if (button === "Combo Vodka" || button === "Combo Gim" || button === "Combo Whisky"){
+        setShowButtonsCombo(false)
+        setShowButtonsCopaoOptions(true)
+      } else if (button === "Combo"){
+        setShowButtonsCombo(true)
       } else if (button === "Energéticos"){
         setShowButtonsEnergeticos(true)
       } else if (button === "Tabacaria"){
         setShowButtonsTabacaria(true)
       } else if (button === "Salgadinhos"){
         setShowButtonsSalgadinhos(true)
-      } else if (button === "Carvão" || button === "Gelo" || button === "Doces"){
-        setShowButtonsCarvaoGeloDoce(true)
+      } else if(button === "Doces"){
+        setShowButtonsDoces(true)
+      } else if (button === "Carvão" || button === "Gelo" || button == "Copao" || button == "Drinks Prontos"){
+        setShowButtonsCarvaoGeloDrinksP(true)
       } else {
         setDataProduct([]);
         getProductsBySpecific(button)
@@ -83,13 +105,13 @@ const HomePage = () => {
   }
 
   const setRangeList = (start : number, amount : number) => {
-    let rangeList : ProductGet[] = [];
-    let dataBase = search && results ? results : dataProduct;
+    const rangeList: Product[] = [];
+    const dataBase = search && results ? results : dataProduct;
 
     if (start < dataBase.length && start >= 0) {
-      for (var index = 0; index < amount; index++) {
+      for (let index = 0; index < amount; index++) {
         if (start + index < dataBase.length) {
-          var product = dataBase[start + index];
+          const product = dataBase[start + index];
           rangeList.push(product);
         }
       }
@@ -160,11 +182,10 @@ const HomePage = () => {
     if(!search) {
       setResults(dataProduct);
     } else {
-      let searchResult : ProductGet[] = dataProduct.filter((element) => 
+      const searchResult : Product[] = dataProduct.filter((element) => 
         element.nome.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
         element.data_validade.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
         element.valor_compra.toString().indexOf(search.toLowerCase()) != -1 ||
-        element._valor_venda.toString().indexOf(search.toLowerCase()) != -1 ||
         element.quantidade.toString().indexOf(search.toLowerCase()) != -1
       );
       setResults(searchResult);
@@ -227,9 +248,13 @@ const HomePage = () => {
             <div id='product-list-button'>
                 {showAllButtons && (
                   <>
+                    <ButtonValue title='Doses' valueClick="Doses" onClick={() => handleAllButtonsValue("Doses")}/>
                     <ButtonValue title='Cerveja' valueClick="Cerveja" onClick={() => handleAllButtonsValue("Cerveja")}/>
-                    <ButtonValue title='Refrigerante' valueClick="Refrigerante" onClick={() => handleAllButtonsValue("Refrigerante")}/>
                     <ButtonValue title='Bebidas Quentes' valueClick="Bebidas Quentes" onClick={() => handleAllButtonsValue("Bebidas Quentes")}/>
+                    <ButtonValue title='Copão' valueClick="Copao" onClick={() => handleAllButtonsValue("Copao")}/>
+                    <ButtonValue title='Drinks Prontos' valueClick="Drinks Prontos" onClick={() => handleAllButtonsValue("Drinks Prontos")}/>
+                    <ButtonValue title='Combo' valueClick="Combo" onClick={() => handleAllButtonsValue("Combo")}/>
+                    <ButtonValue title='Refrigerante' valueClick="Refrigerante" onClick={() => handleAllButtonsValue("Refrigerante")}/>
                     <ButtonValue title='Energéticos' valueClick="Energéticos" onClick={() => handleAllButtonsValue("Energéticos")}/>
                     <ButtonValue title='Tabacaria' valueClick="Tabacaria" onClick={() => handleAllButtonsValue("Tabacaria")}/>
                     <ButtonValue title='Carvão' valueClick="Carvão" onClick={() => handleAllButtonsValue("Carvão")}/>
@@ -241,10 +266,47 @@ const HomePage = () => {
 
                 {showButtonsCerveja &&(
                   <>
-                    <ButtonValue title='Barrigudinhas' valueClick="Barrigudinhas" onClick={() => handleAllButtonsValue("Barrigudinhas")}/>
                     <ButtonValue title='Cervejas Alcoólicas' valueClick="Cervejas Alcoólicas" onClick={() => handleAllButtonsValue("Cervejas Alcoólicas")}/>
                     <ButtonValue title='Cervejas Não Alcoólicas' valueClick="Cervejas Não Alcoólicas" onClick={() => handleAllButtonsValue("Cervejas Não Alcoólicas")}/>
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsCerveja)}/>
+                  </>
+                )}
+
+                {showButtonsAlcoólicos &&(
+                  <>
+                    <ButtonValue title='Barrigudinhas' valueClick="Barrigudinhas" onClick={() => handleAllButtonsValue("Barrigudinhas")}/>
+                    <ButtonValue title='Cerveja 269ml' valueClick="Cerveja 269ml" onClick={() => handleAllButtonsValue("Cerveja 269ml")}/>
+                    <ButtonValue title='Cerveja Long Neck 330ml' valueClick="Cerveja Long Neck 330ml" onClick={() => handleAllButtonsValue("Cerveja Long Neck 330ml")}/>
+                    <ButtonValue title='Cerveja 350ml' valueClick="Cerveja 350ml" onClick={() => handleAllButtonsValue("Cerveja 350ml")}/>
+                    <ButtonValue title='Cerveja Tubão' valueClick="Cerveja Tubão" onClick={() => handleAllButtonsValue("Cerveja Tubão")}/>
+                    <ButtonValue title='Cerveja 600ml' valueClick="Cerveja 600ml" onClick={() => handleAllButtonsValue("Cerveja 600ml")}/>
+                    <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsAlcoólicos)}/>
+                  </>
+                )}
+
+                {showButtonsCopao &&(
+                  <>
+                    <ButtonValue title='Vodka' valueClick="Copao Vodka" onClick={() => handleAllButtonsValue("Copao Vodka")}/>
+                    <ButtonValue title='Gim' valueClick="Copao Gim" onClick={() => handleAllButtonsValue("Copao Gim")}/>
+                    <ButtonValue title='Whisky' valueClick="Copao Whisky" onClick={() => handleAllButtonsValue("Copao Whisky")}/>
+                    <ButtonValue title='Voltar' valueClick="Copao Voltar" onClick={() => handleVoltar(setShowButtonsCopao)}/>
+                  </>
+                )}
+
+                {showButtonsCopaoOptions&&(
+                  <>
+                    <ButtonValue title='Energético 2L' valueClick="Energetico2LC" onClick={() => handleAllButtonsValue("Energetico2LC")}/>
+                    <ButtonValue title='Monster/RedBull (Lata)' valueClick="MonsterR" onClick={() => handleAllButtonsValue("MonsterR")}/>
+                    <ButtonValue title='Voltar' valueClick="Copao Voltar" onClick={() => handleVoltar(setShowButtonsCopaoOptions)}/>
+                  </>
+                )}
+
+                {showButtonsCombo &&(
+                  <>
+                    <ButtonValue title='Vodka' valueClick="Combo Vodka" onClick={() => handleAllButtonsValue("Combo Vodka")}/>
+                    <ButtonValue title='Gim' valueClick="Combo Gim" onClick={() => handleAllButtonsValue("Combo Gim")}/>
+                    <ButtonValue title='Whisky' valueClick="Combo Whisky" onClick={() => handleAllButtonsValue("Combo Whisky")}/>
+                    <ButtonValue title='Voltar' valueClick="Combo Voltar" onClick={() => handleVoltar(setShowButtonsCombo)}/>
                   </>
                 )}
 
@@ -252,6 +314,9 @@ const HomePage = () => {
                   <>
                     <ButtonValue title='Refrigerante Descartável' valueClick="Refrigerante Descartável" onClick={() => handleAllButtonsValue("Refrigerante Descartável")}/>
                     <ButtonValue title='Refrigerante Retornável' valueClick="Refrigerante Retornável" onClick={() => handleAllButtonsValue("Refrigerante Retornável")}/>
+                    <ButtonValue title='Refrigerante 1L' valueClick="Refrigerante 1L" onClick={() => handleAllButtonsValue("Refrigerante 1L")}/>
+                    <ButtonValue title='Refrigerante 600ml' valueClick="Refrigerante 600ml" onClick={() => handleAllButtonsValue("Refrigerante 600ml")}/>
+                    <ButtonValue title='Refrigerante 200ml' valueClick="Refrigerante 200ml" onClick={() => handleAllButtonsValue("Refrigerante 200ml")}/>
                     <ButtonValue title='Latas' valueClick="Latas" onClick={() => handleAllButtonsValue("Latas")}/>
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsRefrigerante)}/>
                   </>
@@ -259,7 +324,11 @@ const HomePage = () => {
 
                 {showButtonsBebidasQuente &&(
                   <>
-                    <ButtonValue title='Doses' valueClick="Doses" onClick={() => handleAllButtonsValue("Doses")}/>
+                    <ButtonValue title='Whisky' valueClick="Whisky" onClick={() => handleAllButtonsValue("Whisky")}/>
+                    <ButtonValue title='Gin' valueClick="Gin" onClick={() => handleAllButtonsValue("Gin")}/>
+                    <ButtonValue title='Vodka' valueClick="Vodka" onClick={() => handleAllButtonsValue("Vodka")}/>
+                    <ButtonValue title='Cachaça' valueClick="Cachaça" onClick={() => handleAllButtonsValue("Cachaça")}/>
+                    <ButtonValue title='Licor' valueClick="Licor" onClick={() => handleAllButtonsValue("Licor")}/>
                     <ButtonValue title='Vinhos' valueClick="Vinhos" onClick={() => handleAllButtonsValue("Vinhos")}/>
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsBebidasQuentes)}/>
                   </>
@@ -267,8 +336,9 @@ const HomePage = () => {
 
                 {showButtonsEnergeticos &&(
                   <>
-                    <ButtonValue title='Energéticos De Lata' valueClick="Energéticos De Lata" onClick={() => handleAllButtonsValue("Energéticos De Lata")}/>
                     <ButtonValue title='Energéticos 2L' valueClick="Energéticos 2L" onClick={() => handleAllButtonsValue("Energéticos 2L")}/>
+                    <ButtonValue title='Energéticos Lata 473ml' valueClick="Energéticos Lata 473ml" onClick={() => handleAllButtonsValue("Energéticos Lata 473ml")}/>
+                    <ButtonValue title='Energéticos Lata 269ml' valueClick="Energéticos Lata 269ml" onClick={() => handleAllButtonsValue("Energéticos Lata 269ml")}/>
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsEnergeticos)}/>
                   </>
                 )}
@@ -277,13 +347,19 @@ const HomePage = () => {
                   <>
                     <ButtonValue title='Cigarros' valueClick="Cigarros" onClick={() => handleAllButtonsValue("Cigarros")}/>
                     <ButtonValue title='Palheiros' valueClick="Palheiros" onClick={() => handleAllButtonsValue("Palheiros")}/>
+                    <ButtonValue title='Piteira' valueClick="Piteira" onClick={() => handleAllButtonsValue("Piteira")}/>
+                    <ButtonValue title='Tabaco' valueClick="Tabaco" onClick={() => handleAllButtonsValue("Tabaco")}/>
+                    <ButtonValue title='Slick' valueClick="Slick" onClick={() => handleAllButtonsValue("Slick")}/>
+                    <ButtonValue title='Cuia' valueClick="Cuia" onClick={() => handleAllButtonsValue("Cuia")}/>
                     <ButtonValue title='Sedas' valueClick="Sedas" onClick={() => handleAllButtonsValue("Sedas")}/>
+                    <ButtonValue title='Essências' valueClick="Essencias" onClick={() => handleAllButtonsValue("Essencias")}/>
+                    <ButtonValue title='Carvão' valueClick="Carvao" onClick={() => handleAllButtonsValue("Carvao")}/>
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsTabacaria)}/>
                   </>
                 )}
-                {showButtonsCarvaoGeloDoce &&(
+                {showButtonsCarvaoGeloDrinksP &&(
                   <>
-                    <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsCarvaoGeloDoce)}/>
+                    <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsCarvaoGeloDrinksP)}/>
                   </>
                 )}
 
@@ -294,6 +370,17 @@ const HomePage = () => {
                     <ButtonValue title='Torcida' valueClick="Torcida" onClick={() => handleAllButtonsValue("Torcida")}/>
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsSalgadinhos)}/>
                   </>
+                )}
+
+                {showButtonsDoces &&(
+                    <>
+                      <ButtonValue title='Balas' valueClick="Balas" onClick={() => handleAllButtonsValue("Balas")}/>
+                      <ButtonValue title='Chiclete' valueClick="Chiclete" onClick={() => handleAllButtonsValue("Chiclete")}/>
+                      <ButtonValue title='Doces De Pote' valueClick="Doces De Pote" onClick={() => handleAllButtonsValue("Doces De Pote")}/>
+                      <ButtonValue title='Chocolate' valueClick="Chocolate" onClick={() => handleAllButtonsValue("Chocolate")}/>
+                      <ButtonValue title='Pirulito' valueClick="Pirulito" onClick={() => handleAllButtonsValue("Pirulito")}/>
+                      <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsDoces)}/>
+                    </>
                 )}
             </div>
         </div>

@@ -3,11 +3,11 @@ export default function formatPercent(percent : number | undefined | null) {
         return "0%";
     }
 
-    let strpercent : string = percent.toString();
+    const strPercent: string = percent.toString();
 
-    if(strpercent.includes('.')){
-        let splitpercent : string[] = strpercent.split('.');
-         return `${splitpercent[0]},${splitpercent[1].padEnd(2, "0")}%`;
+    if(strPercent.includes('.')){
+        const splitPercent: string[] = strPercent.split('.');
+        return `${splitPercent[0]},${splitPercent[1].padEnd(2, "0")}%`;
     }
 
     

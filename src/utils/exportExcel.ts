@@ -8,13 +8,13 @@ const type : string = "application/vnd.openxmlformats-officedocument.spreadsheet
 const extension : string = ".xlsx";
 
 export const exportExcelProduct = (data : Product[], name : string) => {
-    let saveData : any[] = [];
+    const saveData: any[] = [];
 
     data.forEach((element) => {
-        var saveElement = {
+        const saveElement = {
             "Nome" : element.nome,
             "Tipo" : element.tipo,
-            "Valor" : `R$ ${element.valor}`,
+            "Valor" : `R$ ${element.valor_venda}`,
             "Quantidade" : element.quantidade,
             "Tamanho" : element.tamanho,
             "Data de validade" : element.data_validade,
@@ -34,10 +34,10 @@ export const exportExcelProduct = (data : Product[], name : string) => {
 }
 
 export const exportExcelUser = (data : User[], name : string) => {
-    let saveData : any[] = [];
+    const saveData: any[] = [];
 
     data.forEach((element) => {
-        var saveElement = {
+        const saveElement = {
             "Nome de usuário" : element.username,
             "E-mail" : element.email,
             "Administrador" : element.is_admin ? "sim" : "não"

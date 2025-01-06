@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "react";
 import './style.sass';
 
 const TableSales = (
@@ -8,6 +8,7 @@ const TableSales = (
       salesColumTitle,
       totalLabel,
       daysInMonth,
+      onTotalChange,
     }
      : {
         title?: string,
@@ -15,6 +16,7 @@ const TableSales = (
         salesColumTitle ?: string,
         totalLabel?: string,
         daysInMonth : number,
+        onTotalChange?: (total: number) => void,
     })  =>{
     //Estado para armazenar os valores de cada dia do mês
     const [sales, setSales] = useState(Array(daysInMonth).fill(""))
@@ -24,7 +26,17 @@ const TableSales = (
         const updateSales = [...sales];
         updateSales[index] = value;
         setSales(updateSales)
+
+        const total = calculateTotal(updateSales);
+        onTotalChange && onTotalChange(total);
         }
+
+        const calculateTotal = (values: string[]) => {
+            return values.reduce((acc, val) => {
+                const numericValue = parseFloat(val);
+                return acc + (isNaN(numericValue) ? 0 : numericValue);
+            }, 0);
+        };
 
     //Calculando os valores totais de cada dia no final da página
     const calculoTotal = () =>{
