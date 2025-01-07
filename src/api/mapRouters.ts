@@ -74,7 +74,7 @@ const backEndRouters : Router[] = [
         method: "DELETE",
     },
     {
-        router: "/meses_venda/adicionar",
+        router: "/meses_venda/adicionar_valores",
         name: "addMonthValues",
         method: "POST"
     },

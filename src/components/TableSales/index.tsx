@@ -48,7 +48,7 @@ const TableSales = (
 
     return(
         <div id="table-border-style">
-            <h1>{title}</h1>
+            <h1 id="table-title">{title}</h1>
             <div id="table-component-size">
                 <table id="table-component-main">
                     <thead>

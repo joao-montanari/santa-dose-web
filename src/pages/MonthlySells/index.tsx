@@ -2,20 +2,74 @@ import Title from "@Components/Title"
 import "./style.sass"
 import MonthBox from "@Components/MonthBox"
 import { useState, useEffect } from "react"
-import { getMonthValue } from "@Api/services/products"
+import { deleteMonthValue, getMonthValue } from "@Api/services/products"
 import { useNavigate } from "react-router-dom"
 import Notification, { NotificationType } from '@Components/Notification';
+import { month_select } from "@Utils/selectsMonths.const"
 import Loading from "@Components/Loading"
+import SelectOption from "@Components/SelectOption"
+import { OptionSelect } from "@Utils/optionSelect"
+import Button from "@Components/Button"
 
 const MonthlySells = () =>{
     const [loading, setLoading] = useState(false)
+    const [product, setProduct] = useState({tipo: ''});
     const [dataProduct, setDataProduct] = useState<Record<string, number>>({});
     const navigate = useNavigate();
+    
     const [note, setNote] = useState<NotificationType>({
         message: "",
         show: false,
         type: "info"
       });
+
+    const changeProduct = (key : string, value : string | number) => {
+        setProduct(prevState => ({
+            ...prevState, 
+            [key] : value
+        }));
+    }
+
+    async function handleClarValues() {
+        if(!product.tipo) {
+            setNote({
+                message: "Selecione um mês antes de limpar os valores",
+                show: true,
+                type: "warning",
+            });
+            return;
+        }
+            setLoading(true);
+
+            try{
+                const response = await deleteMonthValue(product.tipo); // chamando para enviar os dados
+                if (response.error){
+                    setNote({
+                        message: "Erro ao tentar limpar os valores do mês " + product.tipo,
+                        show: true,
+                        type: "error",
+                    });
+                }else{
+                    setNote({
+                        message: "Mês limpo com sucesso!",
+                        show: true,
+                        type: "success"
+                    });
+                    localStorage.setItem("product-operation", "Valores do mês " + product.tipo + " atualizado!");
+                    window.location.reload();
+                    // navigate("/monthly-sells");
+                }
+            }catch(error) {
+                console.error("Erro ao limpar o valor", error);
+                setNote({
+                    message: "Erro inesperado ao limpar o valor",
+                    show: true,
+                    type: "error",
+                });
+            }finally {
+                setLoading(false);
+            }
+    }
 
     async function monthValues() {
         setLoading(true);
@@ -86,6 +140,14 @@ const MonthlySells = () =>{
                     <Title 
                         title="Vendas Totais Mensáis"
                         subTitle="Veja o total de vendas mensáis da Adega"/>
+
+                    <SelectOption
+                        title="Meses"
+                        value={month_select.find((month) => month.value === product.tipo) || { value: '', label: '' }}
+                        setValue={(selected: OptionSelect) => changeProduct('tipo', selected.value)}
+                        selectList={month_select}
+                        width="45%"
+                    />
                 </div>
                 <div id="month-justify-place">
                     <div id="month-sells-background">
@@ -111,9 +173,21 @@ const MonthlySells = () =>{
                                 </div>
                             ))}
                         </div>
-                             
                     </div>
                 </div>
+                <div id="button-master">
+                    <div id="button-justify">
+                        <Button title="Deletar Valor Do Mês Desejado" onClick={handleClarValues}/>
+                    {/* <DeleteModal
+                        description="Tem certeza que deseja deletar este usuário? Ao fazer isto, ele não terá mais acesso ao sistema!"
+                        title={`${selectUser?.username}`}
+                        open={isOpenModal}
+                        setOpen={setOpenModal}
+                        onDelete={() => selectUser && selectUser.idUsuario && delUser(selectUser?.idUsuario)}
+                    /> */}
+                    </div>
+                </div>
+               
                 
                 {loading && <Loading/>}
 
