@@ -27,10 +27,13 @@ const HomePage = () => {
 
   const [showButtonsCerveja, setShowButtonsCerveja] = useState(false)
   const [showButtonsAlcoólicos, setShowButtonsAlcoólicos] = useState(false)
+  const [showButtonsNaoAlcoólicos, setShowButtonsNaoAlcoólicos] = useState(false)
 
   const [showButtonsCopao, setShowButtonsCopao] = useState(false)
-  const [showButtonsCombo, setShowButtonsCombo] = useState(false)
   const [showButtonsCopaoOptions, setShowButtonsCopaoOptions] = useState(false)
+
+  const [showButtonsCombo, setShowButtonsCombo] = useState(false)
+  const [showButtonsComboOptions, setShowButtonsComboOptions] = useState(false)
 
   const [showButtonsRefrigerante, setShowButtonsRefrigerante] = useState(false)
   const [showButtonsBebidasQuente, setShowButtonsBebidasQuentes] = useState(false)
@@ -68,39 +71,105 @@ const HomePage = () => {
 }
   const handleAllButtonsValue = (button : string) =>{
       setShowAllButtons(false)
-      if(button === "Cerveja"){
-        setShowButtonsCerveja(true)
-      } else if(button == "Cervejas Alcoólicas"){
-        setShowButtonsCerveja(false)
-        setShowButtonsAlcoólicos(true)
-      } else if (button === "Refrigerante"){
-        setShowButtonsRefrigerante(true)
-      } else if (button === "Bebidas Quentes"){
-        setShowButtonsBebidasQuentes(true)
-      } else if(button === "Copao"){
-        setShowButtonsCopao(true)
-      } else if(button === "Copao Whisky" || button === "Copao Gim" || button === "Copao Vodka"){
-        setShowButtonsCopao(false)
-        setShowButtonsCopaoOptions(true)
-      } else if (button === "Combo Vodka" || button === "Combo Gim" || button === "Combo Whisky"){
-        setShowButtonsCombo(false)
-        setShowButtonsCopaoOptions(true)
-      } else if (button === "Combo"){
-        setShowButtonsCombo(true)
-      } else if (button === "Energéticos"){
-        setShowButtonsEnergeticos(true)
-      } else if (button === "Tabacaria"){
-        setShowButtonsTabacaria(true)
-      } else if (button === "Salgadinhos"){
-        setShowButtonsSalgadinhos(true)
-      } else if(button === "Doces"){
-        setShowButtonsDoces(true)
-      } else if (button === "Carvão" || button === "Gelo" || button == "Copao" || button == "Drinks Prontos" || button == "Doses"){
-        setShowButtonsCarvaoGeloDrinksP(true)
-      } else {
-        setDataProduct([]);
-        getProductsBySpecific(button)
-      } 
+      
+      const buttonActions: Record<string, () => void> = {
+          "Cerveja": () => setShowButtonsCerveja(true),
+          "Cervejas Alcoólicas": () => { 
+            setShowButtonsCerveja(false);
+            setShowButtonsAlcoólicos(true)
+          },
+          "Cervejas Não Alcoólicas": () =>{
+            setShowButtonsCerveja(false);
+            setShowButtonsNaoAlcoólicos(true)
+          },
+          "VoltarCervejasAlcoolicas": () => {
+            setShowButtonsCerveja(true);
+            setShowButtonsAlcoólicos(false)
+          },
+          "VoltarCervejasNaoAlcoolicas": () => {
+            setShowButtonsCerveja(true);
+            setShowButtonsNaoAlcoólicos(false)
+          },
+
+          "Refrigerante": () => setShowButtonsRefrigerante(true),
+          "Bebidas Quentes": () => setShowButtonsBebidasQuentes(true),
+          "Copao": () => setShowButtonsCopao(true),
+
+          "Copao Whisky": () => {
+            setShowButtonsCopao(false)
+            setShowButtonsCopaoOptions(true)
+          },
+          "Copao Gim": () => {
+            setShowButtonsCopao(false)
+            setShowButtonsCopaoOptions(true)
+          }, 
+          "Copao Vodka": () =>{
+            setShowButtonsCopao(false)
+            setShowButtonsCopaoOptions(true)
+          },
+          "CopaoVoltarOpcoes": () =>{
+            setShowButtonsCopao(true)
+            setShowButtonsCopaoOptions(false)
+          },
+
+          "Combo Vodka": () => {
+            setShowButtonsCombo(false)
+            setShowButtonsComboOptions(true)
+          },
+          "Combo Gim": () => {
+            setShowButtonsCombo(false)
+            setShowButtonsComboOptions(true)
+          },
+          "Combo Whisky": () => {
+            setShowButtonsCombo(false)
+            setShowButtonsComboOptions(true)
+          },
+          "ComboVoltarOpcoes": () => {
+            setShowButtonsCombo(true)
+            setShowButtonsComboOptions(false)
+          },
+          "Combo": () => {
+            setShowButtonsCombo(true)
+          },
+          "Energéticos": () => {
+            setShowButtonsEnergeticos(true)
+          },
+          "Tabacaria": () => {
+            setShowButtonsTabacaria(true)
+          },
+          "Salgadinhos": () => {
+            setShowButtonsSalgadinhos(true)
+          },
+          "Doces": () => {
+            setShowButtonsDoces(true)
+          },
+          "Carvão": () => {
+            setShowButtonsCarvaoGeloDrinksP(true)
+            getProductsBySpecific("Carvao");
+          },
+          "Gelo": () => {
+            setShowButtonsCarvaoGeloDrinksP(true)
+            getProductsBySpecific("Gelo");
+          },
+          "Drinks Prontos": () => {
+            setShowButtonsCarvaoGeloDrinksP(true)
+            getProductsBySpecific("Drinks Prontos");
+          },
+          "Doses": () => {
+            setShowButtonsCarvaoGeloDrinksP(true)
+            getProductsBySpecific("Doses");
+          },
+
+          
+      };
+
+        if (buttonActions[button]) {
+            buttonActions[button]();
+        } else {
+        // Ação padrão caso o botão não esteja no mapeamento
+            setDataProduct([]);
+            getProductsBySpecific(button);
+    }
       console.log("Valor", button)
   }
 
@@ -280,7 +349,20 @@ const HomePage = () => {
                     <ButtonValue title='Cerveja 350ml' valueClick="Cerveja 350ml" onClick={() => handleAllButtonsValue("Cerveja 350ml")}/>
                     <ButtonValue title='Cerveja Tubão' valueClick="Cerveja Tubão" onClick={() => handleAllButtonsValue("Cerveja Tubão")}/>
                     <ButtonValue title='Cerveja 600ml' valueClick="Cerveja 600ml" onClick={() => handleAllButtonsValue("Cerveja 600ml")}/>
-                    <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsAlcoólicos)}/>
+                    {/* <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsAlcoólicos)}/> */}
+                    <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleAllButtonsValue("VoltarCervejasAlcoolicas")}/>
+                  </>
+                )}
+
+                {showButtonsNaoAlcoólicos &&(
+                  <>
+                    <ButtonValue title='Cerveja 269ml' valueClick="Cerveja 269ml" onClick={() => handleAllButtonsValue("Cerveja 269ml")}/>
+                    <ButtonValue title='Cerveja Long Neck 330ml' valueClick="Cerveja Long Neck 330ml" onClick={() => handleAllButtonsValue("Cerveja Long Neck 330ml")}/>
+                    <ButtonValue title='Cerveja 350ml' valueClick="Cerveja 350ml" onClick={() => handleAllButtonsValue("Cerveja 350ml")}/>
+                    <ButtonValue title='Cerveja Tubão' valueClick="Cerveja Tubão" onClick={() => handleAllButtonsValue("Cerveja Tubão")}/>
+                    <ButtonValue title='Cerveja 600ml' valueClick="Cerveja 600ml" onClick={() => handleAllButtonsValue("Cerveja 600ml")}/>
+                    {/* <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsAlcoólicos)}/> */}
+                    <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleAllButtonsValue("VoltarCervejasNaoAlcoolicas")}/>
                   </>
                 )}
 
@@ -295,9 +377,9 @@ const HomePage = () => {
 
                 {showButtonsCopaoOptions&&(
                   <>
-                    <ButtonValue title='Energético 2L' valueClick="Energetico2LC" onClick={() => handleAllButtonsValue("Energetico2LC")}/>
-                    <ButtonValue title='Monster/RedBull (Lata)' valueClick="MonsterR" onClick={() => handleAllButtonsValue("MonsterR")}/>
-                    <ButtonValue title='Voltar' valueClick="Copao Voltar" onClick={() => handleVoltar(setShowButtonsCopaoOptions)}/>
+                    <ButtonValue title='Energético 2L' valueClick="Energetico2LC" onClick={() => handleAllButtonsValue("Energetico2LCopao")}/>
+                    <ButtonValue title='Monster/RedBull (Lata)' valueClick="MonsterC" onClick={() => handleAllButtonsValue("MonsterCopao")}/>
+                    <ButtonValue title='Voltar' valueClick="Copao Voltar" onClick={() => handleAllButtonsValue("CopaoVoltarOpcoes")}/>
                   </>
                 )}
 
@@ -307,6 +389,14 @@ const HomePage = () => {
                     <ButtonValue title='Gim' valueClick="Combo Gim" onClick={() => handleAllButtonsValue("Combo Gim")}/>
                     <ButtonValue title='Whisky' valueClick="Combo Whisky" onClick={() => handleAllButtonsValue("Combo Whisky")}/>
                     <ButtonValue title='Voltar' valueClick="Combo Voltar" onClick={() => handleVoltar(setShowButtonsCombo)}/>
+                  </>
+                )}
+
+                {showButtonsComboOptions && (
+                  <>
+                    <ButtonValue title='Energético 2L' valueClick="Energetico2LC" onClick={() => handleAllButtonsValue("Energetico2LCombo")}/>
+                    <ButtonValue title='Monster/RedBull (Lata)' valueClick="MonsterR" onClick={() => handleAllButtonsValue("MonsterCombo")}/>
+                    <ButtonValue title='Voltar' valueClick="Copao Voltar" onClick={() => handleAllButtonsValue("ComboVoltarOpcoes")}/>
                   </>
                 )}
 
