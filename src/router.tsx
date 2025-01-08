@@ -1,4 +1,4 @@
-import { createHashRouter } from "react-router-dom";
+import { createHashRouter, Navigate } from "react-router-dom";
 
 import StandartLayout from './layouts/StandartLayout';
 
@@ -12,6 +12,26 @@ import ChangePassword from "@Pages/ChangePassword";
 import ProfileForm from "@Pages/ProfileForm";
 import DailySells from "@Pages/DailySells/Index";
 import MonthlySells from "@Pages/MonthlySells";
+import { useContext } from "react";
+import { UserContext } from "./UserContext"
+
+const AdminRoute = ({ element }: { element: JSX.Element }) => {
+    const context = useContext(UserContext)
+  
+    if(!context){
+        console.log("UserContext não está disponível!")
+        return <Navigate to="/login" />;
+    }
+
+    const { user } = context;
+
+    if(!user || !user.is_admin){
+        return <Navigate to="/login" />;
+    }
+  
+    // Caso seja admin, renderiza o elemento permitido
+    return element;
+  };
 
 const routers = createHashRouter([
     {
@@ -24,11 +44,11 @@ const routers = createHashRouter([
             },
             {
                 path: "/daily-sells",
-                element: <DailySells/>
+                element: <AdminRoute element={<DailySells/>} />
             },
             {
                 path:"/monthly-sells",
-                element: <MonthlySells/>
+                element: <AdminRoute element={<MonthlySells/>} />
             },
             {
                 path: "/product-list",
@@ -36,23 +56,23 @@ const routers = createHashRouter([
             },
             {
                 path: "/product-form",
-                element: <ProductForm/>
+                element: <AdminRoute element={<ProductForm/>} />
             },
             {
                 path: "/product-form/:id",
-                element: <ProductForm/>
+                element: <AdminRoute element={<ProductForm/>} />
             },
             {
                 path: "/user-list",
-                element: <UserList/>
+                element: <AdminRoute element={<UserList/>} />
             },
             {
                 path: "/user-form",
-                element: <UserForm/>
+                element: <AdminRoute element={<UserForm/>} />
             },
             {
                 path: "/user-form/:id",
-                element: <UserForm/>
+                element: <AdminRoute element={<UserForm/>} />
             },
             {
                 path: "/change-password",

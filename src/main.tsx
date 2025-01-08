@@ -4,7 +4,10 @@ import { RouterProvider } from 'react-router-dom';
 import routers from './router';
 
 import './styles/main.sass';
+import { UserProvider } from './UserContext';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <RouterProvider router={routers} />
+  <UserProvider>
+      <RouterProvider router={routers} />
+  </UserProvider>
 )

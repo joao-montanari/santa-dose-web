@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { LoginRequest } from "@Api/services/auth";
 import { Auth } from "@Models/user";
+import { useUser } from "../../UserContext";
 
 import Loading from "@Components/Loading";
 import Notification, { NotificationType } from "@Components/Notification";
@@ -15,18 +16,19 @@ import "./style.sass";
 const Login = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false);
+    const { setUser } = useUser();
     const [error, setError] = useState<NotificationType>({
         show: false,
         message: "",
         type: "success"
     });
-    const [user, setUser] = useState<Auth>({
+    const [user, setUserA] = useState<Auth>({
         username: "",
         password: ""
     });
 
     const changeUserArgs = (value : string, key : string) => {
-        setUser(prevState => ({
+        setUserA(prevState => ({
             ...prevState,
             [key] : value
         }));
@@ -44,6 +46,8 @@ const Login = () => {
             setLoading(false);
         } else {
             localStorage.setItem("token", data.response.token);
+            setUser(data.response)
+            console.log("Dados: ", data.response)
             navigate("/");
         }
     }
