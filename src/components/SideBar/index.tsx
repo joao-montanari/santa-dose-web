@@ -19,16 +19,16 @@ const SideBar = () => {
             <h1>Páginas</h1>
             <label>Menu</label>
             <ul>
-                <li onClick={() => navigate('/')} id={`${location.pathname === '/' ? 'select-side-bar' : ''}`}>
-                    <Assessment /> 
-                    Visão Geral
-                </li>
                 <li onClick={() => navigate('/product-list')} id={`${location.pathname === '/product-list' ? 'select-side-bar' : ''}`}>
                     <Liquor /> 
                     Lista de produtos
                 </li>
                 {user?.is_admin &&(
                     <>
+                        <li onClick={() => navigate('/general-vision')} id={`${location.pathname === '/general-vision' ? 'select-side-bar' : ''}`}>
+                              <Assessment /> 
+                              Visão Geral
+                        </li>
                         <li onClick={() => navigate('/product-form')} id={`${location.pathname.indexOf('/product-form') !== -1 ? 'select-side-bar' : ''}`}> 
                               <AddCircleOutline/>
                               Cadastro de produto

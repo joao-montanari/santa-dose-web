@@ -3,7 +3,7 @@ import { createHashRouter, Navigate } from "react-router-dom";
 import StandartLayout from './layouts/StandartLayout';
 
 import Login from "@Pages/Login";
-import HomePage from './pages/Home';
+import GeneralVision from './pages/GeneralVision';
 import ProductList from "./pages/ProductList";
 import ProductForm from "./pages/ProductForm";
 import UserList from "./pages/UserList";
@@ -15,6 +15,7 @@ import MonthlySells from "@Pages/MonthlySells";
 import React, { useContext } from "react";
 import { UserContext, useUser } from "./UserContext"
 import Loading from "@Components/Loading";
+import Home from "@Pages/Home";
 
 const AdminRoute = ({ children }: { children : React.ReactNode }) => {
     const { user, isLoading } = useUser();
@@ -44,7 +45,15 @@ const routers = createHashRouter([
         children: [
             {
                 path: "/",
-                element: <HomePage/>
+                element: <Home/>
+            },
+            {
+                path: "/general-vision",
+                element: (
+                <AdminRoute>
+                    <GeneralVision/>
+                </AdminRoute>
+                )
             },
             {
                 path: "/daily-sells",
