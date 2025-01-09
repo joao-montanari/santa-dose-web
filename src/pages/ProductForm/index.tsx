@@ -200,7 +200,7 @@ const ProductForm = () => {
                 <div id='product-form-container'>
                     <SelectNumber
                         width="45%"
-                        title="Quantidade"
+                        title="Quantidade Unitária"
                         value={product.quantidade}
                         setValue={(value : string | number) => changeProduct('quantidade', value)}
                     />

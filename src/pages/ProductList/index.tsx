@@ -428,6 +428,7 @@ const HomePage = () => {
 
                 {showButtonsEnergeticos &&(
                   <>
+                    <ButtonValue title='Gatorade' valueClick='Gatorade' onClick={() => handleAllButtonsValue("Gatorade")}/>
                     <ButtonValue title='Energéticos 2L' valueClick="Energéticos 2L" onClick={() => handleAllButtonsValue("Energéticos 2L")}/>
                     <ButtonValue title='Energéticos Lata 473ml' valueClick="Energéticos Lata 473ml" onClick={() => handleAllButtonsValue("Energéticos Lata 473ml")}/>
                     <ButtonValue title='Energéticos Lata 269ml' valueClick="Energéticos Lata 269ml" onClick={() => handleAllButtonsValue("Energéticos Lata 269ml")}/>
@@ -437,6 +438,7 @@ const HomePage = () => {
 
                 {showButtonsTabacaria &&(
                   <>
+                    <ButtonValue title='Isqueiros' valueClick='Isqueiros' onClick={() => handleAllButtonsValue("Isqueiros")}/>
                     <ButtonValue title='Cigarros' valueClick="Cigarros" onClick={() => handleAllButtonsValue("Cigarros")}/>
                     <ButtonValue title='Palheiros' valueClick="Palheiros" onClick={() => handleAllButtonsValue("Palheiros")}/>
                     <ButtonValue title='Piteira' valueClick="Piteira" onClick={() => handleAllButtonsValue("Piteira")}/>
