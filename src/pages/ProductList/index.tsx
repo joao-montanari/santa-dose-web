@@ -15,10 +15,10 @@ import { listProducts, deleteProduct, getProductByName } from '@Api/services/pro
 import { Product } from '@Models/product';
 
 import { exportExcelProduct } from '@Utils/exportExcel';
-import formatPrice from '@Utils/formatPrice';
 import formatPercent from '@Utils/formatPercent'
 
 import './style.sass';
+import { useUser } from '../../UserContext';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -58,6 +58,8 @@ const HomePage = () => {
   const [results, setResults] = useState<Product[]>();
   const [productList, setProductList] = useState<Product[]>([]);
   const [dataProduct, setDataProduct] = useState<Product[]>([]);
+
+  const { user } = useUser();
 
   const handleVoltar = (setButtons : React.Dispatch<React.SetStateAction<boolean>>) => {
     setButtons(false) 
@@ -479,7 +481,7 @@ const HomePage = () => {
           onNextPage={() => setRangeList(startPage + 10, 10)}
           onReturnPage={() => setRangeList(startPage - 10, 10)}
           onExportData={() => exportExcelProduct(dataProduct, "Lista de Produtos")}
-          columns={["Nome", "Validade", "Quantidade", "Valor", "% Ganho No Produto"]}
+          columns={["Nome", "Validade", "Quantidade", "Valor", ...(user?.is_admin ? ["% Ganho No Produto"] : []), ]}//adiciona apenas se for admin 
           title="Lista de produtos"
         >
           {
@@ -489,12 +491,15 @@ const HomePage = () => {
                 <li style={{ width: "100%", justifyContent: "left", paddingLeft: "20px" }}>{product.nome}</li>
                 <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px' }}>{product.data_validade}</li>
                 <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px' }}>{product.quantidade}</li>
-                <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px' }}>{formatPrice(product.valor_compra)}</li>
-                <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px'}}>{formatPercent(product._valor_venda)} </li>
+                <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px' }}>{product._valor_venda ? formatPercent((product._valor_venda / 100)* 30) : "Valor não disponível"}</li>
+                {user?.is_admin && (
+                      <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px'}}>{formatPercent(product._valor_venda)} </li>
+                )}
                 <li id="product-list-options" style={{ minWidth: "180px" }} >
                   <Edit
                     onClick={() => {
                       navigate(`/product-form/${product.idProduto}`);
+                      //  setOpenModal(true)
                     }}
                   />
                   <Clear 
@@ -507,6 +512,8 @@ const HomePage = () => {
               </ul>
             ))
           }
+
+          
         </Table>
         
 
@@ -517,6 +524,11 @@ const HomePage = () => {
         setOpen={setOpenModal}
         onDelete={() => selectedProduct && selectedProduct.idProduto && delProduct(selectedProduct.idProduto)}
       />
+
+      {/* <Modal
+        isOpen={isOpenModal}
+        children={"oi"}
+      /> */}
       
       {
         loading && <Loading/>

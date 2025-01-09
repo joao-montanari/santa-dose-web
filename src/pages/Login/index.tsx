@@ -16,7 +16,7 @@ import "./style.sass";
 const Login = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false);
-    const { setUser } = useUser();
+    const { login } = useUser();
     const [error, setError] = useState<NotificationType>({
         show: false,
         message: "",
@@ -46,7 +46,7 @@ const Login = () => {
             setLoading(false);
         } else {
             localStorage.setItem("token", data.response.token);
-            setUser(data.response)
+            login(data.response)
             console.log("Dados: ", data.response)
             navigate("/");
         }
