@@ -16,6 +16,7 @@ import React, { useContext } from "react";
 import { UserContext, useUser } from "./UserContext"
 import Loading from "@Components/Loading";
 import Home from "@Pages/Home";
+import Spun from "@Pages/SpunDebts";
 
 const AdminRoute = ({ children }: { children : React.ReactNode }) => {
     const { user, isLoading } = useUser();
@@ -90,6 +91,14 @@ const routers = createHashRouter([
                     <ProductForm/>
                 </AdminRoute>
                 ) 
+            },
+            {
+                path: "/spun",
+                element: (
+                <AdminRoute>
+                    <Spun/>
+                </AdminRoute>
+                )
             },
             {
                 path: "/user-list",

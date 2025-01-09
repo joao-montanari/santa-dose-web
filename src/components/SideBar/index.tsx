@@ -1,4 +1,4 @@
-import { Liquor, AddCircleOutline, Logout, People, Assessment, AccountBalance, Savings, PersonAddAlt } from '@mui/icons-material'
+import { Liquor, AddCircleOutline, Logout, People, Assessment, AccountBalance, Savings, PersonAddAlt, Pix } from '@mui/icons-material'
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import './style.sass';
@@ -17,7 +17,7 @@ const SideBar = () => {
     return (
         <aside id='side-bar'>
             <h1>Páginas</h1>
-            <label>Menu</label>
+            <h4 id='menu'>Menu</h4>
             <ul>
                 <li onClick={() => navigate('/product-list')} id={`${location.pathname === '/product-list' ? 'select-side-bar' : ''}`}>
                     <Liquor /> 
@@ -33,7 +33,10 @@ const SideBar = () => {
                               <AddCircleOutline/>
                               Cadastro de produto
                         </li>
-
+                        <li onClick={() => navigate('/spun')} id={`${location.pathname === '/spun' ? 'select-side-bar' : ''}`}>
+                              <Pix /> 
+                              Fiado
+                        </li>
                         <li onClick={() => navigate('/daily-sells')} id={`${location.pathname === '/daily-sells' ? 'select-side-bar' : ''}`}>
                               <Savings /> 
                               Vendas Diárias

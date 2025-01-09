@@ -8,7 +8,9 @@ const TableSales = (
       salesColumTitle,
       totalLabel,
       daysInMonth,
+      titleNamesSpun,
       onTotalChange,
+
     }
      : {
         title?: string,
@@ -16,6 +18,7 @@ const TableSales = (
         salesColumTitle ?: string,
         totalLabel?: string,
         daysInMonth : number,
+        titleNamesSpun?: string, 
         onTotalChange?: (total: number) => void,
     })  =>{
     //Estado para armazenar os valores de cada dia do mês
@@ -54,6 +57,7 @@ const TableSales = (
                     <thead>
                         <tr>
                             <th>{dayColumnTitle}</th>
+                            {titleNamesSpun && <th>{titleNamesSpun}</th>}
                             <th>{salesColumTitle}</th>
                         </tr>
                     </thead>
@@ -61,12 +65,14 @@ const TableSales = (
                         {Array.from({ length: daysInMonth }, (_, i) => (
                             <tr key={i}>
                                 <td>{i + 1}</td>
+                                {titleNamesSpun && <td><input type="text" onChange={(e) => handleInputChange(i, e.target.value)}></input></td>}
                                 <td><input type="number" value={sales[i]} onChange={(e) => handleInputChange(i, e.target.value)}></input></td>
                             </tr>
                         ))}
 
                         <tr>
                             <td>{totalLabel}</td>
+                            {titleNamesSpun && <td>Fim</td>}
                             <td>{calculoTotal().toFixed(2)}</td>
                         </tr>
 
