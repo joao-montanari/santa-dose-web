@@ -8,6 +8,7 @@ const TableSales = (
       salesColumTitle,
       totalLabel,
       daysInMonth,
+      onDayValueChange,
       titleNamesSpun,
       onTotalChange,
 
@@ -19,35 +20,44 @@ const TableSales = (
         totalLabel?: string,
         daysInMonth : number,
         titleNamesSpun?: string, 
+        onDayValueChange ?: (day: number, value: number) => void
         onTotalChange?: (total: number) => void,
     })  =>{
     //Estado para armazenar os valores de cada dia do mês
-    const [sales, setSales] = useState(Array(daysInMonth).fill(""))
+    const [sales, setSales] = useState(Array.from({ length: daysInMonth }, (_, i) => ({ day: (i + 1).toString(), value: "" })));
     
     //Mudando os valores nos inputs
-    const handleInputChange = (index: number, value: string) =>{
+    const handleInputChange = (index: number, field: "name" | "value", value: string) =>{
         const updateSales = [...sales];
-        updateSales[index] = value;
+        updateSales[index] = { ...updateSales[index], [field]: value};
         setSales(updateSales)
 
-        const total = calculateTotal(updateSales);
-        onTotalChange && onTotalChange(total);
-        }
+        if (field === "value") {
+            const numericValue = parseFloat(value);
 
-        const calculateTotal = (values: string[]) => {
-            return values.reduce((acc, val) => {
-                const numericValue = parseFloat(val);
+            if(!isNaN(numericValue)) { 
+                onDayValueChange && onDayValueChange(index + 1, numericValue)
+            }
+
+            const total = calculateTotal(updateSales);
+            onTotalChange && onTotalChange(total);
+        }
+    }
+
+    const calculateTotal = (data: { day: string; value: string}[]) => {
+            return data.reduce((acc, { value }) => {
+                const numericValue = parseFloat(value);
                 return acc + (isNaN(numericValue) ? 0 : numericValue);
             }, 0);
         };
 
     //Calculando os valores totais de cada dia no final da página
-    const calculoTotal = () =>{
-        return sales.reduce((acc, val) =>{
-            const numericValue = parseFloat(val);
-            return acc + (isNaN(numericValue) ? 0 : numericValue);
-        }, 0);
-    };
+    // const calculoTotal = () =>{
+    //     return sales.reduce((acc, val) =>{
+    //         const numericValue = parseFloat(val);
+    //         return acc + (isNaN(numericValue) ? 0 : numericValue);
+    //     }, 0);
+    // };
 
     return(
         <div id="table-border-style">
@@ -65,15 +75,15 @@ const TableSales = (
                         {Array.from({ length: daysInMonth }, (_, i) => (
                             <tr key={i}>
                                 <td>{i + 1}</td>
-                                {titleNamesSpun && <td><input type="text" onChange={(e) => handleInputChange(i, e.target.value)}></input></td>}
-                                <td><input type="number" value={sales[i]} onChange={(e) => handleInputChange(i, e.target.value)}></input></td>
+                                {titleNamesSpun && <td><input type="text" value={sales[i].day} onChange={(e) => handleInputChange(i, "name",e.target.value)}></input></td>}
+                                <td><input type="number" value={sales[i].value} onChange={(e) => handleInputChange(i, "value",e.target.value)}></input></td>
                             </tr>
                         ))}
 
                         <tr>
                             <td>{totalLabel}</td>
                             {titleNamesSpun && <td>Fim</td>}
-                            <td>{calculoTotal().toFixed(2)}</td>
+                            <td>{calculateTotal(sales).toFixed(2)}</td>
                         </tr>
 
                         

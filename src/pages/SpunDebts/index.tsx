@@ -1,19 +1,21 @@
+import { createSpunValue, getSpunValue } from "@Api/services/fiadosMes";
 import Button from "@Components/Button";
 import Loading from "@Components/Loading";
 import Menu, { OptionMenuType } from "@Components/Menu";
 import { NotificationType } from "@Components/Notification";
 import Notification from "@Components/Notification"
-import TableSales from "@Components/TableSales";
+import TableSpun from "@Components/TableSpun";
 import Title from "@Components/Title";
 import { AccountBox, AccountCircle, LockReset, Logout } from "@mui/icons-material";
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Spun = () => { 
     const navigate = useNavigate()
-    const [product, setProduct] = useState({tipo: ''});
+    // const [product, setProduct] = useState({dia: 0});
     const [loading, setLoading] = useState(false)
-    const [monthsTotal, setMonthsTotal] = useState<Record<string, number>>({});
+    // const [monthsTotal, setMonthsTotal] = useState<Record<string, number>>({});
+    const [salesData, setSalesData] = useState<{ dia: string, name: string, valor: string}[]>([]);
     
     const [note, setNote] = useState<NotificationType>({
         message: "",
@@ -26,17 +28,200 @@ const Spun = () => {
         navigate('/login');
     }
 
-    const handleTotalChange = (total : number) =>{
-        if(product.tipo) {
-            setMonthsTotal((prev) => ({
-                ...prev,
-                [product.tipo] : total
-            }));
-            console.log("Valor variavel monthsTotal: ", monthsTotal)
-            console.log("Valor da variável produto", setProduct)
-            console.log("vendo a variavel", setLoading)
+    const handleDataChange = useCallback((data: {dia: string, name: string, valor: string}[]) =>{
+        setSalesData((prevData) => {
+            if(JSON.stringify(prevData) !== JSON.stringify(data)){
+                return data;
+            }
+            return prevData;
+        })
+    }, []);
+
+    // const handleTotalChange = (total : number) =>{
+    //     console.log("Total substituido: ", total)
+    // }
+
+    const memoizedSalesData = useMemo(() => [...salesData], [salesData]);
+    console.log("Vendo se está atualizando2", memoizedSalesData)
+
+    async function handleSubmitValues() {
+        // console.log("SalesData antes do envio:", salesData);
+        setLoading(true)
+        const normalizedData = salesData.map((item) => ({
+            dia: item.dia?.toString() || "", 
+            valor: item.valor?.toString() || "",
+            name: item.name || "",
+        }))
+        // console.log("SalesData depois do envio:", normalizedData);
+
+        if(normalizedData.length === 0 || normalizedData.every(({ valor }) => !valor || valor === "")) {
+            setNote({
+                message: "Erro ao calcular o total",
+                show: true,
+                type: "warning",
+            });
+            return;
         }
+            console.log("SalesData antes do envio:", salesData);
+            console.log("NormalizedData antes do envio:", normalizedData);
+            setLoading(true);
+
+            try{
+                for(const {dia, valor, name} of normalizedData){
+                    
+                    const submitData = {
+                        dia: parseInt(dia),
+                        valor: parseFloat(valor),
+                        name,
+                    }
+                    console.log("Enviando dados:", submitData);
+                    
+                    await createSpunValue(submitData); // chamando para enviar os dados
+                }
+
+                    setNote({
+                        message: "Valores enviados com sucesso!",
+                        show: true,
+                        type: "success"
+                    });
+
+                    const response = await getSpunValue();
+                    if(response && !response.error){
+                        const updatedData = response[1].map((item: {dia: number, name: string, valor: number}) => ({
+                            dia: item.dia.toString(),
+                            name: item.name,
+                            valor: item.valor.toString(),
+                        }))
+                        setSalesData(updatedData)
+                    }
+            }catch(error) {
+                console.error("Erro ao salvar valores", error);
+                setNote({
+                    message: "Erro inesperado ao enviar os valores",
+                    show: true,
+                    type: "error",
+                });
+            }finally {
+                setLoading(false);
+            }
+    }   
+
+    // async function handleUpdateValues() {
+    //     if(!product.dia) {
+    //         setNote({
+    //             message: "Erro na hora de pegar o dia",
+    //             show: true,
+    //             type: "warning",
+    //         });
+    //         return;
+    //     }
+    //         const totalValue = monthsTotal[product.dia] || 0;
+    //         console.log("Vendo a atualização: ", setProduct)
+    //         console.log("Vendo o mÊs atualizado: ", setMonthsTotal)
+
+    //         if(totalValue < 0) {
+    //             setNote({
+    //                 message: "O valor de fiado deve ser maior que 0",
+    //                 show: true,
+    //                 type: "warning",
+    //             });
+    //             return;
+    //         }
+
+    //         setLoading(true);
+
+    //         const submitData = {
+    //             dia: product.dia,
+    //             valor: totalValue,
+    //         };
+
+    //         try{
+    //             const response = await updateSpunValue(submitData); // chamando para enviar os dados
+    //             if (response.error){
+    //                 setNote({
+    //                     message: "Erro ao atualizar os dados de fiado",
+    //                     show: true,
+    //                     type: "error",
+    //                 });
+    //             }else{
+    //                 setNote({
+    //                     message: "Valores de fiado salvo com sucesso!",
+    //                     show: true,
+    //                     type: "success"
+    //                 });
+    //                 localStorage.setItem("product-operation", "Valores do mês enviados!");
+    //                 navigate("/monthly-sells");
+    //             }
+    //         }catch(error) {
+    //             console.error("Erro ao enviar valores", error);
+    //             setNote({
+    //                 message: "Erro inesperado ao enviar os valores",
+    //                 show: true,
+    //                 type: "error",
+    //             });
+    //         }finally {
+    //             setLoading(false);
+    //         }
+    // }
+
+    const generateValueSpun = () => {
+        return Array.from({ length: 50 }, (_, i) => ({
+            dia: i + 1, 
+            name: "",
+            valor: "",
+        }))
     }
+
+    useEffect(() =>{
+        console.log("SalesData atualizado:", salesData);
+    }, [salesData])
+
+    useEffect(() =>{
+        const handleGetValues = async() => { 
+            setLoading(true)
+            try{
+                const response = await getSpunValue();
+                if(!response || response.error){
+                    setNote({
+                        message: "Nenhum valor de fiado salvo",
+                        show: true,
+                        type: "error",
+                    });
+                    return;
+                } 
+                
+                const dias = generateValueSpun();
+
+                // Atualize o estado com os dados retornados
+                const updatedData = dias.map((day) => {
+                    const savedData = response[1]?.find((item: { dia: number; }) => item.dia === day.dia);
+                    return savedData ? {
+                        dia: savedData.dia.toString(), //Converte o dia para string
+                        name: savedData.name,
+                        valor: savedData.valor?.toString()
+                    } : 
+                        day; //Converte o dia padrão para string
+                });
+                
+                console.log("Vendo se está atualizando", updatedData)
+                // setSalesData(updatedData)
+                setSalesData(updatedData);
+
+            }catch(error){
+                setNote({
+                    message: "Erro inesperado ao pegar os dados2",
+                    show: true,
+                    type: "error"
+                })
+            }finally{
+                setLoading(false)
+            }
+        }
+
+        handleGetValues();
+    }, []);
+
+    
 
     return(
         <div id="product-list-main">
@@ -60,19 +245,20 @@ const Spun = () => {
             </div>
 
 
-            <TableSales
+            <TableSpun
                 title="Fiado"
                 dayColumnTitle="Quantidade Devedores"
                 salesColumTitle="Dívida"
                 totalLabel="Total Do Mês"
                 daysInMonth={50}
-                onTotalChange={handleTotalChange}
+                onDataChange={handleDataChange} 
                 titleNamesSpun="Nome Devedores"
+                initialData={salesData}
             />
 
             <div id="buttons-align">
                 <div id="buttons-justify">
-                    <Button title="Salvar Os Valores Fiados" ></Button>
+                    <Button title="Salvar Os Valores Fiados" onClick={handleSubmitValues}></Button>
                 </div>
             </div>
 

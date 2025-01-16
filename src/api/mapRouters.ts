@@ -93,6 +93,22 @@ const backEndRouters : Router[] = [
         name: "getMonthValues",
         method: "GET"
     },
+    {
+        router: "/fiados/adicionar_valores",
+        name: "addSpunValues",
+        method: "POST"
+    },
+    {
+        router: "/fiados",
+        name: "getSpunValues",
+        method: "GET"
+    },
+    
+    {
+        router: "/fiados/atualizar_valores",
+        name: "updateSpunValues",
+        method: "PUT"
+    },
 
 ]
 
