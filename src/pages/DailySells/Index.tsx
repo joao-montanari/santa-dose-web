@@ -6,17 +6,18 @@ import { useState } from "react"
 import { month_select } from "@Utils/selectsMonths.const"
 import { OptionSelect } from "@Utils/optionSelect"
 import Notification from "@Components/Notification"
-import { createMonthValue, updateMonthValue } from "@Api/services/products"
+import { createMonthValue } from "@Api/services/products"
 import { NotificationType } from "@Components/Notification"
 import { useNavigate } from "react-router-dom"
 import Button from "@Components/Button"
 import Loading from "@Components/Loading"
 import Menu, { OptionMenuType } from "@Components/Menu"
 import { AccountBox, AccountCircle, LockReset, Logout } from "@mui/icons-material"
+import { addDaysMonthValue, getDaysMonthValue } from "@Api/services/fiadosMes"
 
 const DailySells = () =>{
     const navigate = useNavigate()
-    const [product, setProduct] = useState({tipo: ''});
+    const [product, setProduct] = useState({tipo: '', dia: 0});
     const [loading, setLoading] = useState(false)
     const [monthsTotal, setMonthsTotal] = useState<Record<string, number>>({});
     
@@ -42,12 +43,77 @@ const DailySells = () =>{
     const handleTotalChange = (total : number) =>{
         if(product.tipo) {
             setMonthsTotal((prev) => ({
-                ...prev,
-                [product.tipo] : total
+                    ...prev,
+                    [product.tipo]: total,
             }));
-            console.log("Valor variavel monthsTotal: ", monthsTotal)
+            };
         }
-    }
+
+    // const [pendingValue, setPendingValue] = useState<{ dia: number, valor: number } | null>(null);
+
+    
+    const handleDayValueChange = (dia: number, valor: number) => {
+        if (product.tipo) {
+            setMonthsTotal((prev) => ({
+                ...prev,
+                [`${product.tipo}-${dia}`]: valor,
+            }));
+        }
+    };  
+
+    async function handleSubmitValuesDay() {
+        if (!product.tipo) {
+            setNote({
+                message: "Selecione um mês antes de enviar os valores do dia",
+                show: true,
+                type: "warning",
+            });
+            return;
+        }
+    
+        setLoading(true);
+    
+        try {
+            const registrosDiarios = Object.entries(monthsTotal)
+                .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
+                .map(([key, valor]) => {
+                    const dia = key.split("-")[1]; // Extrai o dia da chave "mes-dia"
+                    return { mes: product.tipo, dia: Number(dia), valor };
+                });
+
+    
+            for (const registro of registrosDiarios) {
+            console.log("Dados enviados: ", registro)
+
+                const response = await addDaysMonthValue(registro);
+                if (response.error) {
+                    setNote({
+                        message: `Registro diário já existente para o dia ${registro.dia}`,
+                        show: true,
+                        type: "error",
+                    });
+                }
+            }
+    
+            setNote({
+                message: "Valores enviados com sucesso!",
+                show: true,
+                type: "success",
+            });
+    
+            localStorage.setItem("product-operation", "Valores do mês enviados!");
+            navigate("/daily-sells");
+            }catch(error) {
+                console.error("Erro ao enviar valores", error);
+                setNote({
+                    message: "Erro inesperado ao enviar os valores",
+                    show: true,
+                    type: "error",
+                });
+            }finally {
+                setLoading(false);
+            }
+    }   
 
     async function handleSubmitValues() {
         if(!product.tipo) {
@@ -58,7 +124,9 @@ const DailySells = () =>{
             });
             return;
         }
-            const totalValue = monthsTotal[product.tipo] || 0;
+            const totalValue = Object.entries(monthsTotal)
+                .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra valores do mês selecionado
+                .reduce((acc, [, valor]) => acc + valor, 0);
 
             if(totalValue <= 0) {
                 setNote({
@@ -105,61 +173,45 @@ const DailySells = () =>{
             }
     }
 
-    async function handleUpdateValues() {
-        if(!product.tipo) {
-            setNote({
-                message: "Selecione um mês antes de enviar os valores",
-                show: true,
-                type: "warning",
-            });
-            return;
+    async function getDailySells(){
+        if(!product.tipo) return;
+        setLoading(true)
+        try{
+            const response = await getDaysMonthValue(product.tipo);
+            console.log("Valores de initialSales antes de passar para a tabela: ", Object.entries(monthsTotal)
+                .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
+                .map(([key, valor]) => ({
+                    dia: key.split("-")[1], // Extrai o dia da chave "mes-dia"
+                    mes: product.tipo, // Usa o mês selecionado 
+                    valor: valor ? valor.toString() : "0", 
+            })))
+            if(response){
+                const novosValores: Record<string, number> = {};
+                response[1].forEach((registro: {dia: number, valor: number}) => {
+                novosValores[`${product.tipo}-${registro.dia}`] = registro.valor;
+                });
+
+                setMonthsTotal(novosValores)
         }
-            const totalValue = monthsTotal[product.tipo] || 0;
-
-            if(totalValue <= 0) {
-                setNote({
-                    message: "O valor total deve ser maior que 0",
-                    show: true,
-                    type: "warning",
-                });
-                return;
-            }
-
-            setLoading(true);
-
-            const submitData = {
-                mes: product.tipo,
-                valor: totalValue,
-            };
-
-            try{
-                const response = await updateMonthValue(submitData); // chamando para enviar os dados
-                if (response.error){
-                    setNote({
-                        message: "Erro ao atualizar os dados",
-                        show: true,
-                        type: "error",
-                    });
-                }else{
-                    setNote({
-                        message: "Valores enviados com sucesso!",
-                        show: true,
-                        type: "success"
-                    });
-                    localStorage.setItem("product-operation", "Valores do mês enviados!");
-                    navigate("/monthly-sells");
-                }
-            }catch(error) {
-                console.error("Erro ao enviar valores", error);
-                setNote({
-                    message: "Erro inesperado ao enviar os valores",
-                    show: true,
-                    type: "error",
-                });
-            }finally {
-                setLoading(false);
-            }
+        }catch (error){
+            setNote({
+                message: "Erro ao carregar os valores do mês",
+                show: true, 
+                type: "error"
+            });
+        }finally{
+            setLoading(false);
+        }
     }
+
+    // useEffect(() => {
+    //     if (pendingValue && product.tipo) {
+    //         setMonthsTotal((prev) => ({
+    //             ...prev,
+    //             [`${product.tipo}-${pendingValue.dia}`]: pendingValue.valor,
+    //         }));
+    //     }
+    // }, [pendingValue, product.tipo]);
 
     return(
         <div id="product-list-main">
@@ -176,7 +228,7 @@ const DailySells = () =>{
                     selectList={month_select}
                     width="45%"
                 />
-
+                    
                 <Menu
                     icon={<AccountCircle style={{ color: "#9A9494" }}/>}
                     options={[
@@ -190,7 +242,6 @@ const DailySells = () =>{
                 />
             </div>
 
-
             <TableSales
                 title="Vendas Diárias"
                 dayColumnTitle="Dias"
@@ -198,12 +249,21 @@ const DailySells = () =>{
                 totalLabel="Total Do Mês"
                 daysInMonth={31}
                 onTotalChange={handleTotalChange}
-            />
+                onDayValueChange={handleDayValueChange}
+                initialSales={Object.entries(monthsTotal)
+                    .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
+                    .map(([key, valor]) => ({
+                        dia: key.split("-")[1], // Extrai o dia da chave "mes-dia"
+                        mes: product.tipo, // Usa o mês selecionado 
+                        valor: valor ? valor.toString() : "0", 
+                    }))}
+             />
 
             <div id="buttons-align">
                 <div id="buttons-justify">
-                    <Button title="Enviar Valores" onClick={handleSubmitValues}></Button>
-                    <Button title="Atualizados Valores Do Mês Desejado" onClick={handleUpdateValues}></Button>
+                    <Button title="Pegar Valores Salvos No Mês" onClick={getDailySells} />
+                    <Button title="Salvar Valores Do Dia" onClick={handleSubmitValuesDay}/>
+                    <Button title="Enviar Valores Do Mês" onClick={handleSubmitValues}/>
                 </div>
             </div>
             
@@ -221,3 +281,4 @@ const DailySells = () =>{
 }
 
 export default DailySells
+

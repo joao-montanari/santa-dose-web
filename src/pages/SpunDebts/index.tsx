@@ -173,10 +173,6 @@ const Spun = () => {
     }
 
     useEffect(() =>{
-        console.log("SalesData atualizado:", salesData);
-    }, [salesData])
-
-    useEffect(() =>{
         const handleGetValues = async() => { 
             setLoading(true)
             try{
