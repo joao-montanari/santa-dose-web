@@ -4,6 +4,8 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CelebrationIcon from '@mui/icons-material/Celebration';
 import AdfScannerIcon from '@mui/icons-material/AdfScanner';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 
 import './style.sass';
 import { useUser } from '../../UserContext';
@@ -66,7 +68,14 @@ const SideBar = () => {
                               <AdfScannerIcon/> 
                               Gastos Aleatórios Mensal
                         </li>
-
+                        <li onClick={() => navigate('/expenses-card')} id={`${location.pathname === '/expenses-card' ? 'select-side-bar' : ''}`}>
+                              <CreditCardIcon/> 
+                              Dividas Cartão
+                        </li>
+                        <li onClick={() => navigate('/expenses-card-monthly')} id={`${location.pathname === '/expenses-card-monthly' ? 'select-side-bar' : ''}`}>
+                              <RequestQuoteIcon/> 
+                              Dividas Cartão Mensal
+                        </li>
                         <li onClick={() => navigate('/user-list')} id={`${location.pathname === '/user-list' ? 'select-side-bar' : ''}`}> 
                                <People/>
                                Lista de usuários

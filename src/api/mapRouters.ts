@@ -169,6 +169,31 @@ const backEndRouters : Router[] = [
         name: "deleteMonthExpensesValues",
         method: "DELETE"
     },
+    {
+        router: "/gastos_cartao/adicionar_valores",
+        name: "addCardExpensesValues",
+        method: "POST"
+    },
+    {
+        router: "/gastos_cartao/adicionar_valores_dias",
+        name: "addDayCardExpensesValues",
+        method: "POST"
+    },
+    {
+        router: "/gastos_cartao",
+        name: "getCardExpensesValues",
+        method: "GET"
+    },
+    {
+        router: "/gastos_cartao/",
+        name: "getCardDaysExpensesValues",
+        method: "GET"
+    },
+    {
+        router: "/gastos_cartao/deletar_valores/",
+        name: "deleteMonthCardExpensesValues",
+        method: "DELETE"
+    },
 
 ]
 

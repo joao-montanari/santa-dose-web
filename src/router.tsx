@@ -21,6 +21,8 @@ import Bills from "@Pages/Bills";
 import MonthlyBills from "@Pages/MonthlyBills";
 import Expenses from "@Pages/Expenses";
 import MonthlyExpenses from "@Pages/MonthlyExpenses";
+import ExpensesCard from "@Pages/ExpensesCard";
+import ExpensesCardMonthly from "@Pages/ExpensesCardMonthly";
 
 const AdminRoute = ({ children }: { children : React.ReactNode }) => {
     const { user, isLoading } = useUser();
@@ -133,6 +135,22 @@ const routers = createHashRouter([
                 element: (
                 <AdminRoute>
                     <MonthlyExpenses/>
+                </AdminRoute>
+                )
+            },
+            {
+                path: "/expenses-card",
+                element: (
+                <AdminRoute>
+                    <ExpensesCard/>
+                </AdminRoute>
+                )
+            },
+            {
+                path: "/expenses-card-monthly",
+                element: (
+                <AdminRoute>
+                    <ExpensesCardMonthly/>
                 </AdminRoute>
                 )
             },
