@@ -119,6 +119,56 @@ const backEndRouters : Router[] = [
         name: "updateSpunValues",
         method: "PUT"
     },
+    {
+        router: "/boletos/adicionar_valores",
+        name: "addBillsValues",
+        method: "POST"
+    },
+    {
+        router: "/boletos/adicionar_valores_dias",
+        name: "addDayBillsValues",
+        method: "POST"
+    },
+    {
+        router: "/boletos",
+        name: "getBillsValues",
+        method: "GET"
+    },
+    {
+        router: "/dias_boletos/",
+        name: "getDaysBillsValues",
+        method: "GET"
+    },
+    {
+        router: "/boletos/deletar_valores/",
+        name: "deleteMonthBillsValues",
+        method: "DELETE"
+    },
+    {
+        router: "/gastos_aleatorios/adicionar_valores",
+        name: "addExpensesValues",
+        method: "POST"
+    },
+    {
+        router: "/gastos_aleatorios/adicionar_valores_dias",
+        name: "addDayExpensesValues",
+        method: "POST"
+    },
+    {
+        router: "/gastos_aleatorios",
+        name: "getExpensesValues",
+        method: "GET"
+    },
+    {
+        router: "/gastos_aleatorios/",
+        name: "getDaysExpensesValues",
+        method: "GET"
+    },
+    {
+        router: "/gastos_aleatorios/deletar_valores/",
+        name: "deleteMonthExpensesValues",
+        method: "DELETE"
+    },
 
 ]
 

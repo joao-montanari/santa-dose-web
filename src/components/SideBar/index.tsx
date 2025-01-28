@@ -1,5 +1,9 @@
-import { Liquor, AddCircleOutline, Logout, People, Assessment, AccountBalance, Savings, PersonAddAlt, Pix } from '@mui/icons-material'
+import { Liquor, AddCircleOutline, Logout, People, Assessment, AccountBalance, Savings, PersonAddAlt, Pix,  } from '@mui/icons-material'
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import { useLocation, useNavigate } from 'react-router-dom';
+import CelebrationIcon from '@mui/icons-material/Celebration';
+import AdfScannerIcon from '@mui/icons-material/AdfScanner';
 
 import './style.sass';
 import { useUser } from '../../UserContext';
@@ -25,6 +29,7 @@ const SideBar = () => {
                 </li>
                 {user?.is_admin &&(
                     <>
+                        
                         <li onClick={() => navigate('/general-vision')} id={`${location.pathname === '/general-vision' ? 'select-side-bar' : ''}`}>
                               <Assessment /> 
                               Visão Geral
@@ -42,8 +47,24 @@ const SideBar = () => {
                               Vendas Diárias
                         </li>
                         <li onClick={() => navigate('/monthly-sells')} id={`${location.pathname === '/monthly-sells' ? 'select-side-bar' : ''}`}>
-                              <AccountBalance /> 
+                              <PointOfSaleIcon/> 
                               Registro Mensal
+                        </li>
+                        <li onClick={() => navigate('/bills')} id={`${location.pathname === '/bills' ? 'select-side-bar' : ''}`}>
+                              <AccountBalanceWalletIcon /> 
+                              Boletos  
+                        </li>
+                        <li onClick={() => navigate('/monthly-bills')} id={`${location.pathname === '/monthly-bills' ? 'select-side-bar' : ''}`}>
+                              <AccountBalance/> 
+                              Total Boletos Mensal
+                        </li>
+                        <li onClick={() => navigate('/expenses')} id={`${location.pathname === '/expenses' ? 'select-side-bar' : ''}`}>
+                              <CelebrationIcon/> 
+                              Gastos Aleatórios
+                        </li>
+                        <li onClick={() => navigate('/monthly-expenses')} id={`${location.pathname === '/monthly-expenses' ? 'select-side-bar' : ''}`}>
+                              <AdfScannerIcon/> 
+                              Gastos Aleatórios Mensal
                         </li>
 
                         <li onClick={() => navigate('/user-list')} id={`${location.pathname === '/user-list' ? 'select-side-bar' : ''}`}> 

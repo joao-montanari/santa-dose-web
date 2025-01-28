@@ -17,6 +17,10 @@ import { UserContext, useUser } from "./UserContext"
 import Loading from "@Components/Loading";
 import Home from "@Pages/Home";
 import Spun from "@Pages/SpunDebts";
+import Bills from "@Pages/Bills";
+import MonthlyBills from "@Pages/MonthlyBills";
+import Expenses from "@Pages/Expenses";
+import MonthlyExpenses from "@Pages/MonthlyExpenses";
 
 const AdminRoute = ({ children }: { children : React.ReactNode }) => {
     const { user, isLoading } = useUser();
@@ -97,6 +101,38 @@ const routers = createHashRouter([
                 element: (
                 <AdminRoute>
                     <Spun/>
+                </AdminRoute>
+                )
+            },
+            {
+                path: "/bills",
+                element: (
+                <AdminRoute>
+                    <Bills/>
+                </AdminRoute>
+                )
+            },
+            {
+                path: "/monthly-bills",
+                element: (
+                <AdminRoute>
+                    <MonthlyBills/>
+                </AdminRoute>
+                )
+            },
+            {
+                path: "/expenses",
+                element: (
+                <AdminRoute>
+                    <Expenses/>
+                </AdminRoute>
+                )
+            },
+            {
+                path: "/monthly-expenses",
+                element: (
+                <AdminRoute>
+                    <MonthlyExpenses/>
                 </AdminRoute>
                 )
             },
