@@ -52,7 +52,7 @@ const SideBar = () => {
                         </li>
                         <li onClick={() => navigate('/spun')} id={`${location.pathname === '/spun' ? 'select-side-bar' : ''}`}>
                               <Pix /> 
-                              Fiado
+                              Fiado 
                         </li>
                         <li onClick={() => navigate('/daily-sells')} id={`${location.pathname === '/daily-sells' ? 'select-side-bar' : ''}`}>
                               <Savings /> 

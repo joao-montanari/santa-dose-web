@@ -106,64 +106,6 @@ const Spun = () => {
             }
     }   
 
-    // async function handleUpdateValues() {
-    //     if(!product.dia) {
-    //         setNote({
-    //             message: "Erro na hora de pegar o dia",
-    //             show: true,
-    //             type: "warning",
-    //         });
-    //         return;
-    //     }
-    //         const totalValue = monthsTotal[product.dia] || 0;
-    //         console.log("Vendo a atualização: ", setProduct)
-    //         console.log("Vendo o mÊs atualizado: ", setMonthsTotal)
-
-    //         if(totalValue < 0) {
-    //             setNote({
-    //                 message: "O valor de fiado deve ser maior que 0",
-    //                 show: true,
-    //                 type: "warning",
-    //             });
-    //             return;
-    //         }
-
-    //         setLoading(true);
-
-    //         const submitData = {
-    //             dia: product.dia,
-    //             valor: totalValue,
-    //         };
-
-    //         try{
-    //             const response = await updateSpunValue(submitData); // chamando para enviar os dados
-    //             if (response.error){
-    //                 setNote({
-    //                     message: "Erro ao atualizar os dados de fiado",
-    //                     show: true,
-    //                     type: "error",
-    //                 });
-    //             }else{
-    //                 setNote({
-    //                     message: "Valores de fiado salvo com sucesso!",
-    //                     show: true,
-    //                     type: "success"
-    //                 });
-    //                 localStorage.setItem("product-operation", "Valores do mês enviados!");
-    //                 navigate("/monthly-sells");
-    //             }
-    //         }catch(error) {
-    //             console.error("Erro ao enviar valores", error);
-    //             setNote({
-    //                 message: "Erro inesperado ao enviar os valores",
-    //                 show: true,
-    //                 type: "error",
-    //             });
-    //         }finally {
-    //             setLoading(false);
-    //         }
-    // }
-
     const generateValueSpun = () => {
         return Array.from({ length: 50 }, (_, i) => ({
             dia: i + 1, 
