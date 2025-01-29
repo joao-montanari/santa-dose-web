@@ -6,6 +6,7 @@ import CelebrationIcon from '@mui/icons-material/Celebration';
 import AdfScannerIcon from '@mui/icons-material/AdfScanner';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
+import HomeIcon from '@mui/icons-material/Home';
 
 import './style.sass';
 import { useUser } from '../../UserContext';
@@ -15,6 +16,10 @@ const SideBar = () => {
     const navigate = useNavigate();
     const { user } = useUser();
 
+    const homePage = () => {
+      navigate("/")
+    }
+
     const logout = () => {
         localStorage.removeItem("token");
         navigate('/login');
@@ -22,16 +27,21 @@ const SideBar = () => {
 
     return (
         <aside id='side-bar'>
-            <h1>Páginas</h1>
+            <h1 id='backMenu' onClick={homePage}>Páginas</h1>
             <h4 id='menu'>Menu</h4>
             <ul>
+                  <li onClick={() => navigate('/')} id={`${location.pathname === '/' ? 'select-side-bar' : ''}`}>
+                    <HomeIcon /> 
+                    Home Page
+                </li>  
                 <li onClick={() => navigate('/product-list')} id={`${location.pathname === '/product-list' ? 'select-side-bar' : ''}`}>
                     <Liquor /> 
                     Lista de produtos
                 </li>
+
                 {user?.is_admin &&(
                     <>
-                        
+                       
                         <li onClick={() => navigate('/general-vision')} id={`${location.pathname === '/general-vision' ? 'select-side-bar' : ''}`}>
                               <Assessment /> 
                               Visão Geral
@@ -76,22 +86,22 @@ const SideBar = () => {
                               <RequestQuoteIcon/> 
                               Dividas Cartão Mensal
                         </li>
+                        <li onClick={() => navigate('/user-form')} id={`${location.pathname.indexOf('/user-form') !== -1 ? 'select-side-bar' : ''}`}> 
+                              <PersonAddAlt/>
+                               Cadastro de usuário
+                        </li>
                         <li onClick={() => navigate('/user-list')} id={`${location.pathname === '/user-list' ? 'select-side-bar' : ''}`}> 
                                <People/>
                                Lista de usuários
                         </li>
-
-                        <li onClick={() => navigate('/user-form')} id={`${location.pathname.indexOf('/user-form') !== -1 ? 'select-side-bar' : ''}`}> 
-                               <PersonAddAlt/>
-                               Cadastro de usuário
+                        <li onClick={logout}>
+                              <Logout/>
+                              Sair
                         </li>
                     </>
                 )}
             </ul>
-            <button onClick={logout}>
-                <Logout/>
-                Sair
-            </button>
+           
         </aside>
     );
 }
