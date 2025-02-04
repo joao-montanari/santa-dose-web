@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Clear, Edit, LockReset, Logout, AccountBox, AccountCircle } from '@mui/icons-material';
+import { Clear, LockReset, Logout, AccountBox, AccountCircle } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ButtonValue from '@Components/ButtonValue';
 import Title from '@Components/Title';
 import Table from '@Components/Table';
@@ -11,7 +13,7 @@ import Loading from '@Components/Loading';
 import Menu, { OptionMenuType } from '@Components/Menu';
 import Notification, { NotificationType } from '@Components/Notification';
 
-import { listProducts, deleteProduct, getProductByName } from '@Api/services/products';
+import { listProducts, deleteProduct, getProductByName, updateProduct } from '@Api/services/products';
 import { Product } from '@Models/product';
 
 import { exportExcelProduct } from '@Utils/exportExcel';
@@ -19,6 +21,8 @@ import formatPercent from '@Utils/formatPercent'
 
 import './style.sass';
 import { useUser } from '../../UserContext';
+import SalesModal from '@Components/SalesModal';
+import AddModal from '@Components/AddModal';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -46,6 +50,8 @@ const HomePage = () => {
   const [search, setSearch] = useState<string>('');
   const [startPage, setStartPage] = useState<number>(0);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+  const [isOpenModalSales, setOpenModalSales] = useState<boolean>(false);
+  const [isOpenModalAdd, setOpenModalAdd] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<Product>();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -71,6 +77,7 @@ const HomePage = () => {
     localStorage.removeItem("token");
     navigate('/login');
 }
+
   const handleAllButtonsValue = (button : string) =>{
       setShowAllButtons(false)
       
@@ -189,6 +196,109 @@ const HomePage = () => {
       setStartPage(start);
       setProductList(rangeList);
     }
+  }
+
+  async function handleSellProduct(quantidadeVendida: number) {
+    if(
+      selectedProduct
+      && selectedProduct?.quantidade !== undefined
+    ) {
+      const novaQuantidade = selectedProduct.quantidade - quantidadeVendida
+      console.log("vendo se atualizou o valor: ", novaQuantidade)
+      
+      if(novaQuantidade < 0){
+        setNote({
+          message: "Quantidade insuficiente no estoque!",
+          show: true,
+          type: "warning"
+        })
+      }
+
+      const submitProduct : Product = {
+        idProduto: selectedProduct.idProduto,
+        nome: selectedProduct.nome,
+        tamanho: selectedProduct.tamanho,
+        tipo: selectedProduct.tipo,
+        valor_compra: selectedProduct.valor_compra,
+        valor_venda: selectedProduct._valor_venda,
+        quantidade: novaQuantidade,
+        data_validade: selectedProduct.data_validade,
+      }
+      setLoading(true);
+      if(selectedProduct.idProduto){
+        const respUpdate = await updateProduct(submitProduct)
+        if(respUpdate.error){
+          setNote({
+            message: `${respUpdate.response.response.data.detail}`,
+            show: true,
+            type: "error"
+          });
+        } else { 
+          localStorage.setItem("product-operation", "Produto vendido!");
+          setOpenModalSales(false)
+          navigate("/product-list")
+        }
+      }
+      setLoading(false)
+    } else {
+      setNote({
+        message: "Preencha os campos corretamente",
+        show: true,
+        type: "warning"
+      });
+    }
+  }
+
+  async function handleAddProduct(quantidadeAdd: number) {
+    if(
+      selectedProduct
+      && selectedProduct?.quantidade !== undefined
+    ) {
+      const novaQuantidade = selectedProduct.quantidade + quantidadeAdd
+      console.log("vendo se atualizou o valor: ", novaQuantidade)
+      
+      if(novaQuantidade < 0){
+        setNote({
+          message: "Quantidade insuficiente no estoque!",
+          show: true,
+          type: "warning"
+        })
+      }
+
+      const submitProduct : Product = {
+        idProduto: selectedProduct.idProduto,
+        nome: selectedProduct.nome,
+        tamanho: selectedProduct.tamanho,
+        tipo: selectedProduct.tipo,
+        valor_compra: selectedProduct.valor_compra,
+        valor_venda: selectedProduct._valor_venda,
+        quantidade: novaQuantidade,
+        data_validade: selectedProduct.data_validade,
+      }
+      setLoading(true);
+      if(selectedProduct.idProduto){
+        const respUpdate = await updateProduct(submitProduct)
+        if(respUpdate.error){
+          setNote({
+            message: `${respUpdate.response.response.data.detail}`,
+            show: true,
+            type: "error"
+          });
+        } else { 
+          localStorage.setItem("product-operation", "Produto vendido!");
+          setOpenModalSales(false)
+          navigate("/product-list")
+        }
+      }
+      setLoading(false)
+    } else {
+      setNote({
+        message: "Preencha os campos corretamente",
+        show: true,
+        type: "warning"
+      });
+    }
+
   }
 
   async function delProduct(id : number) {
@@ -498,12 +608,25 @@ const HomePage = () => {
                       <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px'}}>{formatPercent(product._valor_venda)} </li>
                 )}
                 <li id="product-list-options" style={{ minWidth: "180px" }} >
-                  <Edit
+                  <ShoppingBasketIcon
                     onClick={() => {
-                      navigate(`/product-form/${product.idProduto}`);
-                      //  setOpenModal(true)
+                      // navigate(`/product-form/${product.idProduto}`);
+                      setSelectedProduct(product)
+                      setOpenModalSales(true)
                     }}
                   />
+                </li>
+                
+                <li id="product-list-options" style={{ minWidth: "180px" }} >
+                  <AddIcon
+                    onClick={() => {
+                      // navigate(`/product-form/${product.idProduto}`);
+                      setSelectedProduct(product)
+                      setOpenModalSales(true)
+                    }}
+                  />
+                </li>
+                <li id="product-list-options" style={{ minWidth: "180px" }} >
                   <Clear 
                     onClick={() => {
                       setOpenModal(true);
@@ -527,10 +650,21 @@ const HomePage = () => {
         onDelete={() => selectedProduct && selectedProduct.idProduto && delProduct(selectedProduct.idProduto)}
       />
 
-      {/* <Modal
-        isOpen={isOpenModal}
-        children={"oi"}
-      /> */}
+      <SalesModal
+        titleProduct={`${selectedProduct?.nome}`}
+        open={isOpenModalSales}
+        description='Tem certeza que deseja vender este item? Ao fazer, será reduzido da quantidade total do produto, a quantidade vendida, alterando o estoque total do item!'
+        isOpen={setOpenModalSales}
+        sales={handleSellProduct}
+       />
+
+      <AddModal
+        titleProduct={`${selectedProduct?.nome}`}
+        open={isOpenModalAdd}
+        description='Tem certeza que vai adicionar mais quantidade à este produto? Ao fazer, será somado da quantidade total do produto, alterando o estoque total do item!'
+        isOpen={setOpenModalAdd}
+        sales={handleAddProduct}
+       />
       
       {
         loading && <Loading/>

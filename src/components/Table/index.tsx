@@ -34,7 +34,9 @@ const Table = (
                             index !== 0 && <li key={index}>{column}</li>
                         ))
                     }
-                    <li style={{ justifyContent: "center", paddingLeft: "0px" }} >Opções</li>
+                    <li style={{ justifyContent: "center", paddingLeft: "0px" }} > Vender Produto </li>
+                    <li style={{ justifyContent: "center", paddingLeft: "0px" }} > Adicionar Produto </li>
+                    <li style={{ justifyContent: "center", paddingLeft: "0px" }} > Excluir Produto</li>
                 </ul>
             </div>
             <div id="table-content">
