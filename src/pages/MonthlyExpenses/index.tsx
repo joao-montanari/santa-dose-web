@@ -64,7 +64,6 @@ const monthlyExpenses = () =>{
                         type: "success"
                     });
                     localStorage.setItem("product-operation", "Valores do mês " + product.tipo + " atualizado!");
-                    window.location.reload();
                     // navigate("/monthly-sells");
                 }
             }catch(error) {

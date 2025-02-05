@@ -620,9 +620,8 @@ const HomePage = () => {
                 <li id="product-list-options" style={{ minWidth: "180px" }} >
                   <AddIcon
                     onClick={() => {
-                      // navigate(`/product-form/${product.idProduto}`);
                       setSelectedProduct(product)
-                      setOpenModalSales(true)
+                      setOpenModalAdd(true)
                     }}
                   />
                 </li>

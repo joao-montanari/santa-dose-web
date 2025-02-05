@@ -26,7 +26,7 @@ const TableSpun = (
     const [sales, setSales] = useState(Array.from({ length: daysInMonth }, (_, i) => ({
          dia: (i + 1).toString(),
          name: "",
-         valor: "" })));
+         valor: "0" })));
     
     //Mudando os valores nos inputs
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, field: "dia" | "name" | "valor") => {
@@ -91,7 +91,7 @@ const TableSpun = (
                                         e.preventDefault();
                                     }}}></input>
                                 </td>
-                                <td><input type="number" value={item.valor} onChange={(e) => handleInputChange(e, index, "valor")} onKeyDown={(e) => {
+                                <td><input type="number" value={item.valor || 0} onChange={(e) => handleInputChange(e, index, "valor")} onKeyDown={(e) => {
                                     if (["e", "E", "+", "-", "*", "/", ",", ".", "-", ";", "'", "!", "@", "#", "$", "%", "¨", "&", "(", ")", "_", "´", "`", "[", "]", "~"].includes(e.key)) { 
                                         e.preventDefault(); 
                                     }}}></input></td>

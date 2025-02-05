@@ -17,8 +17,10 @@ const SalesModal = ({
     }) =>{
 
     const [quantidade, setQuantidade] = useState<number>(0)
-
-    console.log("Sales", sales)
+    
+    const reloadPage = () =>{
+        window.location.reload()
+    }
 
 
     return(
@@ -29,7 +31,7 @@ const SalesModal = ({
             <div style={{ width: "100%"}}>
                 <h4>Digite a quantidade que será vendida:</h4>
                 <input type="number" value={quantidade} onChange={(e) => setQuantidade(e.target.value ? parseInt(e.target.value) : 0)} style={{ width: "80px", borderRadius: "5px"}}></input>
-                <button onClick={() => sales(quantidade)} style={{ backgroundColor : "Green", color: "#fff"}}  >
+                <button onClick={() => sales(quantidade) && isOpen(false) && reloadPage()} style={{ backgroundColor : "Green", color: "#fff"}}  >
                     Vender
                 </button>
 

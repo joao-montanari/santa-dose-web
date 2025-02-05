@@ -2,7 +2,8 @@ import Modal from "@Components/Modal"
 import { useState } from "react"
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-const AddModal = ({isOpen, 
+const AddModal = ({
+    isOpen, 
     titleProduct, 
     open, 
     description, 
@@ -16,6 +17,10 @@ const AddModal = ({isOpen,
     }) =>{
 
     const [quantidade, setQuantidade] = useState<number>(0)
+
+    const reloadPage = () =>{
+        window.location.reload()
+    }
     
     return(
         <Modal isOpen={open}>
@@ -25,7 +30,7 @@ const AddModal = ({isOpen,
             <div style={{ width: "100%"}}>
                 <h4>Digite a quantidade que será adicionada:</h4>
                 <input type="number" value={quantidade} onChange={(e) => setQuantidade(e.target.value ? parseInt(e.target.value) : 0)} style={{ width: "80px", borderRadius: "5px"}}></input>
-                <button onClick={() => sales(quantidade)} style={{ backgroundColor : "Yellow", color: "black"}}  >
+                <button onClick={() => sales(quantidade) && isOpen(false) && reloadPage()} style={{ backgroundColor : "Yellow", color: "black"}} >
                     Adicionar
                 </button>
 
