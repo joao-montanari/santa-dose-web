@@ -81,7 +81,7 @@ const backEndRouters : Router[] = [
     {
         router: "/meses_valor/adicionar_valores_dias",
         name: "addDayMonthValues",
-        method: "POST"
+        method: "PATCH"
     },
     {
         router: "/meses_venda/atualizar_valores/",
@@ -106,7 +106,7 @@ const backEndRouters : Router[] = [
     {
         router: "/fiados/adicionar_valores",
         name: "addSpunValues",
-        method: "POST"
+        method: "PATCH"
     },
     {
         router: "/fiados",
@@ -127,7 +127,7 @@ const backEndRouters : Router[] = [
     {
         router: "/boletos/adicionar_valores_dias",
         name: "addDayBillsValues",
-        method: "POST"
+        method: "PATCH"
     },
     {
         router: "/boletos",
@@ -152,7 +152,7 @@ const backEndRouters : Router[] = [
     {
         router: "/gastos_aleatorios/adicionar_valores_dias",
         name: "addDayExpensesValues",
-        method: "POST"
+        method: "PATCH"
     },
     {
         router: "/gastos_aleatorios",
@@ -177,7 +177,7 @@ const backEndRouters : Router[] = [
     {
         router: "/gastos_cartao/adicionar_valores_dias",
         name: "addDayCardExpensesValues",
-        method: "POST"
+        method: "PATCH"
     },
     {
         router: "/gastos_cartao",

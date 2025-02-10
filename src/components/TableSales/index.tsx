@@ -115,7 +115,7 @@ const TableSales = (
                             <tr key={i}>
                                 <td>{i + 1}</td>
                                 {titleNamesSpun && <td><input type="text" value={sale.day} onChange={(e) => handleInputChange(i, e.target.value)} /></td>}
-                                <td><input type="number" value={sale.value} onChange={(e) => handleInputChange(i, e.target.value)} /></td>
+                                <td><input type="number" value={sale.value || 0} onChange={(e) => handleInputChange(i, e.target.value)} /></td>
                             </tr>
                         ))}
                         <tr>
