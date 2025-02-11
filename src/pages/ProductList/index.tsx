@@ -480,9 +480,9 @@ const HomePage = () => {
 
                 {showButtonsCopao &&(
                   <>
-                    <ButtonValue title='Vodka' valueClick="Copao Vodka" onClick={() => handleAllButtonsValue("Copao Vodka")}/>
-                    <ButtonValue title='Gim' valueClick="Copao Gim" onClick={() => handleAllButtonsValue("Copao Gim")}/>
                     <ButtonValue title='Whisky' valueClick="Copao Whisky" onClick={() => handleAllButtonsValue("Copao Whisky")}/>
+                    <ButtonValue title='Gin' valueClick="Copao Gin" onClick={() => handleAllButtonsValue("Copao Gim")}/>
+                    <ButtonValue title='Vodka' valueClick="Copao Vodka" onClick={() => handleAllButtonsValue("Copao Vodka")}/>
                     <ButtonValue title='Voltar' valueClick="Copao Voltar" onClick={() => handleVoltar(setShowButtonsCopao)}/>
                   </>
                 )}
@@ -497,9 +497,9 @@ const HomePage = () => {
 
                 {showButtonsCombo &&(
                   <>
+                  <ButtonValue title='Whisky' valueClick="Combo Whisky" onClick={() => handleAllButtonsValue("Combo Whisky")}/>
+                  <ButtonValue title='Gin' valueClick="Combo Gin" onClick={() => handleAllButtonsValue("Combo Gin")}/>
                     <ButtonValue title='Vodka' valueClick="Combo Vodka" onClick={() => handleAllButtonsValue("Combo Vodka")}/>
-                    <ButtonValue title='Gim' valueClick="Combo Gim" onClick={() => handleAllButtonsValue("Combo Gim")}/>
-                    <ButtonValue title='Whisky' valueClick="Combo Whisky" onClick={() => handleAllButtonsValue("Combo Whisky")}/>
                     <ButtonValue title='Voltar' valueClick="Combo Voltar" onClick={() => handleVoltar(setShowButtonsCombo)}/>
                   </>
                 )}
@@ -593,7 +593,7 @@ const HomePage = () => {
           onNextPage={() => setRangeList(startPage + 10, 10)}
           onReturnPage={() => setRangeList(startPage - 10, 10)}
           onExportData={() => exportExcelProduct(dataProduct, "Lista de Produtos")}
-          columns={["Nome", "Validade", "Quantidade", "Valor", ...(user?.is_admin ? ["% Ganho No Produto"] : []), ]}//adiciona apenas se for admin 
+          columns={["Nome", "Validade", "Quantidade", "Valor", ...(user?.is_admin ? ["% Ganho No Produto"] : []), "Vender Produto", "Adicionar Produto", "Excluir Produto" ]}//adiciona apenas se for admin 
           title="Lista de produtos"
         >
           {

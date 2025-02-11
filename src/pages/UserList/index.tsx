@@ -155,7 +155,7 @@ const UserList = () => {
                 onNextPage={() => setRangeList(startPage + 10, 10)}
                 onReturnPage={() => setRangeList(startPage - 10, 10)}
                 onExportData={() => exportExcelUser(dataUsers, "Lista de Usuários")}
-                columns={["E-mail", "UserName", "Administrador"]}
+                columns={["E-mail", "UserName", "Administrador", "Editar/Excluir Usuário"]}
                 title="Lista de usuários"
             >
                 {

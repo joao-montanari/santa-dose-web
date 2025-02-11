@@ -30,10 +30,11 @@ const TableSpun = (
     
     //Mudando os valores nos inputs
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, field: "dia" | "name" | "valor") => {
+        
         const updatedSalesData = [...sales];
         const newValue = e.target.value
 
-        if (updatedSalesData[index][field] === newValue) return;
+        if (updatedSalesData[index][field] === newValue.replace(/[^0-9.]/g, "")) return;
 
         updatedSalesData[index] = {
             ...updatedSalesData[index],
@@ -86,15 +87,12 @@ const TableSpun = (
                             sales.map((item, index) => (
                                 <tr key={index}>
                                 <td>{item.dia}</td>
-                                <td><input type="text" value={item.name} onChange={(e) => handleInputChange(e, index,"name")} onKeyDown={(e) => {
+                                <td><input className="input-style-table" type="text" value={item.name} onChange={(e) => handleInputChange(e, index,"name")} onKeyDown={(e) => {
                                     if (["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"].includes(e.key)) {
                                         e.preventDefault();
                                     }}}></input>
                                 </td>
-                                <td><input type="number" value={item.valor || 0} onChange={(e) => handleInputChange(e, index, "valor")} onKeyDown={(e) => {
-                                    if (["e", "E", "+", "-", "*", "/", ",", ".", "-", ";", "'", "!", "@", "#", "$", "%", "¨", "&", "(", ")", "_", "´", "`", "[", "]", "~"].includes(e.key)) { 
-                                        e.preventDefault(); 
-                                    }}}></input></td>
+                                <td><input className="input-style-table" value={item.valor || 0} onChange={(e) => handleInputChange(e, index, "valor")}></input></td>
                             </tr>
                             ))
                         ) : ( 

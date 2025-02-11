@@ -114,8 +114,8 @@ const TableSales = (
                         {sales.map((sale, i) => (
                             <tr key={i}>
                                 <td>{i + 1}</td>
-                                {titleNamesSpun && <td><input type="text" value={sale.day} onChange={(e) => handleInputChange(i, e.target.value)} /></td>}
-                                <td><input type="number" value={sale.value || 0} onChange={(e) => handleInputChange(i, e.target.value)} /></td>
+                                {titleNamesSpun && <td><input className="input-style-table" type="text" value={sale.day} onChange={(e) => handleInputChange(i, e.target.value)} /></td>}
+                                <td><input className="input-style-table" value={sale.value || 0} onChange={(e) => handleInputChange(i, e.target.value)} /></td>
                             </tr>
                         ))}
                         <tr>
