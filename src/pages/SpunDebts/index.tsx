@@ -1,4 +1,4 @@
-import { createSpunValue, getSpunValue, updateSpunValue } from "@Api/services/fiadosMes";
+import { createSpunValue, getSpunValue } from "@Api/services/fiadosMes";
 import Button from "@Components/Button";
 import Loading from "@Components/Loading";
 import Menu, { OptionMenuType } from "@Components/Menu";
