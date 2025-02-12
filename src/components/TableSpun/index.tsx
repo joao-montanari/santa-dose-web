@@ -32,9 +32,30 @@ const TableSpun = (
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, field: "dia" | "name" | "valor") => {
         
         const updatedSalesData = [...sales];
+        const newValue = e.target.value.replace(/[^0-9.]/g, "")
+
+        if (updatedSalesData[index][field] === newValue) return;
+
+        updatedSalesData[index] = {
+            ...updatedSalesData[index],
+            [field]: newValue,
+        };
+
+        setSales(updatedSalesData);
+
+        if(onDataChange){
+            onDataChange(updatedSalesData);
+        }
+
+        console.log("Após a operação: ", updatedSalesData)
+    };
+
+    const handleInputChangeNome = (e: React.ChangeEvent<HTMLInputElement>, index: number, field: "dia" | "name" | "valor") => {
+        
+        const updatedSalesData = [...sales];
         const newValue = e.target.value
 
-        if (updatedSalesData[index][field] === newValue.replace(/[^0-9.]/g, "")) return;
+        if (updatedSalesData[index][field] === newValue) return;
 
         updatedSalesData[index] = {
             ...updatedSalesData[index],
@@ -87,7 +108,7 @@ const TableSpun = (
                             sales.map((item, index) => (
                                 <tr key={index}>
                                 <td>{item.dia}</td>
-                                <td><input className="input-style-table" type="text" value={item.name} onChange={(e) => handleInputChange(e, index,"name")} onKeyDown={(e) => {
+                                <td><input className="input-style-table" type="text" value={item.name} onChange={(e) => handleInputChangeNome(e, index,"name")} onKeyDown={(e) => {
                                     if (["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"].includes(e.key)) {
                                         e.preventDefault();
                                     }}}></input>
