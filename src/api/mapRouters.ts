@@ -113,12 +113,6 @@ const backEndRouters : Router[] = [
         name: "getSpunValues",
         method: "GET"
     },
-    
-    {
-        router: "/fiados/atualizar_valores",
-        name: "updateSpunValues",
-        method: "PUT"
-    },
     {
         router: "/boletos/adicionar_valores",
         name: "addBillsValues",

@@ -106,67 +106,67 @@ const Spun = () => {
             }
     }   
 
-    async function handleUpdateValues() {
-        // console.log("SalesData antes do envio:", salesData);
-        setLoading(true)
-        const normalizedData = salesData.map((item) => ({
-            dia: item.dia, 
-            valor: item.valor || 0,
-            name: item.name || "",
-        }))
-        // console.log("SalesData depois do envio:", normalizedData);
+    // async function handleUpdateValues() {
+    //     // console.log("SalesData antes do envio:", salesData);
+    //     setLoading(true)
+    //     const normalizedData = salesData.map((item) => ({
+    //         dia: item.dia, 
+    //         valor: item.valor || 0,
+    //         name: item.name || "",
+    //     }))
+    //     // console.log("SalesData depois do envio:", normalizedData);
 
-        if(normalizedData.length < 0 || normalizedData.every(({ valor }) => !valor || valor === "0")) {
-            setNote({
-                message: "Erro ao calcular o total",
-                show: true,
-                type: "warning",
-            });
-            setLoading(true);
-            return;
-        }
-            console.log("SalesData antes do envio:", salesData);
-            console.log("NormalizedData antes do envio:", normalizedData);
+    //     if(normalizedData.length < 0 || normalizedData.every(({ valor }) => !valor || valor === "0")) {
+    //         setNote({
+    //             message: "Erro ao calcular o total",
+    //             show: true,
+    //             type: "warning",
+    //         });
+    //         setLoading(true);
+    //         return;
+    //     }
+    //         console.log("SalesData antes do envio:", salesData);
+    //         console.log("NormalizedData antes do envio:", normalizedData);
 
-            try{
-                for(const {dia, valor, name} of normalizedData){
+    //         try{
+    //             for(const {dia, valor, name} of normalizedData){
                     
-                    const submitData = {
-                        dia: parseInt(dia),
-                        valor: typeof valor === "number" ? valor : parseFloat(valor),
-                        name,
-                    }
-                    console.log("Enviando dados:", submitData);
+    //                 const submitData = {
+    //                     dia: parseInt(dia),
+    //                     valor: typeof valor === "number" ? valor : parseFloat(valor),
+    //                     name,
+    //                 }
+    //                 console.log("Enviando dados:", submitData);
                     
-                    await updateSpunValue(submitData); // chamando para enviar os dados
-                }
+    //                 await updateSpunValue(submitData); // chamando para enviar os dados
+    //             }
 
-                    setNote({
-                        message: "Valores enviados com sucesso!",
-                        show: true,
-                        type: "success"
-                    });
+    //                 setNote({
+    //                     message: "Valores enviados com sucesso!",
+    //                     show: true,
+    //                     type: "success"
+    //                 });
 
-                    const response = await getSpunValue();
-                    if(response && !response.error){
-                        const updatedData = response[1].map((item: {dia: number, name: string, valor: number}) => ({
-                            dia: item.dia.toString(),
-                            name: item.name,
-                            valor: item.valor.toString(),
-                        }))
-                        setSalesData(updatedData)
-                    }
-            }catch(error) {
-                console.error("Erro ao salvar valores", error);
-                setNote({
-                    message: "Erro inesperado ao enviar os valores",
-                    show: true,
-                    type: "error",
-                });
-            }finally {
-                setLoading(false);
-            }
-    }   
+    //                 const response = await getSpunValue();
+    //                 if(response && !response.error){
+    //                     const updatedData = response[1].map((item: {dia: number, name: string, valor: number}) => ({
+    //                         dia: item.dia.toString(),
+    //                         name: item.name,
+    //                         valor: item.valor.toString(),
+    //                     }))
+    //                     setSalesData(updatedData)
+    //                 }
+    //         }catch(error) {
+    //             console.error("Erro ao salvar valores", error);
+    //             setNote({
+    //                 message: "Erro inesperado ao enviar os valores",
+    //                 show: true,
+    //                 type: "error",
+    //             });
+    //         }finally {
+    //             setLoading(false);
+    //         }
+    // }   
 
     const generateValueSpun = () => {
         return Array.from({ length: 50 }, (_, i) => ({
@@ -260,7 +260,6 @@ const Spun = () => {
             <div id="buttons-align">
                 <div id="buttons-justify">
                     <Button title="Salvar Os Valores Fiados" onClick={handleSubmitValues}/>
-                    <Button title="Atualizar Os Valores Fiados" onClick={handleUpdateValues}/>
                 </div>
             </div>
 

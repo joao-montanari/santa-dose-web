@@ -108,11 +108,10 @@ const TableSpun = (
                             sales.map((item, index) => (
                                 <tr key={index}>
                                 <td>{item.dia}</td>
-                                <td><input className="input-style-table" type="text" value={item.name} onChange={(e) => handleInputChangeNome(e, index,"name")} onKeyDown={(e) => {
+                                <td><input className="input-style-table" value={item.name} onChange={(e) => handleInputChangeNome(e, index,"name")} onKeyDown={(e) => {
                                     if (["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"].includes(e.key)) {
                                         e.preventDefault();
-                                    }}}></input>
-                                </td>
+                                    }}}></input></td>
                                 <td><input className="input-style-table" value={item.valor || 0} onChange={(e) => handleInputChange(e, index, "valor")}></input></td>
                             </tr>
                             ))
