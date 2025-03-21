@@ -202,7 +202,11 @@ export const category_select : TypeSelect[] = [
         label: 'Essencias',
     },
     {
-        value: 'Carvão Churrasco',
+        value: 'Carvao narga',
+        label: 'Carvão Narga',
+    },
+    {
+        value: 'Carvao',
         label: 'Carvão Churrasco',
     },
     {

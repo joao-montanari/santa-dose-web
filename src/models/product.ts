@@ -7,6 +7,6 @@ export type Product = {
   quantidade: number,
   valor_compra: number,
   valor_venda?: number,
-  _valor_venda?: number,
+  percentual_lucro?: number,
   data_validade: string,
 }

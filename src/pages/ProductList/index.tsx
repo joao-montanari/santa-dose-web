@@ -35,6 +35,9 @@ const HomePage = () => {
 
   const [showButtonsCopao, setShowButtonsCopao] = useState(false)
   const [showButtonsCopaoOptions, setShowButtonsCopaoOptions] = useState(false)
+  const [showButtonsCopaoOptionWhisky, setShowButtonsCopaoOptionWhisky] = useState(false)
+  const [showButtonsCopaoOptionGin, setShowButtonsCopaoOptionGin] = useState(false)
+  const [showButtonsCopaoOptionVodka, setShowButtonsCopaoOptionVodka] = useState(false)
 
   const [showButtonsCombo, setShowButtonsCombo] = useState(false)
   const [showButtonsComboOptions, setShowButtonsComboOptions] = useState(false)
@@ -80,6 +83,8 @@ const HomePage = () => {
 
   const handleAllButtonsValue = (button : string) =>{
       setShowAllButtons(false)
+      console.log(showButtonsCopaoOptions)
+      console.log(showButtonsComboOptions)
       
       const buttonActions: Record<string, () => void> = {
           "Cerveja": () => setShowButtonsCerveja(true),
@@ -106,19 +111,25 @@ const HomePage = () => {
 
           "Copao Whisky": () => {
             setShowButtonsCopao(false)
-            setShowButtonsCopaoOptions(true)
+            setShowButtonsCopaoOptionWhisky(true)
           },
-          "Copao Gim": () => {
+          "Copao Gin": () => {
             setShowButtonsCopao(false)
-            setShowButtonsCopaoOptions(true)
+            setShowButtonsCopaoOptionGin(true)
           }, 
           "Copao Vodka": () =>{
             setShowButtonsCopao(false)
-            setShowButtonsCopaoOptions(true)
+            setShowButtonsCopaoOptionVodka(true)
           },
           "CopaoVoltarOpcoes": () =>{
             setShowButtonsCopao(true)
             setShowButtonsCopaoOptions(false)
+          },
+            "VoltarOpcoesCopao": () => {
+              setShowButtonsCopao(true)
+              setShowButtonsCopaoOptionWhisky(false)
+              setShowButtonsCopaoOptionGin(false)
+              setShowButtonsCopaoOptionVodka(false)
           },
 
           "Combo Vodka": () => {
@@ -220,7 +231,8 @@ const HomePage = () => {
         tamanho: selectedProduct.tamanho,
         tipo: selectedProduct.tipo,
         valor_compra: selectedProduct.valor_compra,
-        valor_venda: selectedProduct._valor_venda,
+        valor_venda: selectedProduct.valor_venda,
+        percentual_lucro: selectedProduct.percentual_lucro,
         quantidade: novaQuantidade,
         data_validade: selectedProduct.data_validade,
       }
@@ -271,7 +283,7 @@ const HomePage = () => {
         tamanho: selectedProduct.tamanho,
         tipo: selectedProduct.tipo,
         valor_compra: selectedProduct.valor_compra,
-        valor_venda: selectedProduct._valor_venda,
+        valor_venda: selectedProduct.valor_venda,
         quantidade: novaQuantidade,
         data_validade: selectedProduct.data_validade,
       }
@@ -333,7 +345,8 @@ const HomePage = () => {
         type: "error"
       });
     }else {
-      setDataProduct([data[1]]);
+      console.log("Dados que estão sendo pegos: ", data[1])
+      setDataProduct(data[1]);
     }
 
     setLoading(false);
@@ -456,11 +469,11 @@ const HomePage = () => {
                 {showButtonsAlcoólicos &&(
                   <>
                     <ButtonValue title='Barrigudinhas' valueClick="Barrigudinhas" onClick={() => handleAllButtonsValue("Barrigudinhas")}/>
-                    <ButtonValue title='Cerveja 269ml' valueClick="Cerveja 269ml" onClick={() => handleAllButtonsValue("Cerveja 269ml")}/>
-                    <ButtonValue title='Cerveja Long Neck 330ml' valueClick="Cerveja Long Neck 330ml" onClick={() => handleAllButtonsValue("Cerveja Long Neck 330ml")}/>
-                    <ButtonValue title='Cerveja 350ml' valueClick="Cerveja 350ml" onClick={() => handleAllButtonsValue("Cerveja 350ml")}/>
-                    <ButtonValue title='Cerveja Tubão' valueClick="Cerveja Tubão" onClick={() => handleAllButtonsValue("Cerveja Tubão")}/>
-                    <ButtonValue title='Cerveja 600ml' valueClick="Cerveja 600ml" onClick={() => handleAllButtonsValue("Cerveja 600ml")}/>
+                    <ButtonValue title='Cerveja 269ml' valueClick="Cerveja 269ml" onClick={() => handleAllButtonsValue("Cerveja 269mla")}/>
+                    <ButtonValue title='Cerveja Long Neck 330ml' valueClick="Cerveja Long Neck 330ml" onClick={() => handleAllButtonsValue("Cerveja long neck 330ml")}/>
+                    <ButtonValue title='Cerveja 350ml' valueClick="Cerveja 350ml" onClick={() => handleAllButtonsValue("Cerveja 350mla")}/>
+                    <ButtonValue title='Cerveja Tubão' valueClick="Cerveja Tubão" onClick={() => handleAllButtonsValue("Cerveja tubaoa")}/>
+                    <ButtonValue title='Cerveja 600ml' valueClick="Cerveja 600ml" onClick={() => handleAllButtonsValue("Cerveja 600mla")}/>
                     {/* <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsAlcoólicos)}/> */}
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleAllButtonsValue("VoltarCervejasAlcoolicas")}/>
                   </>
@@ -468,11 +481,11 @@ const HomePage = () => {
 
                 {showButtonsNaoAlcoólicos &&(
                   <>
-                    <ButtonValue title='Cerveja 269ml' valueClick="Cerveja 269ml" onClick={() => handleAllButtonsValue("Cerveja 269ml")}/>
-                    <ButtonValue title='Cerveja Long Neck 330ml' valueClick="Cerveja Long Neck 330ml" onClick={() => handleAllButtonsValue("Cerveja Long Neck 330ml")}/>
-                    <ButtonValue title='Cerveja 350ml' valueClick="Cerveja 350ml" onClick={() => handleAllButtonsValue("Cerveja 350ml")}/>
-                    <ButtonValue title='Cerveja Tubão' valueClick="Cerveja Tubão" onClick={() => handleAllButtonsValue("Cerveja Tubão")}/>
-                    <ButtonValue title='Cerveja 600ml' valueClick="Cerveja 600ml" onClick={() => handleAllButtonsValue("Cerveja 600ml")}/>
+                    <ButtonValue title='Cerveja 269ml' valueClick="Cerveja 269ml" onClick={() => handleAllButtonsValue("Cerveja 269mlna")}/>
+                    <ButtonValue title='Cerveja Long Neck 330ml' valueClick="Cerveja Long Neck 330ml" onClick={() => handleAllButtonsValue("Cerveja long neck 330mlna")}/>
+                    <ButtonValue title='Cerveja 350ml' valueClick="Cerveja 350ml" onClick={() => handleAllButtonsValue("Cerveja 350mlna")}/>
+                    <ButtonValue title='Cerveja Tubão' valueClick="Cerveja Tubão" onClick={() => handleAllButtonsValue("Cerveja tubaona")}/>
+                    <ButtonValue title='Cerveja 600ml' valueClick="Cerveja 600ml" onClick={() => handleAllButtonsValue("Cerveja 600mlna")}/>
                     {/* <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsAlcoólicos)}/> */}
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleAllButtonsValue("VoltarCervejasNaoAlcoolicas")}/>
                   </>
@@ -481,57 +494,75 @@ const HomePage = () => {
                 {showButtonsCopao &&(
                   <>
                     <ButtonValue title='Whisky' valueClick="Copao Whisky" onClick={() => handleAllButtonsValue("Copao Whisky")}/>
-                    <ButtonValue title='Gin' valueClick="Copao Gin" onClick={() => handleAllButtonsValue("Copao Gim")}/>
+                    <ButtonValue title='Gin' valueClick="Copao Gin" onClick={() => handleAllButtonsValue("Copao Gin")}/>
                     <ButtonValue title='Vodka' valueClick="Copao Vodka" onClick={() => handleAllButtonsValue("Copao Vodka")}/>
                     <ButtonValue title='Voltar' valueClick="Copao Voltar" onClick={() => handleVoltar(setShowButtonsCopao)}/>
                   </>
                 )}
 
-                {showButtonsCopaoOptions&&(
+                {/* Arrumar aqui, se pá vai ter que fazer um botão para cada tipo, whisky, gim e vodka */}
+
+                {showButtonsCopaoOptionWhisky&&(
                   <>
-                    <ButtonValue title='Energético 2L' valueClick="Energetico2LC" onClick={() => handleAllButtonsValue("Energetico2LCopao")}/>
-                    <ButtonValue title='Monster/RedBull (Lata)' valueClick="MonsterC" onClick={() => handleAllButtonsValue("MonsterCopao")}/>
-                    <ButtonValue title='Voltar' valueClick="Copao Voltar" onClick={() => handleAllButtonsValue("CopaoVoltarOpcoes")}/>
+                    <ButtonValue title='Energético 2L' valueClick="Energetico2LC" onClick={() => handleAllButtonsValue("Whiskyc2l")}/>
+                    <ButtonValue title='Monster/RedBull (Lata)' valueClick="MonsterC" onClick={() => handleAllButtonsValue("Whiskycel")}/>
+                    <ButtonValue title='Voltar' valueClick="Copao Voltar" onClick={() => handleAllButtonsValue("VoltarOpcoesCopao")}/>
+                  </>
+                )}
+
+                {showButtonsCopaoOptionGin&&(
+                  <>
+                    <ButtonValue title='Energético 2L' valueClick="Energetico2LC" onClick={() => handleAllButtonsValue("Ginc2l")}/>
+                    <ButtonValue title='Monster/RedBull (Lata)' valueClick="MonsterC" onClick={() => handleAllButtonsValue("Gincel")}/>
+                    <ButtonValue title='Voltar' valueClick="Copao Voltar" onClick={() => handleAllButtonsValue("VoltarOpcoesCopao")}/>
+                  </>
+                )}
+
+                {showButtonsCopaoOptionVodka&&(
+                  <>
+                    <ButtonValue title='Energético 2L' valueClick="Energetico2LC" onClick={() => handleAllButtonsValue("Vodkac2l")}/>
+                    <ButtonValue title='Monster/RedBull (Lata)' valueClick="MonsterC" onClick={() => handleAllButtonsValue("Vodkacel")}/>
+                    <ButtonValue title='Voltar' valueClick="Copao Voltar" onClick={() => handleAllButtonsValue("VoltarOpcoesCopao")}/>
                   </>
                 )}
 
                 {showButtonsCombo &&(
                   <>
-                  <ButtonValue title='Whisky' valueClick="Combo Whisky" onClick={() => handleAllButtonsValue("Combo Whisky")}/>
-                  <ButtonValue title='Gin' valueClick="Combo Gin" onClick={() => handleAllButtonsValue("Combo Gin")}/>
-                    <ButtonValue title='Vodka' valueClick="Combo Vodka" onClick={() => handleAllButtonsValue("Combo Vodka")}/>
+                  <ButtonValue title='Whisky' valueClick="Combo Whisky" onClick={() => handleAllButtonsValue("Combo whisky")}/>
+                  <ButtonValue title='Gin' valueClick="Combo Gin" onClick={() => handleAllButtonsValue("Combo gin")}/>
+                    <ButtonValue title='Vodka' valueClick="Combo Vodka" onClick={() => handleAllButtonsValue("Combo vodka")}/>
                     <ButtonValue title='Voltar' valueClick="Combo Voltar" onClick={() => handleVoltar(setShowButtonsCombo)}/>
                   </>
                 )}
 
-                {showButtonsComboOptions && (
+                {/* {showButtonsComboOptions && (
                   <>
                     <ButtonValue title='Energético 2L' valueClick="Energetico2LC" onClick={() => handleAllButtonsValue("Energetico2LCombo")}/>
                     <ButtonValue title='Monster/RedBull (Lata)' valueClick="MonsterR" onClick={() => handleAllButtonsValue("MonsterCombo")}/>
                     <ButtonValue title='Voltar' valueClick="Copao Voltar" onClick={() => handleAllButtonsValue("ComboVoltarOpcoes")}/>
                   </>
-                )}
+                )} */}
 
                 {showButtonsRefrigerante &&(
                   <>
-                    <ButtonValue title='Refrigerante Descartável' valueClick="Refrigerante Descartável" onClick={() => handleAllButtonsValue("Refrigerante Descartável")}/>
-                    <ButtonValue title='Refrigerante Retornável' valueClick="Refrigerante Retornável" onClick={() => handleAllButtonsValue("Refrigerante Retornável")}/>
-                    <ButtonValue title='Refrigerante 1L' valueClick="Refrigerante 1L" onClick={() => handleAllButtonsValue("Refrigerante 1L")}/>
+                    <ButtonValue title='Refrigerante Descartável' valueClick="Refrigerante Descartável" onClick={() => handleAllButtonsValue("Refrigerante descartavel")}/>
+                    <ButtonValue title='Refrigerante Retornável' valueClick="Refrigerante Retornável" onClick={() => handleAllButtonsValue("Refrigerante retornavel")}/>
+                    <ButtonValue title='Refrigerante 1L' valueClick="Refrigerante 1L" onClick={() => handleAllButtonsValue("Refrigerante 1l")}/>
                     <ButtonValue title='Refrigerante 600ml' valueClick="Refrigerante 600ml" onClick={() => handleAllButtonsValue("Refrigerante 600ml")}/>
                     <ButtonValue title='Refrigerante 200ml' valueClick="Refrigerante 200ml" onClick={() => handleAllButtonsValue("Refrigerante 200ml")}/>
-                    <ButtonValue title='Latas' valueClick="Latas" onClick={() => handleAllButtonsValue("Latas")}/>
+                    <ButtonValue title='Latas' valueClick="Latas" onClick={() => handleAllButtonsValue("Refrigerante lata")}/>
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsRefrigerante)}/>
                   </>
                 )}
 
                 {showButtonsBebidasQuente &&(
                   <>
-                    <ButtonValue title='Whisky' valueClick="Whisky" onClick={() => handleAllButtonsValue("Whisky")}/>
-                    <ButtonValue title='Gin' valueClick="Gin" onClick={() => handleAllButtonsValue("Gin")}/>
-                    <ButtonValue title='Vodka' valueClick="Vodka" onClick={() => handleAllButtonsValue("Vodka")}/>
-                    <ButtonValue title='Cachaça' valueClick="Cachaça" onClick={() => handleAllButtonsValue("Cachaça")}/>
-                    <ButtonValue title='Licor' valueClick="Licor" onClick={() => handleAllButtonsValue("Licor")}/>
-                    <ButtonValue title='Vinhos' valueClick="Vinhos" onClick={() => handleAllButtonsValue("Vinhos")}/>
+                    <ButtonValue title='Whisky' valueClick="Whisky" onClick={() => handleAllButtonsValue("Whiskyg")}/>
+                    <ButtonValue title='Gin' valueClick="Gin" onClick={() => handleAllButtonsValue("Ging")}/>
+                    <ButtonValue title='Vodka' valueClick="Vodka" onClick={() => handleAllButtonsValue("Vodkag")}/>
+                    <ButtonValue title='Cachaça' valueClick="Cachaça" onClick={() => handleAllButtonsValue("Cachacag")}/>
+                    <ButtonValue title='Licor' valueClick="Licor" onClick={() => handleAllButtonsValue("Licorg")}/>
+                    <ButtonValue title='Vinhos' valueClick="Vinhos" onClick={() => handleAllButtonsValue("Vinhosg")}/>
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsBebidasQuentes)}/>
                   </>
                 )}
@@ -539,9 +570,9 @@ const HomePage = () => {
                 {showButtonsEnergeticos &&(
                   <>
                     <ButtonValue title='Gatorade' valueClick='Gatorade' onClick={() => handleAllButtonsValue("Gatorade")}/>
-                    <ButtonValue title='Energéticos 2L' valueClick="Energéticos 2L" onClick={() => handleAllButtonsValue("Energéticos 2L")}/>
-                    <ButtonValue title='Energéticos Lata 473ml' valueClick="Energéticos Lata 473ml" onClick={() => handleAllButtonsValue("Energéticos Lata 473ml")}/>
-                    <ButtonValue title='Energéticos Lata 269ml' valueClick="Energéticos Lata 269ml" onClick={() => handleAllButtonsValue("Energéticos Lata 269ml")}/>
+                    <ButtonValue title='Energéticos 2L' valueClick="Energéticos 2L" onClick={() => handleAllButtonsValue("Energéticos 2l")}/>
+                    <ButtonValue title='Energéticos Lata 473ml' valueClick="Energéticos Lata 473ml" onClick={() => handleAllButtonsValue("Energéticos lata 473ml")}/>
+                    <ButtonValue title='Energéticos Lata 269ml' valueClick="Energéticos Lata 269ml" onClick={() => handleAllButtonsValue("Energéticos lata 269ml")}/>
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsEnergeticos)}/>
                   </>
                 )}
@@ -557,7 +588,7 @@ const HomePage = () => {
                     <ButtonValue title='Cuia' valueClick="Cuia" onClick={() => handleAllButtonsValue("Cuia")}/>
                     <ButtonValue title='Sedas' valueClick="Sedas" onClick={() => handleAllButtonsValue("Sedas")}/>
                     <ButtonValue title='Essências' valueClick="Essencias" onClick={() => handleAllButtonsValue("Essencias")}/>
-                    <ButtonValue title='Carvão' valueClick="Carvao" onClick={() => handleAllButtonsValue("Carvao")}/>
+                    <ButtonValue title='Carvão' valueClick="Carvao" onClick={() => handleAllButtonsValue("Carvao narga")}/>
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsTabacaria)}/>
                   </>
                 )}
@@ -593,7 +624,7 @@ const HomePage = () => {
           onNextPage={() => setRangeList(startPage + 10, 10)}
           onReturnPage={() => setRangeList(startPage - 10, 10)}
           onExportData={() => exportExcelProduct(dataProduct, "Lista de Produtos")}
-          columns={["Nome", "Validade", "Quantidade", "Valor", ...(user?.is_admin ? ["% Ganho No Produto"] : []), "Vender Produto", "Adicionar Produto", "Excluir Produto" ]}//adiciona apenas se for admin 
+          columns={["Nome", "Validade", "Quantidade", "Valor Venda", ...(user?.is_admin ? ["% Ganho No Produto"] : []), "Vender Produto", "Adicionar Produto", "Excluir Produto" ]}//adiciona apenas se for admin 
           title="Lista de produtos"
         >
           {
@@ -603,9 +634,9 @@ const HomePage = () => {
                 <li style={{ width: "100%", justifyContent: "left", paddingLeft: "20px" }}>{product.nome}</li>
                 <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px' }}>{product.data_validade}</li>
                 <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px' }}>{product.quantidade}</li>
-                <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px' }}>{product._valor_venda ? formatPercent((product._valor_venda / 100)* 30) : "Valor não disponível"}</li>
+                <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px' }}>{product.valor_venda}</li>
                 {user?.is_admin && (
-                      <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px'}}>{formatPercent(product._valor_venda)} </li>
+                      <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px'}}>{formatPercent(product.percentual_lucro)} </li>
                 )}
                 <li id="product-list-options" style={{ minWidth: "180px" }} >
                   <ShoppingBasketIcon
