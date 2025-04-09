@@ -84,11 +84,6 @@ const backEndRouters : Router[] = [
         method: "PATCH"
     },
     {
-        router: "/meses_venda/atualizar_valores/",
-        name: "updateMonthValues",
-        method: "PUT"
-    },
-    {
         router: "/meses_venda/deletar_valores/",
         name: "deleteMonthValues",
         method: "DELETE"
