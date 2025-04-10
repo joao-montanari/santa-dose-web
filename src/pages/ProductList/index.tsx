@@ -469,11 +469,11 @@ const HomePage = () => {
                 {showButtonsAlcoólicos &&(
                   <>
                     <ButtonValue title='Barrigudinhas' valueClick="Barrigudinhas" onClick={() => handleAllButtonsValue("Barrigudinhas")}/>
-                    <ButtonValue title='Cerveja 269ml' valueClick="Cerveja 269ml" onClick={() => handleAllButtonsValue("Cerveja 269mla")}/>
-                    <ButtonValue title='Cerveja Long Neck 330ml' valueClick="Cerveja Long Neck 330ml" onClick={() => handleAllButtonsValue("Cerveja long neck 330ml")}/>
-                    <ButtonValue title='Cerveja 350ml' valueClick="Cerveja 350ml" onClick={() => handleAllButtonsValue("Cerveja 350mla")}/>
-                    <ButtonValue title='Cerveja Tubão' valueClick="Cerveja Tubão" onClick={() => handleAllButtonsValue("Cerveja tubaoa")}/>
-                    <ButtonValue title='Cerveja 600ml' valueClick="Cerveja 600ml" onClick={() => handleAllButtonsValue("Cerveja 600mla")}/>
+                    <ButtonValue title='Cerveja 269ml' valueClick="Cerveja 269mla" onClick={() => handleAllButtonsValue("Cerveja 269mla")}/>
+                    <ButtonValue title='Cerveja Long Neck 330ml' valueClick="Cerveja Long Neck 330mla" onClick={() => handleAllButtonsValue("Cerveja long neck 330mla")}/>
+                    <ButtonValue title='Cerveja 350ml' valueClick="Cerveja 350mla" onClick={() => handleAllButtonsValue("Cerveja 350mla")}/>
+                    <ButtonValue title='Cerveja Tubão' valueClick="Cerveja tubaoa" onClick={() => handleAllButtonsValue("Cerveja tubaoa")}/>
+                    <ButtonValue title='Cerveja 600ml' valueClick="Cerveja 600mla" onClick={() => handleAllButtonsValue("Cerveja 600mla")}/>
                     {/* <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsAlcoólicos)}/> */}
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleAllButtonsValue("VoltarCervejasAlcoolicas")}/>
                   </>

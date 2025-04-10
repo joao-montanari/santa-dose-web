@@ -118,11 +118,11 @@ export const category_select : TypeSelect[] = [
     },
     
     {
-        value: 'Refrigerante Descartável',
+        value: 'Refrigerante Descartavel',
         label: 'Refrigerante Descartável',
     },
     {
-        value: 'Refrigerante Retornável',
+        value: 'Refrigerante Retornavel',
         label: 'Refrigerante Retornável',
     },
     {
@@ -150,15 +150,15 @@ export const category_select : TypeSelect[] = [
         label: 'Vinhos',
     },
     {
-        value: 'Energéticos Lata 473ml',
+        value: 'Energeticos Lata 473ml',
         label: 'Energéticos Lata 473ml',
     },
     {
-        value: 'Energéticos Lata 269ml',
+        value: 'Energeticos Lata 269ml',
         label: 'Energéticos Lata 269ml',
     },
     {
-        value: 'Energéticos 2L',
+        value: 'Energeticos 2L',
         label: 'Energéticos 2L',
     },
     {
