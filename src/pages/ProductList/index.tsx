@@ -68,6 +68,8 @@ const HomePage = () => {
   const [productList, setProductList] = useState<Product[]>([]);
   const [dataProduct, setDataProduct] = useState<Product[]>([]);
 
+  const [currentCategory, setCurrentCategory] = useState<string | null>(null);
+
   const { user } = useUser();
 
   const handleVoltar = (setButtons : React.Dispatch<React.SetStateAction<boolean>>) => {
@@ -82,6 +84,7 @@ const HomePage = () => {
 }
 
   const handleAllButtonsValue = (button : string) =>{
+      setCurrentCategory(button) //salvando a categoria atual dos botões  
       setShowAllButtons(false)
       console.log(showButtonsCopaoOptions)
       console.log(showButtonsComboOptions)
@@ -248,7 +251,14 @@ const HomePage = () => {
         } else { 
           localStorage.setItem("product-operation", "Produto vendido!");
           setOpenModalSales(false)
-          navigate("/product-list")
+          setNote({
+            message: "Produto vendido com sucesso!",
+            show: true,
+            type: "success"
+          });
+          if(currentCategory){
+            handleAllButtonsValue(currentCategory)
+          }
         }
       }
       setLoading(false)
@@ -267,7 +277,7 @@ const HomePage = () => {
       && selectedProduct?.quantidade !== undefined
     ) {
       const novaQuantidade = selectedProduct.quantidade + quantidadeAdd
-      console.log("vendo se atualizou o valor: ", novaQuantidade)
+      console.log("vendo se atualizou o valor2: ", novaQuantidade)
       
       if(novaQuantidade < 0){
         setNote({
@@ -299,7 +309,9 @@ const HomePage = () => {
         } else { 
           localStorage.setItem("product-operation", "Produto vendido!");
           setOpenModalSales(false)
-          navigate("/product-list")
+          if(currentCategory){
+            handleAllButtonsValue(currentCategory)
+          }
         }
       }
       setLoading(false)

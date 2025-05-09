@@ -18,11 +18,6 @@ const SalesModal = ({
 
     const [quantidade, setQuantidade] = useState<number>(0)
     
-    const reloadPage = () =>{
-        window.location.reload()
-    }
-
-
     return(
         <Modal isOpen={open}>
             <AttachMoneyIcon style={{ color: "black", width: "55px", height: "55px", backgroundColor:"green", borderRadius:"50%", padding: "8px" }}></AttachMoneyIcon>
@@ -31,11 +26,16 @@ const SalesModal = ({
             <div style={{ width: "100%"}}>
                 <h4>Digite a quantidade que será vendida:</h4>
                 <input type="number" value={quantidade} onChange={(e) => setQuantidade(e.target.value ? parseInt(e.target.value) : 0)} style={{ width: "80px", borderRadius: "5px"}}></input>
-                <button onClick={() => sales(quantidade) && isOpen(false) && reloadPage()} style={{ backgroundColor : "Green", color: "#fff"}}  >
+                <button onClick={() => {sales(quantidade);
+                  isOpen(false)
+                  setQuantidade(0)}}
+                  style={{ backgroundColor : "Green", color: "#fff"}}  >
                     Vender
                 </button>
 
-                <button onClick={() => isOpen(false)} style={{ backgroundColor : "#fff", border: '1px solid #828080'}}>
+                <button onClick={() => {isOpen(false); 
+                     setQuantidade(0);
+                     }} style={{ backgroundColor : "#fff", border: '1px solid #828080'}}>
                     Cancelar
                 </button>
             </div>

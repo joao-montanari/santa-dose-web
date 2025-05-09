@@ -21,6 +21,7 @@ import { OptionSelect } from "@Utils/optionSelect";
 const ProductForm = () => { 
     const { id } = useParams();
     const navigate = useNavigate();
+    const [volume, setVolume] = useState<number>(0);
 
     const [loading, setLoading] = useState(false);
     const [note, setNote] = useState<NotificationType>({
@@ -64,8 +65,14 @@ const ProductForm = () => {
                     type: "error"
                 });
             } else {
+                const volumeFromBackEnd = parseInt(data[1].tamanho);
+                const unidadeFromBackEnd = data[1].tamanho.replace(/[0-9]/g, '');
+
+                setVolume(volumeFromBackEnd)
+
                 setProduct({
                     ...data[1],
+                    tamanho: unidadeFromBackEnd,
                     data_validade: formatDateFromApi(data[1].data_validade)
                 });
             }
@@ -96,6 +103,7 @@ const ProductForm = () => {
             setLoading(true);
             const submitProduct : Product = {
                 ...product,
+                tamanho: `${volume}${product.tamanho}`, //juntando tamanho e unidade
                 data_validade: formatDateToApi(product.data_validade),
             }
             if(product.idProduto) {
@@ -112,6 +120,7 @@ const ProductForm = () => {
                 }
             } else {
                 const respCreate = await createProduct(submitProduct);
+                console.log("vendo os valores que estão sendo passados: ", submitProduct)
                 if(respCreate.error) {
                     setNote({
                         message: `${respCreate.response.response.data.detail}`,
@@ -164,13 +173,23 @@ const ProductForm = () => {
                         setValue={(value : string) => changeProduct('nome', value)}
                         width="45%"
                     />
-                    <InputWithSelect
+                    
+                    {/* <InputWithSelect
                         title="Volume"
                         value={{ label: product.tamanho, value: product.tamanho }}
                         setValue={(value : string) => changeProduct('tamanho', value)}
                         width="45%"
                         options={unit_of_measure_select}
                         type="number"
+                    /> */}
+
+                    <Input title="Volume" value={volume} setValue={(value : number) => setVolume(value)} width="22%" type="number"/>
+                    <SelectOption
+                        title="Unidade"
+                        value={{ label: product.tamanho.replace(/[0-9]/g, ''), value: product.tamanho.replace(/[0-9]/g, '') }}
+                        setValue={(value: OptionSelect) => changeProduct('tamanho', value.value)}
+                        selectList={unit_of_measure_select}
+                        width="22%"
                     />
                 </div>
                 <div id='product-form-container'>
