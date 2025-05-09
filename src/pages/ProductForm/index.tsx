@@ -9,7 +9,6 @@ import SelectNumber from "@Components/SelectNumber";
 import Menu, { OptionMenuType } from '@Components/Menu';
 import Notification, { NotificationType } from "@Components/Notification";
 import Loading from "@Components/Loading";
-import InputWithSelect from "@Components/InputWithSelect";
 
 import { category_select, unit_of_measure_select } from "@Utils/selects.const";
 import { Product } from "@Models/product";
