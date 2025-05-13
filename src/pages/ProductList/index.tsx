@@ -557,7 +557,7 @@ const HomePage = () => {
 
                 {showButtonsRefrigerante &&(
                   <>
-                    <ButtonValue title='Refrigerante Descartável' valueClick="Refrigerante Descartável" onClick={() => handleAllButtonsValue("Refrigerante descartavel")}/>
+                    <ButtonValue title='Refrigerante Descartável 2L' valueClick="Refrigerante Descartável" onClick={() => handleAllButtonsValue("Refrigerante descartavel")}/>
                     <ButtonValue title='Refrigerante Retornável' valueClick="Refrigerante Retornável" onClick={() => handleAllButtonsValue("Refrigerante retornavel")}/>
                     <ButtonValue title='Refrigerante 1L' valueClick="Refrigerante 1L" onClick={() => handleAllButtonsValue("Refrigerante 1l")}/>
                     <ButtonValue title='Refrigerante 600ml' valueClick="Refrigerante 600ml" onClick={() => handleAllButtonsValue("Refrigerante 600ml")}/>
@@ -574,7 +574,7 @@ const HomePage = () => {
                     <ButtonValue title='Vodka' valueClick="Vodka" onClick={() => handleAllButtonsValue("Vodkag")}/>
                     <ButtonValue title='Cachaça' valueClick="Cachaça" onClick={() => handleAllButtonsValue("Cachacag")}/>
                     <ButtonValue title='Licor' valueClick="Licor" onClick={() => handleAllButtonsValue("Licorg")}/>
-                    <ButtonValue title='Vinhos' valueClick="Vinhos" onClick={() => handleAllButtonsValue("Vinhosg")}/>
+                    <ButtonValue title='Vinhos' valueClick="Vinhos" onClick={() => handleAllButtonsValue("Vinhos")}/>
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsBebidasQuentes)}/>
                   </>
                 )}

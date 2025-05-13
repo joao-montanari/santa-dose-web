@@ -73,10 +73,6 @@ export const category_select : TypeSelect[] = [
         label: 'Garrafa Licor',
     },
     {
-        value: 'VinhoG',
-        label: 'Garrafa Vinho',
-    },
-    {
         value: 'WhiskyC2l',
         label: 'Copão Whisky E/ 2L',
     },
