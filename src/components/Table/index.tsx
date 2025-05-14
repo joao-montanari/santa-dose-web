@@ -26,21 +26,21 @@ const Table = (
                     <FileDownload/>
                 </button>
             </div>
-            <div id='table-header' >
-                <ul>
-                    <li style={{ width: "100%" }} >{columns[0]}</li>
-                    {
-                        columns.map((column, index) => (
-                            index !== 0 && <li key={index}>{column}</li>
-                        ))
-                    }
-                    {/* <li style={{ justifyContent: "center", paddingLeft: "0px" }} > Vender Produto </li>
-                    <li style={{ justifyContent: "center", paddingLeft: "0px" }} > Adicionar Produto </li>
-                    <li style={{ justifyContent: "center", paddingLeft: "0px" }} > Excluir Produto</li> */}
-                </ul>
-            </div>
-            <div id="table-content">
-                {children}
+            <div id='table-scroll-container'>
+                <div id='table-header' >
+                    <ul>
+                        <li style={{ width: "100%", justifyContent: "center"}} >{columns[0]}</li>
+                        {
+                            columns.map((column, index) => (
+                                index !== 0 && <li key={index}>{column}</li>
+                            ))
+                        }
+
+                    </ul>
+                </div>
+                <div id="table-content">
+                    {children}
+                </div>
             </div>
             <div id="table-section-select">
                 <ArrowBackIosNew 

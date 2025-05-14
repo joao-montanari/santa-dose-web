@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Clear, LockReset, Logout, AccountBox, AccountCircle } from '@mui/icons-material';
+import { Clear, LockReset, Logout, AccountBox, AccountCircle, Edit } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 
@@ -632,23 +632,29 @@ const HomePage = () => {
             </div>
         </div>
 
+      
         <Table
           onNextPage={() => setRangeList(startPage + 10, 10)}
           onReturnPage={() => setRangeList(startPage - 10, 10)}
           onExportData={() => exportExcelProduct(dataProduct, "Lista de Produtos")}
-          columns={["Nome", "Validade", "Quantidade", "Valor Venda", ...(user?.is_admin ? ["% Ganho No Produto"] : []), "Vender Produto", "Adicionar Produto", "Excluir Produto" ]}//adiciona apenas se for admin 
+          columns={[...(user?.is_admin ? ["Editar Produto"] : []),"Nome", "Validade", "Quantidade", "Valor Venda", ...(user?.is_admin ? ["% Ganho No Produto"] : []), "Vender Produto", "Adicionar Produto", "Excluir Produto" ]}//adiciona apenas se for admin 
           title="Lista de produtos"
         >
           {
             //  productList?.length > 0 && 
             productList.map((product, index) => (
               <ul key={index}>
-                <li style={{ width: "100%", justifyContent: "left", paddingLeft: "20px" }}>{product.nome}</li>
-                <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px' }}>{product.data_validade}</li>
-                <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px' }}>{product.quantidade}</li>
-                <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px' }}>{product.valor_venda}</li>
+                <li style={{ minWidth: "180px", paddingLeft: "20px", justifyContent: "center"}}>{<Edit
+                    onClick={() => {
+                      navigate(`/product-form/${product.idProduto}`);
+                    }}
+                  />}</li>
+                <li style={{ width: "100%", justifyContent: "center", paddingLeft: "20px" }}>{product.nome}</li>
+                <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px' }}>{product.data_validade}</li>
+                <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px' }}>{product.quantidade}</li>
+                <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px' }}>{product.valor_venda}</li>
                 {user?.is_admin && (
-                      <li style={{ paddingLeft: "20px", justifyContent: "left", minWidth: '180px'}}>{formatPercent(product.percentual_lucro)} </li>
+                      <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px'}}>{formatPercent(product.percentual_lucro)} </li>
                 )}
                 <li id="product-list-options" style={{ minWidth: "180px" }} >
                   <ShoppingBasketIcon

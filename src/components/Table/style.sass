@@ -1,97 +1,102 @@
 @use '../../styles/variables'
 
 #table-component-main
-    background-color: #FFF
-    width: 100%
-    height: 100%
-    max-width: 1500px
-    min-height: 610px
-    border-radius: 6px
-    position: relative
-
-    ul
-        list-style: none
-        display: flex
-        height: 100%
-        width: 100%
-
-        li
-            height: 100%
-            min-width: 180px
-            align-items: center
-            display: flex
-            color: variables.$text-color-third
-            font-weight: 500
-            padding-left: 20px
-            font-size: 17px
-            border-right: 1px solid variables.$bg-color-third
-
-#table-section-select
-    width: 80px
-    display: flex
-    justify-content: space-between
-    position: absolute
-    right: 24px
-    bottom: 15px
-
-    svg
-        color: variables.$text-color-secundary
-        cursor: pointer
-        width: 30px
-    
-    svg:hover
-        color: variables.$color-amber-primary
+  background-color: #FFF
+  width: 100%
+  height: 100%
+  max-width: 1500px
+  min-height: 610px
+  border-radius: 6px
+  position: relative
 
 #table-title
-    width: 100%
-    height: 65px
+  width: 100%
+  height: 65px
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding-inline: 20px
+  color: variables.$text-color-third
+
+  button
+    padding: 8px 16px
+    background-color: black
+    color: gold
+    border-radius: 8px
+    border: 3px solid variables.$color-amber-primary
+    font-size: 14px
+    font-weight: 500
+    cursor: pointer
+    transition-duration: 500ms
     display: flex
     align-items: center
-    justify-content: space-between
-    padding-inline: 20px
+
+    svg
+      margin-left: 8px
+      width: 20px
+      height: 20px
+
+  button:hover
+    background-color: variables.$color-amber-primary
+    color: black
+
+#table-section-select
+  width: 80px
+  display: flex
+  justify-content: space-between
+  position: absolute
+  right: 24px
+  bottom: 15px
+
+  svg
+    color: variables.$text-color-secundary
+    cursor: pointer
+    width: 30px
+
+  svg:hover
+    color: variables.$color-amber-primary
+
+#table-scroll-container
+  width: 100%
+  overflow-x: auto
+
+  #table-header,
+  #table-content
+    min-width: max-content
+
+  #table-header ul,
+  #table-content ul
+    display: flex
+    min-width: max-content
+    list-style: none
+    margin: 0
+    padding: 0
+
+  li
+    min-width: 180px
+    display: flex
+    align-items: center
+    justify-content: center
+    padding: 0 12px
+    height: 100%
+    border-right: 1px solid variables.$bg-color-third
     color: variables.$text-color-third
-
-    button
-        padding: 8px 16px
-        background-color: black
-        color: gold
-        border-radius: 8px
-        border: 3px solid variables.$color-amber-primary
-        font-size: 14px
-        font-weight: 500
-        cursor: pointer
-        transition-duration: 500ms
-        align-items: center
-        display: flex
-
-        svg
-            margin-left: 8px
-            width: 20px
-            height: 20px
-
-    button:hover
-        background-color: variables.$color-amber-primary
-        color: black
+    font-weight: 500
+    font-size: 16px
 
 #table-header
-    height: 50px
-    width: 100%
-    display: flex
-    align-items: center
-    background-color: variables.$bg-color-third
+  height: 50px
+  display: flex
+  align-items: center
+  background-color: variables.$bg-color-third
 
 #table-content
-    ul
-        height: 44px
-        border-bottom: 1px solid variables.$bg-color-primary
-        cursor: pointer
-        transition-duration: 300ms
-        
-        li
-            font-size: 16px
-            width: 250px
-            justify-content: center
-            padding-left: 0px
-
-    ul:hover
-        background-color: variables.$bg-color-third
+  ul
+    height: 44px
+    border-bottom: 1px solid variables.$bg-color-primary
+    cursor: pointer
+    transition-duration: 300ms
+    
+  ul:hover
+    background-color: variables.$bg-color-third
+    
