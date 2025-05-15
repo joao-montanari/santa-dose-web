@@ -23,6 +23,7 @@ import './style.sass';
 import { useUser } from '../../UserContext';
 import SalesModal from '@Components/SalesModal';
 import AddModal from '@Components/AddModal';
+import CartsideBar from '@Components/CartSideBar';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -53,9 +54,11 @@ const HomePage = () => {
   const [search, setSearch] = useState<string>('');
   const [startPage, setStartPage] = useState<number>(0);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  const [isOpenModalSales, setOpenModalSales] = useState<boolean>(false);
   const [isOpenModalAdd, setOpenModalAdd] = useState<boolean>(false);
+
   const [selectedProduct, setSelectedProduct] = useState<Product>();
+  const [isOpenModalSales, setOpenModalSales] = useState<boolean>(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [note, setNote] = useState<NotificationType>({
@@ -632,7 +635,14 @@ const HomePage = () => {
             </div>
         </div>
 
-      
+      <div
+            className="table-container"
+            style={{
+              flex: 1,
+              transition: 'margin-right 0.3s ease',
+              marginRight: isCartOpen ? '320px' : '0'  // considera largura do carrinho
+            }}
+        >
         <Table
           onNextPage={() => setRangeList(startPage + 10, 10)}
           onReturnPage={() => setRangeList(startPage - 10, 10)}
@@ -685,9 +695,8 @@ const HomePage = () => {
               </ul>
             ))
           }
-
-          
-        </Table>
+          </Table>
+        </div>
         
 
       <DeleteModal
@@ -698,13 +707,19 @@ const HomePage = () => {
         onDelete={() => selectedProduct && selectedProduct.idProduto && delProduct(selectedProduct.idProduto)}
       />
 
-      <SalesModal
-        titleProduct={`${selectedProduct?.nome}`}
+      {selectedProduct && (
+        <SalesModal
+        product={selectedProduct}
         open={isOpenModalSales}
         description='Tem certeza que deseja vender este item? Ao fazer, será reduzido da quantidade total do produto, a quantidade vendida, alterando o estoque total do item!'
         isOpen={setOpenModalSales}
-        sales={handleSellProduct}
+        setIsCartOpen={setIsCartOpen}
+        // price={selectedProduct?.valor_venda}
+        // id={selectedProduct?.idProduto}
+        // quantidadeEstoque={selectedProduct?.quantidade || 0}
        />
+      )}
+      
 
       <AddModal
         titleProduct={`${selectedProduct?.nome}`}
@@ -713,6 +728,18 @@ const HomePage = () => {
         isOpen={setOpenModalAdd}
         sales={handleAddProduct}
        />
+
+      {isCartOpen &&(
+        <CartsideBar
+          isOpen = {isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          setNote = {setNote}
+          setLoading = {setLoading}
+          currentCategory={currentCategory}
+          handleAllButtonsValue={handleAllButtonsValue}
+      />
+      )}
+      
       
       {
         loading && <Loading/>
