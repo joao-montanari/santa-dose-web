@@ -215,65 +215,6 @@ const HomePage = () => {
     }
   }
 
-  async function handleSellProduct(quantidadeVendida: number) {
-    if(
-      selectedProduct
-      && selectedProduct?.quantidade !== undefined
-    ) {
-      const novaQuantidade = selectedProduct.quantidade - quantidadeVendida
-      console.log("vendo se atualizou o valor: ", novaQuantidade)
-      
-      if(novaQuantidade < 0){
-        setNote({
-          message: "Quantidade insuficiente no estoque!",
-          show: true,
-          type: "warning"
-        })
-      }
-
-      const submitProduct : Product = {
-        idProduto: selectedProduct.idProduto,
-        nome: selectedProduct.nome,
-        tamanho: selectedProduct.tamanho,
-        tipo: selectedProduct.tipo,
-        valor_compra: selectedProduct.valor_compra,
-        valor_venda: selectedProduct.valor_venda,
-        percentual_lucro: selectedProduct.percentual_lucro,
-        quantidade: novaQuantidade,
-        data_validade: selectedProduct.data_validade,
-      }
-      setLoading(true);
-      if(selectedProduct.idProduto){
-        const respUpdate = await updateProduct(submitProduct)
-        if(respUpdate.error){
-          setNote({
-            message: `${respUpdate.response.response.data.detail}`,
-            show: true,
-            type: "error"
-          });
-        } else { 
-          localStorage.setItem("product-operation", "Produto vendido!");
-          setOpenModalSales(false)
-          setNote({
-            message: "Produto vendido com sucesso!",
-            show: true,
-            type: "success"
-          });
-          if(currentCategory){
-            handleAllButtonsValue(currentCategory)
-          }
-        }
-      }
-      setLoading(false)
-    } else {
-      setNote({
-        message: "Preencha os campos corretamente",
-        show: true,
-        type: "warning"
-      });
-    }
-  }
-
   async function handleAddProduct(quantidadeAdd: number) {
     if(
       selectedProduct
