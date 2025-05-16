@@ -365,8 +365,9 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div id="product-list-main" >
-      <div id='product-list-header' >
+    <>
+      <div id="product-list-main" >
+        <div id='product-list-header' >
         <Title
           title='Lista de produtos'
           subTitle='Veja a lista de produtos cadastrados no sistema'
@@ -576,14 +577,7 @@ const HomePage = () => {
             </div>
         </div>
 
-      <div
-            className="table-container"
-            style={{
-              flex: 1,
-              transition: 'margin-right 0.3s ease',
-              marginRight: isCartOpen ? '320px' : '0'  // considera largura do carrinho
-            }}
-        >
+      <div className="table-container">
         <Table
           onNextPage={() => setRangeList(startPage + 10, 10)}
           onReturnPage={() => setRangeList(startPage - 10, 10)}
@@ -638,6 +632,8 @@ const HomePage = () => {
           }
           </Table>
         </div>
+      </div>
+      
         
 
       <DeleteModal
@@ -669,17 +665,17 @@ const HomePage = () => {
         isOpen={setOpenModalAdd}
         sales={handleAddProduct}
        />
-
-      {isCartOpen &&(
-        <CartsideBar
-          isOpen = {isCartOpen}
-          onClose={() => setIsCartOpen(false)}
-          setNote = {setNote}
-          setLoading = {setLoading}
-          currentCategory={currentCategory}
-          handleAllButtonsValue={handleAllButtonsValue}
-      />
-      )}
+       
+       {isCartOpen &&(
+          <CartsideBar
+            isOpen = {isCartOpen}
+            onClose={() => setIsCartOpen(false)}
+            setNote = {setNote}
+            setLoading = {setLoading}
+            currentCategory={currentCategory}
+            handleAllButtonsValue={handleAllButtonsValue}
+        />
+        )}
       
       
       {
@@ -689,9 +685,7 @@ const HomePage = () => {
         note={note}
         setNote={setNote}
       />
-      
-
-    </div>
+  </>
   )
 }
 

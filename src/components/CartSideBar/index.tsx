@@ -89,7 +89,10 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
 
     return(
         <div id="cartSidebar" className={isOpen ? 'open' : ''}>
-            <h2 id="cartTitle">Carrinho</h2>
+            <div id="button-and-title">
+                <h2 id="cartTitle">Carrinho</h2>
+                <button id="button-close" onClick={onClose}>X</button>
+            </div>
             {cart.length === 0 ? (
                 <p>Carrinho Vazio</p>
             ) : (
