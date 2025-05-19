@@ -1,7 +1,8 @@
 import { useCart } from "@Components/CartContext";
-import React, {  Dispatch, SetStateAction } from "react";
+import React, {  Dispatch, SetStateAction, useEffect, useState } from "react";
 import "./style.sass"
-import { updateProduct } from "@Api/services/products";
+import { addTotalAndType, updateProduct } from "@Api/services/products";
+import RadioButton from "@Components/RadioButton";
 
 type NotificationType = {
   message: string;
@@ -30,10 +31,20 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
     
     const { cart, removeFromCart, clearCart} = useCart();
     const total = cart.reduce((sum, item) => sum + (item.product.valor_venda ?? 0) * item.quantidade, 0);
+    const [selectedPayment, setSelectedPayment] = useState<string>("")
+    const [valorTotal, setValorTotal] = useState<number>(0)
+
+    const handleRadioChange = (value : string) =>{
+        setSelectedPayment(value)
+    }
+
+    const handleValorTotalChange = (value : number) =>{
+        setValorTotal(value);
+        console.log("Valor total de venda: ", valorTotal)
+    }
 
     const handleSellProduct = async () => {
         setLoading(true);
-
 
         for(const item of cart){
             const novaQuantidade = item.product.quantidade - item.quantidade;
@@ -53,7 +64,13 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
                 quantidade: novaQuantidade,
             };
 
+            const addTotalWType = {
+                tipo : selectedPayment, 
+                valor : valorTotal
+            }
+
             const respUpdate = await updateProduct(updatedProduct);
+            const addTotalAndTypeV = await addTotalAndType(addTotalWType);
 
             if(respUpdate.error){
                 setNote({
@@ -61,8 +78,16 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
                 show: true,
                 type: "error"
               });
-              setLoading(false);
-              return;
+            }
+
+            if(addTotalAndTypeV.error){
+                setNote({
+                    message: `${addTotalAndTypeV.response.response.data.detail}`,
+                    show: true,
+                    type: "error"
+                });
+                setLoading(false);
+                return;
             }
         }
 
@@ -85,7 +110,9 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
         return null;
         }
     
-    console.log("Carrinho montado")
+    useEffect(() =>{
+        handleValorTotalChange(total)
+    }, [total])
 
     return(
         <div id="cartSidebar" className={isOpen ? 'open' : ''}>
@@ -108,8 +135,22 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
                             </li>
                         ))}
                     </ul>
-                    <div id="total">Total: R$ {total.toFixed(2)}</div>
-                    <button onClick={handleSellProduct} id="checkoutButton" disabled={cart.length === 0}> Finalizar Venda </button>
+                    
+                    <div id="radiobutton-together">
+                        <div id="radiobutton-class">
+                            <RadioButton title="Pix" selectedValue={selectedPayment} onChange={handleRadioChange}/>Pix
+                            <RadioButton title="Cartão de crédito" selectedValue={selectedPayment} onChange={handleRadioChange}/>Cartão de crédito
+                            <RadioButton title="Cartão de debito" selectedValue={selectedPayment} onChange={handleRadioChange}/>Cartão de debito
+                        </div>
+                        <div id="radiobutton-class">
+                            <RadioButton title="Fiado" selectedValue={selectedPayment} onChange={handleRadioChange}/>Fiado 
+                            <RadioButton title="Dinheiro" selectedValue={selectedPayment} onChange={handleRadioChange}/>Dinheiro
+                        </div>
+                    </div>
+                    <div id="total-close">
+                        <div id="total">Total: R$ {total.toFixed(2)}</div>
+                        <button onClick={handleSellProduct} id="checkoutButton" disabled={cart.length === 0}> Finalizar Venda </button>
+                    </div>
                 </>
             )
 

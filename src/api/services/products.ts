@@ -2,6 +2,7 @@ import { Product } from '@Models/product';
 import { selectMethod } from '@Api/methods';
 import { findRouter }  from '@Api/mapRouters';
 import { MonthElements } from '@Models/monthsValue';
+import { TotalSellAndType } from '@Models/totalSellAndType';
 
 export async function createProduct(product : Product) {
     let request = await findRouter("postProduct");
@@ -69,6 +70,16 @@ export async function updateProduct(product : Product) {
         url,
         request.method,
         product
+    );
+}
+
+export async function addTotalAndType(typeandtotal : TotalSellAndType) { 
+    let request = await findRouter("addTotalAndType");
+
+    return selectMethod(
+        request.router,
+        request.method,
+        typeandtotal
     );
 }
 
