@@ -59,6 +59,11 @@ const backEndRouters : Router[] = [
         method: "POST",
     },
     {
+        router: "/produtos/totalWtipo",
+        name: "addTotalAndType",
+        method: "POST",
+    },
+    {
         router: "/usuarios/atualizar_by_id/",
         name: "putUser",
         method: "PUT",
