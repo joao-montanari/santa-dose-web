@@ -48,6 +48,10 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
 
         for(const item of cart){
             const novaQuantidade = item.product.quantidade - item.quantidade;
+            const quantidadeT = cart.reduce((total, item) => {
+                return total + item.quantidade;
+            }, 0)
+            console.log("QuantidadeT se está funcionando: ", quantidadeT)
             // const originalProduct = productsList.find(p => p.idProduto === item.id);
 
             if(novaQuantidade < 0){
@@ -66,7 +70,8 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
 
             const addTotalWType = {
                 tipo : selectedPayment, 
-                valor : valorTotal
+                valor : valorTotal,
+                quantidade : quantidadeT
             }
 
             const respUpdate = await updateProduct(updatedProduct);
