@@ -40,7 +40,6 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
 
     const handleValorTotalChange = (value : number) =>{
         setValorTotal(value);
-        console.log("Valor total de venda: ", valorTotal)
     }
 
     const handleSellProduct = async () => {
@@ -51,8 +50,6 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
             const quantidadeT = cart.reduce((total, item) => {
                 return total + item.quantidade;
             }, 0)
-            console.log("QuantidadeT se está funcionando: ", quantidadeT)
-            // const originalProduct = productsList.find(p => p.idProduto === item.id);
 
             if(novaQuantidade < 0){
                 setNote({
@@ -71,7 +68,8 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
             const addTotalWType = {
                 tipo : selectedPayment, 
                 valor : valorTotal,
-                quantidade : quantidadeT
+                quantidade : quantidadeT,
+                produto: item.product.nome
             }
 
             const respUpdate = await updateProduct(updatedProduct);

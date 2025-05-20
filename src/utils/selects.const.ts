@@ -262,3 +262,4 @@ export const unit_of_measure_select : TypeSelect[] = [
         label: 'Kg',
     },
 ]
+
