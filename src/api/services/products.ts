@@ -43,6 +43,15 @@ export async function getMonthValue(){
     )
 }
 
+export async function getTypeAndQuantity(){
+    let request = await findRouter("getTotalAndType");
+
+    return selectMethod(
+        request.router,
+        request.method,
+    )
+}
+
 export async function listProducts() {
     let request = await findRouter("listProduct");
 

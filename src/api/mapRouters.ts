@@ -104,6 +104,11 @@ const backEndRouters : Router[] = [
         method: "GET"
     },
     {
+        router: "/produtos/totalWtipos",
+        name: "getTotalAndType",
+        method: "GET"
+    },
+    {
         router: "/fiados/adicionar_valores",
         name: "addSpunValues",
         method: "PATCH"

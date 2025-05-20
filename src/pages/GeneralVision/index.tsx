@@ -1,8 +1,6 @@
 import { LockReset, Logout, AccountBox, AccountCircle } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
-import { dataConst } from '@Utils/chart.const';
-
 import Title from '@Components/Title';
 import Menu, { OptionMenuType } from '@Components/Menu';
 import ChartLine from '@Components/charts/Line';
@@ -10,7 +8,7 @@ import ChartColumn from '@Components/charts/Column';
 
 import './style.sass';
 import { useEffect, useState } from 'react';
-import { getMonthValue } from '@Api/services/products';
+import { getMonthValue, getTypeAndQuantity } from '@Api/services/products';
 import Notification, { NotificationType } from '@Components/Notification';
 import Loading from '@Components/Loading';
 
@@ -18,6 +16,7 @@ const GeneralVision = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false)
     const [dataProduct, setDataProduct] = useState<{ month: string; value: number}[]>([])
+    const [dataConsts, setDataConsts] = useState<{produto: string; quantidade: number}[]>([])
     
     const [note, setNote] = useState<NotificationType>({
         message: "",
@@ -72,8 +71,53 @@ const GeneralVision = () => {
         setLoading(false)
     }
 
+    async function handleGetTypeAndValue() { 
+        setLoading(true)
+        const dataSells = await getTypeAndQuantity();
+
+        if(dataSells.error){
+            if(dataSells.response.response.status === 401) navigate("/login");
+
+            setNote({
+                show: true,
+                message: `${dataSells.response.response.data.detail}`,
+                type: "error"
+            })
+        } else {
+            if(Array.isArray(dataSells) && dataSells.length > 1){
+                const monthsArray = dataSells[1]
+                console.log("Dados: ", monthsArray)
+
+
+                if(Array.isArray(monthsArray)){
+                    const produtoMap = monthsArray.reduce((acc: Record<string, number>, item: any) =>{
+                        const produto = item.produto ;
+                        const qnt = item.quantidade;
+                        if(!acc[produto]) acc[produto] = 0;
+                        acc[produto] += qnt;
+                        return acc;
+                    }, {});
+
+                    const chartData = Object.entries(produtoMap).map(([produto, quantidade]) => ({
+                        produto,
+                        quantidade
+                    }))
+                    
+                    setDataConsts(chartData);
+                    
+                }else{
+                    console.log("Erro no data.response")
+                }
+            }else{
+                console.log("Error", dataSells.response)
+            }
+        }
+        setLoading(false)
+    }
+
     useEffect(() =>{
         handleGetMonthProfit()
+        handleGetTypeAndValue()
         if(localStorage.getItem("product-operation")) {
             setNote({
                 show: true,
@@ -107,7 +151,7 @@ const GeneralVision = () => {
 
 
             <ChartLine
-                data={dataConst}
+                data={dataConsts}
                 title='Produtos vendidos por mês'
             />
             <ChartColumn
