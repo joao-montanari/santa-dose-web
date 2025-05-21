@@ -25,6 +25,8 @@ import SalesModal from '@Components/SalesModal';
 import AddModal from '@Components/AddModal';
 import CartsideBar from '@Components/CartSideBar';
 
+import Eric from "../../assets/Eric.jpg"
+
 const HomePage = () => {
   const navigate = useNavigate();
 
@@ -379,7 +381,7 @@ const HomePage = () => {
             setValue={setSearch}
           />
           <Menu
-            icon={<AccountCircle style={{ color: "#9A9494" }}/>}
+            icon={<img src={Eric} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
             options={[
               { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox/> },
               { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset/> },

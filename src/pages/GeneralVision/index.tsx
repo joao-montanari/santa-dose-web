@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { getMonthValue, getTypeAndQuantity } from '@Api/services/products';
 import Notification, { NotificationType } from '@Components/Notification';
 import Loading from '@Components/Loading';
+import Eric from "../../assets/Eric.jpg"
 
 const GeneralVision = () => {
     const navigate = useNavigate();
@@ -137,7 +138,7 @@ const GeneralVision = () => {
                     subTitle='Vaje estatísticas com relação ao seu comércio'
                 />
                 <Menu
-                    icon={<AccountCircle style={{ color: "#9A9494" }}/>}
+                    icon={<img src={Eric} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
                     options={[
                         { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox/> },
                         { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset/> },
