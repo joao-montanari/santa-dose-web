@@ -24,7 +24,7 @@
         img
             width: 120px
 
-        button
+        button[type="submit"]
             width: 200px
             height: 50px
             border: 0px
@@ -35,7 +35,7 @@
             cursor: pointer
             transition-duration: 300ms
 
-        button:hover
+        button[type="submit"]:hover
             border: 3px solid variables.$color-amber-primary
             background-color: variables.$bg-color-third
             color: variables.$color-amber-primary
@@ -56,6 +56,7 @@
         width: 100%
         padding: 0px 10px
         color: variables.$text-color-secundary
+        outline: none
 
     input::placeholder
         color: variables.$text-color-fourth
@@ -65,3 +66,27 @@
         width: 25px
         height: 25px
         color: variables.$text-color-secundary
+
+    #input-content-password
+        width: 100%
+        display: flex
+        align-items: center
+
+        button
+            border: none
+            cursor: pointer
+            height: 38px
+            transition-duration: 300ms
+            background-color: transparent
+            margin-right: 4px
+            border-radius: 4px
+
+            &:hover
+                background-color: variables.$text-color-fourth
+
+            svg
+                width: 20px
+                height: 20px
+
+        input
+            height: 40px

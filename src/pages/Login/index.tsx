@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PersonOutline, LockOpen } from "@mui/icons-material";
+import { PersonOutline, LockOpen, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from 'react-router-dom';
 
 import { LoginRequest } from "@Api/services/auth";
@@ -14,9 +14,10 @@ import Logo from "@Public/logo.png";
 import "./style.sass";
 
 const Login = () => {
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState<boolean>(false);
     const { login } = useUser();
+    const navigate = useNavigate();
+    const [isVisibility, setVisibility] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<NotificationType>({
         show: false,
         message: "",
@@ -40,7 +41,10 @@ const Login = () => {
         if(data.error) {
             setError({
                 show: true,
-                message: `${data.response.response.data.detail}`,
+                message: `${data.response.response ? 
+                    data.response.response.data.detail 
+                    : "Falha de conexão com a API"
+                }`,
                 type: "error"
             });
             setLoading(false);
@@ -52,10 +56,10 @@ const Login = () => {
         }
     }
 
-    const handleSubmit = (event : any) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
-        userRequest();
+        await userRequest();
     }
 
     return (
@@ -72,7 +76,7 @@ const Login = () => {
                 <div id="input-content-login">
                     <PersonOutline/>
                     <input 
-                        type="text" 
+                        type="text"
                         placeholder="Nome do usuário"
                         value={user.username}
                         onChange={(element) => changeUserArgs(element.target.value, "username")}
@@ -80,12 +84,19 @@ const Login = () => {
                 </div>
                 <div id="input-content-login">
                     <LockOpen/>
-                    <input
-                        type="password" 
-                        placeholder="Senha"
-                        value={user.password}
-                        onChange={(element) => changeUserArgs(element.target.value, "password")}
-                    />
+                    <div id="input-content-password">
+                        <input
+                            type={isVisibility ? "text" : "password"}
+                            placeholder="Senha"
+                            value={user.password}
+                            onChange={(element) => changeUserArgs(element.target.value, "password")}
+                        />
+                        <button type="button" onClick={() => setVisibility(!isVisibility)}>
+                            {
+                                isVisibility ? <VisibilityOff/> : <Visibility/>
+                            }
+                        </button>
+                    </div>
                 </div>
                 <button type="submit">
                     Entrar
