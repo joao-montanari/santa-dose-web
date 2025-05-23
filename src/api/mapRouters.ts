@@ -56,7 +56,7 @@ const backEndRouters : Router[] = [
     {
         router: "/usuarios/adicionar",
         name: "createUser",
-        method: "POST",
+        method: "MULTIPART_POST",
     },
     {
         router: "/produtos/totalWtipo",

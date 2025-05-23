@@ -2,7 +2,7 @@ import { User } from '@Models/user';
 import { selectMethod } from '@Api/methods';
 import { findRouter }  from '@Api/mapRouters';
 
-export async function createUser(user : User) {
+export async function createUser(user : FormData) {
     let request = await findRouter("createUser");
 
     return selectMethod(
