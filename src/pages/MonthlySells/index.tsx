@@ -11,7 +11,7 @@ import SelectOption from "@Components/SelectOption"
 import { OptionSelect } from "@Utils/optionSelect"
 import Button from "@Components/Button"
 import Menu, { OptionMenuType } from "@Components/Menu"
-import { AccountBox, AccountCircle, LockReset, Logout } from "@mui/icons-material"
+import { AccountBox, LockReset, Logout } from "@mui/icons-material"
 import Eric from "../../assets/Eric.jpg"
 
 const MonthlySells = () =>{

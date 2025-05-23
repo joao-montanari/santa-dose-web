@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom"
 import Button from "@Components/Button"
 import Loading from "@Components/Loading"
 import Menu, { OptionMenuType } from "@Components/Menu"
-import { AccountBox, AccountCircle, LockReset, Logout } from "@mui/icons-material"
+import { AccountBox, LockReset, Logout } from "@mui/icons-material"
 import { addDaysMonthValue, getDaysMonthValue } from "@Api/services/fiadosMes"
 import Eric from "../../assets/Eric.jpg"
 

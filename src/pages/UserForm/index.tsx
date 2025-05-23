@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { LockReset, Logout, AccountBox, AccountCircle } from '@mui/icons-material';
+import { LockReset, Logout, AccountBox} from '@mui/icons-material';
 
 import Title from "@Components/Title";
 import Input from "@Components/Input";
@@ -51,10 +51,6 @@ const UserForm = () => {
         if (e.target.files && e.target.files.length > 0){
             setProfileImage(e.target.files[0]);
         }
-    }
-
-    async function createNewUser(user: User){
-       
     }
 
     async function getSelectUser() {

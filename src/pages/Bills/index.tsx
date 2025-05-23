@@ -5,7 +5,7 @@ import { NotificationType } from "@Components/Notification";
 import SelectOption from "@Components/SelectOption";
 import TableSales from "@Components/TableSales";
 import Title from "@Components/Title";
-import { AccountBox, AccountCircle, LockReset, Logout } from "@mui/icons-material";
+import { AccountBox, LockReset, Logout } from "@mui/icons-material";
 import { OptionSelect } from "@Utils/optionSelect";
 import { month_select } from "@Utils/selectsMonths.const";
 import { useState } from "react";

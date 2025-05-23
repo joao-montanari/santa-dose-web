@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Clear, LockReset, Logout, AccountBox, AccountCircle, Edit } from '@mui/icons-material';
+import { Clear, LockReset, Logout, AccountBox, Edit } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 

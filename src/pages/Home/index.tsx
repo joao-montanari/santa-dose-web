@@ -5,7 +5,7 @@ import eric from "../../assets/Eric.jpg"
 import "./style.sass"
 import Title from "@Components/Title";
 import Menu, { OptionMenuType } from "@Components/Menu";
-import { AccountBox, AccountCircle, LockReset, Logout } from "@mui/icons-material";
+import { AccountBox, LockReset, Logout } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import ImageCarouselMini from "@Components/ImageCarouselMini";
 import TitlePage from "@Components/TitlePage";
