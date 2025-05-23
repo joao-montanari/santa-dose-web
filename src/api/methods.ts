@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_BASE_BACKEND_URL
+    baseURL: "https://fastapi-adega.onrender.com",
+    // baseURL: "http://localhost:8000"
 });
 
 export async function selectMethod(

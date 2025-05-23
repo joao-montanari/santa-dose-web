@@ -5,6 +5,7 @@ export type User = {
     email: string,
     senha : string,
     is_admin: boolean,
+    profileImage: File | string | null
 }
 
 export type Auth = {

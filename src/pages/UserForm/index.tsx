@@ -8,6 +8,7 @@ import Switch from "@Components/Switch";
 import Menu, { OptionMenuType } from '@Components/Menu';
 import Notification, { NotificationType } from "@Components/Notification";
 import Loading from "@Components/Loading";
+import Eric from "../../assets/Eric.jpg"
 
 import { User } from "@Models/user";
 import { getUser, patchUser, createUser } from "@Api/services/users";
@@ -17,6 +18,7 @@ import './style.sass';
 const UserForm = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const [profileImage, setProfileImage] = useState<File | null>(null);
 
     const [loading, setLoading] = useState<boolean>(false);
     const [note, setNote] = useState<NotificationType>({
@@ -29,7 +31,8 @@ const UserForm = () => {
         username: "",
         email: "",
         senha: "",
-        is_admin: false
+        is_admin: false,
+        profileImage: null
     })
 
     const logout = () => {
@@ -42,6 +45,16 @@ const UserForm = () => {
             ...prevState,
             [key] : value
         }));
+    }
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0){
+            setProfileImage(e.target.files[0]);
+        }
+    }
+
+    async function createNewUser(user: User){
+       
     }
 
     async function getSelectUser() {
@@ -67,6 +80,7 @@ const UserForm = () => {
             user.email !== ""
             && user.senha !== ""
             && user.username !== ""
+            && profileImage
         ) {
             setLoading(true);
             if(user.idUsuario) {
@@ -74,7 +88,8 @@ const UserForm = () => {
                     idUsuario : user.idUsuario,
                     username : user.username,
                     email : user.email,
-                    is_admin : user.is_admin
+                    is_admin : user.is_admin,
+                    profileImage : profileImage
                 });
                 if(respUpdate.error) {
                     setNote({
@@ -87,16 +102,35 @@ const UserForm = () => {
                     navigate("/user-list");
                 }
             } else {
-                const respCreate = await createUser(user);
-                if(respCreate.error) {
+                 try{
+                    const formData = new FormData();
+                    formData.append("username", user.username)
+                    formData.append("email", user.email)
+                    formData.append("senha", user.senha)
+                    formData.append("is_admin_raw", String(Number(user.is_admin)))
+                    
+                    if(profileImage){
+                        formData.append("profile_image", profileImage || new Blob());
+                    }
+
+                    const respCreate = await createUser(formData);
+
+                    if(respCreate.error) {
+                            setNote({
+                                message: `${respCreate.response.response.data.detail}`,
+                                show: true,
+                                type: "error"
+                            });
+                        } else {
+                            localStorage.setItem("user-operation", "Usuário criado!");
+                            navigate("/user-list");
+                        }
+                }catch(error){
                     setNote({
-                        message: `${respCreate.response.response.data.detail}`,
-                        show: true,
-                        type: "error"
-                    });
-                } else {
-                    localStorage.setItem("user-operation", "Usuário criado!");
-                    navigate("/user-list");
+                                message: `${error}`,
+                                show: true,
+                                type: "error"
+                            });
                 }
             }
             setLoading(false);
@@ -121,7 +155,7 @@ const UserForm = () => {
                     subTitle="Cadastre ou edite um usuário no sistema preenchendo o formulário"
                 />
                 <Menu
-                    icon={<AccountCircle style={{ color: "#9A9494" }}/>}
+                    icon={<img src={Eric} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
                     options={[
                         { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox/> },
                         { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset/> },
@@ -166,6 +200,11 @@ const UserForm = () => {
                             value={user.is_admin}
                             setValue={(value : boolean) => changeUserParams('is_admin', value)}
                         />
+                    </div>
+                    
+                    <div id="user-form-container">
+                        <label>Foto de Perfil:</label>
+                        <input type="file" accept="image/*" onChange={(e) => handleFileChange(e)} />
                     </div>
                 </div>
                 <button type="submit">
