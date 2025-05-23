@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LockReset, Logout, AccountBox, AccountCircle } from '@mui/icons-material';
+import { LockReset, Logout, AccountBox} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 import Title from '@Components/Title';

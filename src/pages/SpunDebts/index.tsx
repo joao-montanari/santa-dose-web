@@ -6,7 +6,7 @@ import { NotificationType } from "@Components/Notification";
 import Notification from "@Components/Notification"
 import TableSpun from "@Components/TableSpun";
 import Title from "@Components/Title";
-import { AccountBox, AccountCircle, LockReset, Logout } from "@mui/icons-material";
+import { AccountBox, LockReset, Logout } from "@mui/icons-material";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Eric from "../../assets/Eric.jpg"

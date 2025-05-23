@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import { Edit, Clear, AccountCircle, LockReset, Logout, AccountBox } from "@mui/icons-material";
+import { Edit, Clear, LockReset, Logout, AccountBox } from "@mui/icons-material";
 
 import { User } from "@Models/user";
 import { listUsers, deleteUser } from "@Api/services/users";

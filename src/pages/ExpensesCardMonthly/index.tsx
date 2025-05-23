@@ -4,7 +4,7 @@ import Menu, { OptionMenuType } from "@Components/Menu";
 import { NotificationType } from "@Components/Notification";
 import SelectOption from "@Components/SelectOption";
 import Title from "@Components/Title";
-import { AccountBox, AccountCircle, LockReset, Logout } from "@mui/icons-material";
+import { AccountBox, LockReset, Logout } from "@mui/icons-material";
 import { OptionSelect } from "@Utils/optionSelect";
 import { month_select } from "@Utils/selectsMonths.const";
 import { useEffect, useState } from "react";
