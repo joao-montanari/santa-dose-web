@@ -50,6 +50,8 @@ const Login = () => {
             setLoading(false);
         } else {
             localStorage.setItem("token", data.response.token);
+            const user = data.response.user
+            localStorage.setItem("user", JSON.stringify(user))
             login(data.response)
             console.log("Dados: ", data.response)
             navigate("/");

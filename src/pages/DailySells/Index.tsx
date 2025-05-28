@@ -14,7 +14,7 @@ import Loading from "@Components/Loading"
 import Menu, { OptionMenuType } from "@Components/Menu"
 import { AccountBox, LockReset, Logout } from "@mui/icons-material"
 import { addDaysMonthValue, getDaysMonthValue } from "@Api/services/fiadosMes"
-import Eric from "../../assets/Eric.jpg"
+import getPhotoUser from "@Api/services/getPhotoUser"
 
 const DailySells = () =>{
     const navigate = useNavigate()
@@ -218,32 +218,29 @@ const DailySells = () =>{
         <div id="product-list-main">
             <div id="product-list-header">
                 <Title
-                title='Vendas Diárias'
-                subTitle='Veja as vendas diárias/mensal da Adega Santa Dose'
-                />
+                    title='Vendas Diárias'
+                    subTitle='Veja as vendas diárias/mensal da Adega Santa Dose' />
 
                 <SelectOption
                     title="Meses"
                     value={month_select.find((month) => month.value === product.tipo) || { value: '', label: '' }}
                     setValue={(selected: OptionSelect) => changeProduct('tipo', selected.value)}
                     selectList={month_select}
-                    width="45%"
-                />
-                    
-                <Menu
-                    icon={<img src={Eric} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
-                    options={[
-                        { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox/> },
-                        { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset/> },
-                        { label: "Sair", onPress: () => logout(), icon: <Logout/> }
-                    ] as OptionMenuType[]}
-                    style={{
-                        margin: "0px 10px 0px 20px"
-                    }}
-                />
-            </div>
+                    width="45%" />
 
-            <TableSales
+                <Menu
+                        icon={<img src={getPhotoUser()}  />}
+                        options={[
+                            { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox /> },
+                            { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset /> },
+                            { label: "Sair", onPress: () => logout(), icon: <Logout /> }
+                        ] as OptionMenuType[]}
+                        style={{
+                            margin: "0px 10px 0px 20px"
+                }} />
+                
+                   
+        </div><TableSales
                 title="Vendas Diárias"
                 dayColumnTitle="Dias"
                 salesColumTitle="Valores Venda"
@@ -256,15 +253,12 @@ const DailySells = () =>{
                     .map(([key, valor]) => ({
                         dia: key.split("-")[1], // Extrai o dia da chave "mes-dia"
                         mes: product.tipo, // Usa o mês selecionado 
-                        valor: valor ? valor.toString() : "0", 
-                    }))}
-             />
-
-            <div id="buttons-align">
+                        valor: valor ? valor.toString() : "0",
+                    }))} /><div id="buttons-align">
                 <div id="buttons-justify">
                     <Button title="Pegar Valores Salvos No Mês" onClick={getDailySells} />
-                    <Button title="Salvar Valores Do Dia" onClick={handleSubmitValuesDay}/>
-                    <Button title="Enviar Valores Do Mês" onClick={handleSubmitValues}/>
+                    <Button title="Salvar Valores Do Dia" onClick={handleSubmitValuesDay} />
+                    <Button title="Enviar Valores Do Mês" onClick={handleSubmitValues} />
                 </div>
             </div>
             

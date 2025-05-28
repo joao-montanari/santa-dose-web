@@ -9,7 +9,7 @@ import Title from "@Components/Title";
 import { AccountBox, LockReset, Logout } from "@mui/icons-material";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Eric from "../../assets/Eric.jpg"
+import getPhotoUser from "@Api/services/getPhotoUser";
 
 const Spun = () => { 
     const navigate = useNavigate()
@@ -172,7 +172,7 @@ const Spun = () => {
                 />
 
                 <Menu
-                    icon={<img src={Eric} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
+                    icon={<img src={getPhotoUser()} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
                     options={[
                         { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox/> },
                         { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset/> },

@@ -7,9 +7,9 @@ import Menu, { OptionMenuType } from '@Components/Menu';
 import Input from "@Components/Input";
 import Button from "@Components/Button";
 import Notification, { NotificationType } from "@Components/Notification";
-import Eric from "../../assets/Eric.jpg"
 
 import './style.sass';
+import getPhotoUser from "@Api/services/getPhotoUser";
 
 const ChangePassword = () => {
     const navigate = useNavigate();
@@ -58,7 +58,7 @@ const ChangePassword = () => {
                     subTitle='Preencha o formulário para definir uma nova senha'
                 />
                 <Menu
-                    icon={<img src={Eric} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
+                    icon={<img src={getPhotoUser()} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
                     options={[
                         { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox/> },
                         { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset/> },
