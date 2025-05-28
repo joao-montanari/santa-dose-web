@@ -13,10 +13,10 @@ import Loading from "@Components/Loading";
 import { category_select, unit_of_measure_select } from "@Utils/selects.const";
 import { Product } from "@Models/product";
 import { getProduct, createProduct, updateProduct } from '@Api/services/products';
-import Eric from "../../assets/Eric.jpg"
 
 import './style.sass';
 import { OptionSelect } from "@Utils/optionSelect";
+import getPhotoUser from "@Api/services/getPhotoUser";
 
 const ProductForm = () => { 
     const { id } = useParams();
@@ -154,7 +154,7 @@ const ProductForm = () => {
                     subTitle="Cadastre ou edite um produto no sistema preenchendo o formulário"
                 />
                 <Menu
-                    icon={<img src={Eric} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
+                    icon={<img src={getPhotoUser()} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
                     options={[
                         { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox/> },
                         { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset/> },

@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Notification from "@Components/Notification"
 import { deleteMonthExpensesValue, getExpensesMonthValue } from "@Api/services/expenses";
-import Eric from "../../assets/Eric.jpg"
+import getPhotoUser from "@Api/services/getPhotoUser";
 
 const monthlyExpenses = () =>{
     const [loading, setLoading] = useState(false)
@@ -158,7 +158,7 @@ const monthlyExpenses = () =>{
                     />
 
                     <Menu
-                        icon={<img src={Eric} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
+                        icon={<img src={getPhotoUser()} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
                         options={[
                             { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox/> },
                             { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset/> },

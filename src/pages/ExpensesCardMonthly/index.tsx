@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import Notification from "@Components/Notification"
 import MonthBox from "@Components/MonthBox";
 import { deletCardMonthExpensesValue, getCardExpensesMonthValue } from "@Api/services/expensesCard";
-import Eric from "../../assets/Eric.jpg"
+import getPhotoUser from "@Api/services/getPhotoUser";
 
 const ExpensesCardMonthly = () => {
     const [loading, setLoading] = useState(false)
@@ -159,7 +159,7 @@ const ExpensesCardMonthly = () => {
                     />
 
                     <Menu
-                        icon={<img src={Eric} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
+                        icon={<img src={getPhotoUser()} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
                         options={[
                             { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox/> },
                             { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset/> },

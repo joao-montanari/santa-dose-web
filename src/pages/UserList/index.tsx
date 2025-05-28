@@ -13,9 +13,9 @@ import DeleteModal from "@Components/DeleteModal";
 import Menu, { OptionMenuType } from "@Components/Menu";
 import Loading from "@Components/Loading";
 import Notification, { NotificationType } from "@Components/Notification";
-import Eric from "../../assets/Eric.jpg"
 
 import './style.sass';
+import getPhotoUser from "@Api/services/getPhotoUser";
 
 const UserList = () => {
     const navigate = useNavigate();
@@ -39,6 +39,7 @@ const UserList = () => {
         localStorage.removeItem("token");
         navigate('/login');
     }
+    
 
     const setRangeList = (start : number, amount : number) => {
         let rangeList : User[] = [];
@@ -95,6 +96,7 @@ const UserList = () => {
     useEffect(() => {
         setUsersList(dataUsers);
         setRangeList(0, 10);
+        console.log("Dados: ", dataUsers)
     }, [dataUsers]);
 
     useEffect(() => {
@@ -135,12 +137,12 @@ const UserList = () => {
                 />
                 <div id='user-list-header-content'>
                     <Search
-                        placeholder="Pesquisa por um usuário"
+                        placeholder="Pesquisa por um usuário" 
                         value={search}
                         setValue={setSearch}
                     />
                     <Menu
-                        icon={<img src={Eric} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
+                        icon={<img src={getPhotoUser()} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
                         options={[
                             { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox/> },
                             { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset/> },

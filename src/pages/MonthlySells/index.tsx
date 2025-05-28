@@ -12,7 +12,7 @@ import { OptionSelect } from "@Utils/optionSelect"
 import Button from "@Components/Button"
 import Menu, { OptionMenuType } from "@Components/Menu"
 import { AccountBox, LockReset, Logout } from "@mui/icons-material"
-import Eric from "../../assets/Eric.jpg"
+import getPhotoUser from "@Api/services/getPhotoUser"
 
 const MonthlySells = () =>{
     const [loading, setLoading] = useState(false)
@@ -159,7 +159,7 @@ const MonthlySells = () =>{
                     />
 
                     <Menu
-                        icon={<img src={Eric} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
+                        icon={<img src={getPhotoUser()} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
                         options={[
                             { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox/> },
                             { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset/> },

@@ -11,8 +11,8 @@ import { month_select } from "@Utils/selectsMonths.const";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Notification from "@Components/Notification"
-import Eric from "../../assets/Eric.jpg"
 import { addCardDaysExpensesValue, createCardMonthExpensesValue, getCardDaysExpensesValue } from "@Api/services/expensesCard";
+import getPhotoUser from "@Api/services/getPhotoUser";
 
 const ExpensesCard = () => { 
     const navigate = useNavigate()
@@ -217,7 +217,7 @@ const ExpensesCard = () => {
                 />
                     
                 <Menu
-                    icon={<img src={Eric} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
+                    icon={<img src={getPhotoUser()} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
                     options={[
                         { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox/> },
                         { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset/> },

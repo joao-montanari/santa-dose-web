@@ -8,12 +8,12 @@ import Switch from "@Components/Switch";
 import Menu, { OptionMenuType } from '@Components/Menu';
 import Notification, { NotificationType } from "@Components/Notification";
 import Loading from "@Components/Loading";
-import Eric from "../../assets/Eric.jpg"
 
 import { User } from "@Models/user";
 import { getUser, patchUser, createUser } from "@Api/services/users";
 
 import './style.sass';
+import getPhotoUser from "@Api/services/getPhotoUser";
 
 const UserForm = () => {
     const { id } = useParams();
@@ -151,7 +151,7 @@ const UserForm = () => {
                     subTitle="Cadastre ou edite um usuário no sistema preenchendo o formulário"
                 />
                 <Menu
-                    icon={<img src={Eric} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
+                    icon={<img src={getPhotoUser()} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}}/>}
                     options={[
                         { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox/> },
                         { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset/> },
