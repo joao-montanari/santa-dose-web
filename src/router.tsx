@@ -55,6 +55,22 @@ const routers = createHashRouter([
                 element: <Home/>
             },
             {
+                path: "/registers",
+                element: (
+                <AdminRoute children={undefined}>
+                    
+                </AdminRoute>
+                )
+            },
+            {
+                path: "/financial",
+                element: (
+                <AdminRoute children={undefined}>
+                    
+                </AdminRoute>
+                )
+            },
+            {
                 path: "/general-vision",
                 element: (
                 <AdminRoute>
@@ -63,7 +79,7 @@ const routers = createHashRouter([
                 )
             },
             {
-                path: "/daily-sells",
+                path: "/financial/daily-sells",
                 element: (
                 <AdminRoute>
                     <DailySells/>
@@ -71,7 +87,7 @@ const routers = createHashRouter([
                 )
             },
             {
-                path:"/monthly-sells",
+                path:"/financial/monthly-sells",
                 element: (
                 <AdminRoute>
                     <MonthlySells/>
@@ -83,7 +99,7 @@ const routers = createHashRouter([
                 element: <ProductList/>
             },
             {
-                path: "/product-form",
+                path: "/registers/product-form",
                 element: (
                 <AdminRoute>
                     <ProductForm/>
@@ -99,7 +115,7 @@ const routers = createHashRouter([
                 ) 
             },
             {
-                path: "/spun",
+                path: "/financial/spun",
                 element: (
                 <AdminRoute>
                     <Spun/>
@@ -107,7 +123,7 @@ const routers = createHashRouter([
                 )
             },
             {
-                path: "/bills",
+                path: "/financial/bills",
                 element: (
                 <AdminRoute>
                     <Bills/>
@@ -115,7 +131,7 @@ const routers = createHashRouter([
                 )
             },
             {
-                path: "/monthly-bills",
+                path: "/financial/monthly-bills",
                 element: (
                 <AdminRoute>
                     <MonthlyBills/>
@@ -123,7 +139,7 @@ const routers = createHashRouter([
                 )
             },
             {
-                path: "/expenses",
+                path: "/financial/expenses",
                 element: (
                 <AdminRoute>
                     <Expenses/>
@@ -131,7 +147,7 @@ const routers = createHashRouter([
                 )
             },
             {
-                path: "/monthly-expenses",
+                path: "/financial/monthly-expenses",
                 element: (
                 <AdminRoute>
                     <MonthlyExpenses/>
@@ -139,7 +155,7 @@ const routers = createHashRouter([
                 )
             },
             {
-                path: "/expenses-card",
+                path: "/financial/expenses-card",
                 element: (
                 <AdminRoute>
                     <ExpensesCard/>
@@ -147,7 +163,7 @@ const routers = createHashRouter([
                 )
             },
             {
-                path: "/expenses-card-monthly",
+                path: "/financial/expenses-card-monthly",
                 element: (
                 <AdminRoute>
                     <ExpensesCardMonthly/>
@@ -155,7 +171,7 @@ const routers = createHashRouter([
                 )
             },
             {
-                path: "/user-list",
+                path: "/registers/user-list",
                 element: (
                 <AdminRoute>
                     <UserList/>
@@ -163,7 +179,7 @@ const routers = createHashRouter([
                 )
             },
             {
-                path: "/user-form",
+                path: "/registers/user-form",
                 element: (
                 <AdminRoute>
                     <UserForm/>
