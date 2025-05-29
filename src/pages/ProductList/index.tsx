@@ -579,7 +579,7 @@ const HomePage = () => {
             </div>
         </div>
 
-      <div className="table-container">
+      <div>
         <Table
           onNextPage={() => setRangeList(startPage + 10, 10)}
           onReturnPage={() => setRangeList(startPage - 10, 10)}

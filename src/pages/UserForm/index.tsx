@@ -185,7 +185,7 @@ const UserForm = () => {
                                 title="Senha"
                                 value={user.senha}
                                 setValue={(value : string) => changeUserParams('senha', value)}
-                                width="45%"
+                                width="33%"
                                 type="password"
                             />
                         )
@@ -198,9 +198,11 @@ const UserForm = () => {
                         />
                     </div>
                     
-                    <div id="user-form-container">
+                    <div id="user-form-profileImage">
                         <label>Foto de Perfil:</label>
-                        <input type="file" accept="image/*" onChange={(e) => handleFileChange(e)} />
+                        <div id="user-form-button">
+                            <input type="file" accept="image/*" className="background-color: black" onChange={(e) => handleFileChange(e)} />
+                        </div>
                     </div>
                 </div>
                 <button type="submit">

@@ -154,11 +154,12 @@ const UserList = () => {
                     />
                 </div>
             </div>
+
             <Table
                 onNextPage={() => setRangeList(startPage + 10, 10)}
                 onReturnPage={() => setRangeList(startPage - 10, 10)}
                 onExportData={() => exportExcelUser(dataUsers, "Lista de Usuários")}
-                columns={["E-mail", "UserName", "Administrador", "Editar/Excluir Usuário"]}
+                columns={["E-mail", "", "", "", "","Username de login do usuário", "Administrador", "Editar/Excluir Usuário"]}
                 title="Lista de usuários"
             >
                 {
