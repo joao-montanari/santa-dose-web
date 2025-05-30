@@ -95,7 +95,7 @@ const UserForm = () => {
                     });
                 } else {
                     localStorage.setItem("user-operation", "Usuário atualizado!");
-                    navigate("/user-list");
+                    navigate("/registers/user-list");
                 }
             } else {
                  try{
@@ -119,7 +119,7 @@ const UserForm = () => {
                             });
                         } else {
                             localStorage.setItem("user-operation", "Usuário criado!");
-                            navigate("/user-list");
+                            navigate("/registers/user-list");
                         }
                 }catch(error){
                     setNote({

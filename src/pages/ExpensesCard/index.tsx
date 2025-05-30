@@ -98,7 +98,7 @@ const ExpensesCard = () => {
             });
     
             localStorage.setItem("product-operation", "Valores do mês enviados!");
-            navigate("/expenses-card");
+            navigate("/financial/expenses-card");
             }catch(error) {
                 console.error("Erro ao enviar valores", error);
                 setNote({
@@ -155,7 +155,7 @@ const ExpensesCard = () => {
                         type: "success"
                     });
                     localStorage.setItem("product-operation", "Valores do mês enviados!");
-                    navigate("/expenses-card-monthly");
+                    navigate("/financial/expenses-card-monthly");
                 }
             }catch(error) {
                 console.error("Erro ao enviar valores", error);

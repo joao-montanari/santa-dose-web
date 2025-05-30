@@ -103,7 +103,7 @@ const DailySells = () =>{
             });
     
             localStorage.setItem("product-operation", "Valores do mês enviados!");
-            navigate("/daily-sells");
+            navigate("/financial/daily-sells");
             }catch(error) {
                 console.error("Erro ao enviar valores", error);
                 setNote({
@@ -160,7 +160,7 @@ const DailySells = () =>{
                         type: "success"
                     });
                     localStorage.setItem("product-operation", "Valores do mês enviados!");
-                    navigate("/monthly-sells");
+                    navigate("/financial/monthly-sells");
                 }
             }catch(error) {
                 console.error("Erro ao enviar valores", error);
@@ -229,7 +229,7 @@ const DailySells = () =>{
                     width="45%" />
 
                 <Menu
-                        icon={<img src={getPhotoUser()}  />}
+                        icon={<img src={getPhotoUser()} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}} />}
                         options={[
                             { label: "Editar perfil", onPress: () => navigate("/profile-form"), icon: <AccountBox /> },
                             { label: "Trocar senha", onPress: () => navigate("/change-password"), icon: <LockReset /> },
