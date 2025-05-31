@@ -2,6 +2,7 @@ import ImageCarousel from "@Components/ImageCarousel.tsx";
 import images22 from "../../assets/milk.jfif"
 import raphael from "../../assets/Raphael.jpg"
 import eric from "../../assets/Eric.jpg"
+import regilene from "../../assets/regilene.jpg"
 import "./style.sass"
 import Title from "@Components/Title";
 import Menu, { OptionMenuType } from "@Components/Menu";
@@ -25,6 +26,10 @@ const Home = () => {
 
     const imagesPersonalEric = [
         eric,
+    ]
+
+    const imagesPersonalRegilene = [
+        regilene,
     ]
 
     const imagesAdega = [
@@ -64,7 +69,7 @@ const Home = () => {
                 <div id="align-user-photos">
                     <ImageCarouselMini images={imagesPersonalRaphael} nameOwner="Raphael Gomes" numeroFoto="19 98169-1654"/>
                     <ImageCarouselMini images={imagesPersonalEric} nameOwner="Eric Barreto" numeroFoto="19 99353-2974"/>
-                    <ImageCarouselMini images={imagesPersonalRaphael} nameOwner="Regilene Gomes" numeroFoto="19 98191-6017"/>
+                    <ImageCarouselMini images={imagesPersonalRegilene} nameOwner="Regilene Gomes" numeroFoto="19 98191-6017"/>
                 </div>
             </div>
         </>
