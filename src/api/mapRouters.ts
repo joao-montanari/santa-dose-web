@@ -64,6 +64,11 @@ const backEndRouters : Router[] = [
         method: "POST",
     },
     {
+        router: "/vendasCarrinho",
+        name: "addSalesAndType",
+        method: "POST",
+    },
+    {
         router: "/usuarios/atualizar_by_id/",
         name: "putUser",
         method: "PUT",
@@ -101,6 +106,11 @@ const backEndRouters : Router[] = [
     {
         router: "/dias_venda/",
         name: "getDaysMonthValues",
+        method: "GET"
+    },
+    {
+        router: "/vendasCarrinho",
+        name: "getSalesAndType",
         method: "GET"
     },
     {

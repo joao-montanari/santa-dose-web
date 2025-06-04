@@ -672,7 +672,6 @@ const HomePage = () => {
           <CartsideBar
             isOpen = {isCartOpen}
             onClose={() => setIsCartOpen(false)}
-            setNote = {setNote}
             setLoading = {setLoading}
             currentCategory={currentCategory}
             handleAllButtonsValue={handleAllButtonsValue}
