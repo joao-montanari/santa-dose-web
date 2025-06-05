@@ -3,6 +3,7 @@ export default function getPhotoUser(){
     const user = userString ? JSON.parse(userString) : null;
 
     const baseURL = `${import.meta.env.VITE_BACKEND_URL}/static`
+    
     const profileImageURL = `${baseURL}/${user.profile_image}`;
     
     return profileImageURL
