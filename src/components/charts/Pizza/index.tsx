@@ -1,7 +1,7 @@
 import { Cell, Legend, Pie, PieChart } from 'recharts';
 import './style.sass';
 
-const colors = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#00C49F", "#FFBB28"]
+const colors = ["#000000", "#FF00FF", "#FF0000", "#0000FF", "#00C49F", "#FFFF00"]
 
 const ChartPizza = ({data} : {data : { tipo: string; quantidade: number;}[]}) => {
     return (

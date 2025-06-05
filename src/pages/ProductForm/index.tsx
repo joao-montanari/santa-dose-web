@@ -115,8 +115,14 @@ const ProductForm = () => {
                         type: "error"
                     });
                 } else {
-                    localStorage.setItem("product-operation", "Produto atualizado!");
-                    navigate("/product-list");
+                    setNote({
+                        message: "O produto foi atualizado com sucesso!",
+                        show: true,
+                        type: "success"
+                    });
+                    setTimeout(() =>{
+                        navigate("/product-list");
+                    }, 1500)
                 }
             } else {
                 const respCreate = await createProduct(submitProduct);
@@ -128,8 +134,14 @@ const ProductForm = () => {
                         type: "error"
                     });
                 } else {
-                    localStorage.setItem("product-operation", "Produto criado!");
-                    navigate("/product-list");
+                    setNote({
+                        message: "O produto foi criado com sucesso!",
+                        show: true,
+                        type: "success"
+                    });
+                    setTimeout(() =>{
+                        navigate("/product-list");
+                    }, 1500)
                 }
             }
             setLoading(false);

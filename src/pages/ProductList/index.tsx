@@ -247,17 +247,21 @@ const HomePage = () => {
       if(selectedProduct.idProduto){
         const respUpdate = await updateProduct(submitProduct)
         if(respUpdate.error){
-          setNote({
-            message: `${respUpdate.response.response.data.detail}`,
-            show: true,
-            type: "error"
-          });
-        } else { 
-          localStorage.setItem("product-operation", "Produto vendido!");
-          setOpenModalSales(false)
-          if(currentCategory){
-            handleAllButtonsValue(currentCategory)
-          }
+            setNote({
+              message: `${respUpdate.response.response.data.detail}`,
+              show: true,
+              type: "error"
+            });
+          } else { 
+            setNote({
+              message: "Foi adicionado quantidade ao produto com sucesso!",
+              show: true,
+              type: "success"
+            });
+            setOpenModalSales(false)
+            if(currentCategory){
+              handleAllButtonsValue(currentCategory)
+            }
         }
       }
       setLoading(false)
@@ -283,7 +287,14 @@ const HomePage = () => {
         type: "error"
       });
     } else {
-      getProducts();
+      setNote({
+        show: true,
+        message: "O produto foi excluído com sucesso!",
+        type: "success"
+      });
+      if(currentCategory){
+              handleAllButtonsValue(currentCategory)
+      }
     }
 
     setLoading(false);
@@ -296,15 +307,20 @@ const HomePage = () => {
 
     if (data.error) {
       if(data.response.response.status === 401) navigate("/login");
-
       setNote({
         show: true,
         message: `${data.response.response.data.detail}`,
         type: "error"
       });
     }else {
-      console.log("Dados que estão sendo pegos: ", data[1])
       setDataProduct(data[1]);
+      setTimeout(() =>{
+        setNote({
+        show: true,
+        message: "Listando os produtos do tipo: " + value,
+        type: "success"
+        });
+      }, 1500)
     }
 
     setLoading(false);
@@ -353,18 +369,18 @@ const HomePage = () => {
     setRangeList(0, 10);
   }, [dataProduct]);
 
-  useEffect(() => {
-    // getProducts();
+  // useEffect(() => {
+  //   // getProducts();
     
-    if(localStorage.getItem("product-operation")) {
-      setNote({
-        show: true,
-        message: `${localStorage.getItem("product-operation")}`,
-        type: "success"
-      });
-      localStorage.removeItem("product-operation");
-    }
-  }, []);
+  //   if(localStorage.getItem("product-operation")) {
+  //     setNote({
+  //       show: true,
+  //       message: `${localStorage.getItem("product-operation")}`,
+  //       type: "success"
+  //     });
+  //     localStorage.removeItem("product-operation");
+  //   }
+  // }, []);
 
   return (
     <>
@@ -635,8 +651,6 @@ const HomePage = () => {
           </Table>
         </div>
       </div>
-      
-        
 
       <DeleteModal
         description='Tem certeza que deseja deletar este item? Ao fazer isso todos os registros relacionados a ele serão deletados também!'
@@ -659,7 +673,6 @@ const HomePage = () => {
        />
       )}
       
-
       <AddModal
         titleProduct={`${selectedProduct?.nome}`}
         open={isOpenModalAdd}
@@ -682,6 +695,7 @@ const HomePage = () => {
       {
         loading && <Loading/>
       }
+
       <Notification 
         note={note}
         setNote={setNote}

@@ -103,19 +103,24 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
                     type: "error"
                 })
             }
+
+            if(respUpdate.error, addTotalAndTypeV.error, addTipoVendaGraficoS.error === false){
+                setNote({
+                    message: "Venda realizada com sucesso, produto atualizado!",
+                    show: true,
+                    type: "success"
+                })
+            }
         }
 
-        clearCart();
-        setNote({
-                message: "Produto vendido com sucesso!",
-                show: true,
-                type: "success"
-              });
-        if(currentCategory){
-            handleAllButtonsValue(currentCategory)
-        }
-        setLoading(false)
-        onClose()
+        setTimeout(() =>{
+            clearCart();
+            if(currentCategory){
+                handleAllButtonsValue(currentCategory)
+            }
+            setLoading(false)
+            onClose()
+        }, 1500)
       };
 
      console.log("isOpen: ", isOpen)
@@ -129,6 +134,7 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
     }, [total])
 
     return(
+        <>
         <div id="cartSidebar" className={isOpen ? 'open' : ''}>
             <div id="button-and-title">
                 <h2 id="cartTitle">Carrinho</h2>
@@ -149,16 +155,16 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
                             </li>
                         ))}
                     </ul>
-                    
+
                     <div id="radiobutton-together">
                         <div id="radiobutton-class">
-                            <RadioButton title="Pix" selectedValue={selectedPayment} onChange={handleRadioChange}/>Pix
-                            <RadioButton title="Cartão de crédito" selectedValue={selectedPayment} onChange={handleRadioChange}/>Cartão de crédito
-                            <RadioButton title="Cartão de debito" selectedValue={selectedPayment} onChange={handleRadioChange}/>Cartão de debito
+                            <RadioButton title="Pix" selectedValue={selectedPayment} onChange={handleRadioChange} />Pix
+                            <RadioButton title="Cartão de crédito" selectedValue={selectedPayment} onChange={handleRadioChange} />Cartão de crédito
+                            <RadioButton title="Cartão de debito" selectedValue={selectedPayment} onChange={handleRadioChange} />Cartão de debito
                         </div>
                         <div id="radiobutton-class">
-                            <RadioButton title="Fiado" selectedValue={selectedPayment} onChange={handleRadioChange}/>Fiado 
-                            <RadioButton title="Dinheiro" selectedValue={selectedPayment} onChange={handleRadioChange}/>Dinheiro
+                            <RadioButton title="Fiado" selectedValue={selectedPayment} onChange={handleRadioChange} />Fiado
+                            <RadioButton title="Dinheiro" selectedValue={selectedPayment} onChange={handleRadioChange} />Dinheiro
                         </div>
                     </div>
                     <div id="total-close">
@@ -166,18 +172,12 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
                         <button onClick={handleSellProduct} id="checkoutButton" disabled={cart.length === 0}> Finalizar Venda </button>
                     </div>
                 </>
-            )
-
-            }
-
-            <Notification 
-                note={note}
-                setNote={setNote}
-            />
-            
+            )}
         </div>
-
-        
+        <Notification
+            note={note}
+            setNote={setNote} />
+        </>
     )
 }
 

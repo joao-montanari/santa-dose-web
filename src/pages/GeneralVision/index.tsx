@@ -159,14 +159,12 @@ const GeneralVision = () => {
         handleGetMonthProfit()
         handleGetTypeAndValue()
         hangleGetSalesAndType()
-        if(localStorage.getItem("product-operation")) {
-            setNote({
+        setNote({
                 show: true,
-                message: `${localStorage.getItem("product-operation")}`,
+                message: "Os valores dos gráficos foram setados com sucesso!",
                 type: "success"
             });
-            localStorage.removeItem("product-operation")
-        }
+        
     }, []);
     
 
