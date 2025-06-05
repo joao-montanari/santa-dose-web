@@ -1,19 +1,13 @@
 import { useCart } from "@Components/CartContext";
 import React, {  Dispatch, SetStateAction, useEffect, useState } from "react";
 import "./style.sass"
-import { addTotalAndType, updateProduct } from "@Api/services/products";
+import { addSalesAndType, addTotalAndType, updateProduct } from "@Api/services/products";
 import RadioButton from "@Components/RadioButton";
-
-type NotificationType = {
-  message: string;
-  show: boolean;
-  type: "info" | "success" | "error" | "warning";
-};
+import Notification, { NotificationType } from '@Components/Notification';
 
 interface CartSideBarProps {
     isOpen: boolean,
     onClose: () => void;
-    setNote: Dispatch<SetStateAction<NotificationType>>;
     setLoading: Dispatch<SetStateAction<boolean>>;
     currentCategory: string | null;
     handleAllButtonsValue: (category : string) => void;
@@ -22,7 +16,6 @@ interface CartSideBarProps {
 const CartsideBar: React.FC<CartSideBarProps> = ({ 
     isOpen,
     onClose,
-    setNote, 
     setLoading,
     handleAllButtonsValue,
     currentCategory
@@ -33,6 +26,11 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
     const total = cart.reduce((sum, item) => sum + (item.product.valor_venda ?? 0) * item.quantidade, 0);
     const [selectedPayment, setSelectedPayment] = useState<string>("")
     const [valorTotal, setValorTotal] = useState<number>(0)
+    const [note, setNote] = useState<NotificationType>({
+        message: "",
+        show: false,
+        type: "info"
+      });
 
     const handleRadioChange = (value : string) =>{
         setSelectedPayment(value)
@@ -72,8 +70,13 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
                 produto: item.product.nome
             }
 
+            const addTipoVendaGrafico = {
+                tipo : selectedPayment
+            }
+
             const respUpdate = await updateProduct(updatedProduct);
             const addTotalAndTypeV = await addTotalAndType(addTotalWType);
+            const addTipoVendaGraficoS = await addSalesAndType(addTipoVendaGrafico);
 
             if(respUpdate.error){
                 setNote({
@@ -91,6 +94,14 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
                 });
                 setLoading(false);
                 return;
+            }
+
+            if(addTipoVendaGraficoS.error){
+                setNote({
+                    message: `${addTipoVendaGraficoS.response.response.data.detail}`,
+                    show: true,
+                    type: "error"
+                })
             }
         }
 
@@ -158,7 +169,15 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
             )
 
             }
+
+            <Notification 
+                note={note}
+                setNote={setNote}
+            />
+            
         </div>
+
+        
     )
 }
 

@@ -8,16 +8,18 @@ import ChartColumn from '@Components/charts/Column';
 
 import './style.sass';
 import { useEffect, useState } from 'react';
-import { getMonthValue, getTypeAndQuantity } from '@Api/services/products';
+import { getMonthValue, getSalesAndType, getTypeAndQuantity } from '@Api/services/products';
 import Notification, { NotificationType } from '@Components/Notification';
 import Loading from '@Components/Loading';
 import getPhotoUser from '@Api/services/getPhotoUser';
+import ChartPizza from '@Components/charts/Pizza';
 
 const GeneralVision = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false)
     const [dataProduct, setDataProduct] = useState<{ month: string; value: number}[]>([])
     const [dataConsts, setDataConsts] = useState<{produto: string; quantidade: number}[]>([])
+    const [data, setData] = useState<{ tipo: string; quantidade: number}[]>([])
     
     const [note, setNote] = useState<NotificationType>({
         message: "",
@@ -28,6 +30,43 @@ const GeneralVision = () => {
     const logout = () => {
         localStorage.removeItem("token");
         navigate('/login');
+    }
+
+    async function hangleGetSalesAndType(){
+        try{
+            setLoading(true)
+            const data = await getSalesAndType()
+
+            if(data.error){
+                if(data.response.response.status === 401) navigate("/login");
+
+                setNote({
+                    show: true,
+                    message: `${data.response.response.data.detail}`,
+                    type: "error"
+                })
+            } else { 
+                const vendas = data[1]
+                console.log("Dadosss: ", vendas)
+                //Agrupando os tipos de venda
+                const contagemPorTipo: { [key: string]: number} = {};
+
+                vendas.forEach((venda: {tipo: string}) =>{
+                    const tipo = venda.tipo;
+                    contagemPorTipo[tipo] = (contagemPorTipo[tipo] || 0) + 1;
+                })
+
+                //Converter para o gráfico
+                const chartData = Object.entries(contagemPorTipo).map(([tipo, quantidade]) => ({
+                    tipo,
+                    quantidade,
+                }));
+
+                setData(chartData)
+            }
+        }catch (error){
+            console.log("Erro ao buscar dados: ", error)
+        }
     }
 
     async function handleGetMonthProfit() { 
@@ -119,6 +158,7 @@ const GeneralVision = () => {
     useEffect(() =>{
         handleGetMonthProfit()
         handleGetTypeAndValue()
+        hangleGetSalesAndType()
         if(localStorage.getItem("product-operation")) {
             setNote({
                 show: true,
@@ -159,6 +199,8 @@ const GeneralVision = () => {
                 data={dataProduct}
                 title='Lucro obtido por mês'
             />
+
+            <ChartPizza data={data}/>
 
             {loading && <Loading/>}
 

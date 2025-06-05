@@ -21,7 +21,7 @@
     "react-modal": "^3.16.3",
     "react-router-dom": "^6.22.3",
     "react-select": "^5.8.0",
-    "recharts": "^2.12.7",
+    "recharts": "^2.15.3",
     "sheetjs-style": "^0.15.8",
     "swiper": "^11.2.1",
     "xlsx": "^0.18.5"

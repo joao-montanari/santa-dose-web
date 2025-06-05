@@ -3,6 +3,7 @@ import { selectMethod } from '@Api/methods';
 import { findRouter }  from '@Api/mapRouters';
 import { MonthElements } from '@Models/monthsValue';
 import { TotalSellAndType } from '@Models/totalSellAndType';
+import { SallesAndTypee } from '@Models/SallesAndType';
 
 export async function createProduct(product : Product) {
     let request = await findRouter("postProduct");
@@ -36,6 +37,15 @@ export async function getProductByName(product: string) {
 
 export async function getMonthValue(){
     let request = await findRouter("getMonthValues");
+
+    return selectMethod(
+        request.router,
+        request.method,
+    )
+}
+
+export async function getSalesAndType(){
+    let request = await findRouter("getSalesAndType");
 
     return selectMethod(
         request.router,
@@ -89,6 +99,16 @@ export async function addTotalAndType(typeandtotal : TotalSellAndType) {
         request.router,
         request.method,
         typeandtotal
+    );
+}
+
+export async function addSalesAndType(salesandtype : SallesAndTypee) { 
+    let request = await findRouter("addSalesAndType");
+
+    return selectMethod(
+        request.router,
+        request.method,
+        salesandtype
     );
 }
 
