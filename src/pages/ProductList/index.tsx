@@ -13,7 +13,7 @@ import Loading from '@Components/Loading';
 import Menu, { OptionMenuType } from '@Components/Menu';
 import Notification, { NotificationType } from '@Components/Notification';
 
-import { listProducts, deleteProduct, getProductByName, updateProduct } from '@Api/services/products';
+import { deleteProduct, getProductByName, updateProduct } from '@Api/services/products';
 import { Product } from '@Models/product';
 
 import { exportExcelProduct } from '@Utils/exportExcel';
@@ -69,7 +69,7 @@ const HomePage = () => {
     type: "info"
   });
 
-  const [results, setResults] = useState<Product[]>();
+  const [results, _setResults] = useState<Product[]>();
   const [productList, setProductList] = useState<Product[]>([]);
   const [dataProduct, setDataProduct] = useState<Product[]>([]);
 
@@ -247,17 +247,21 @@ const HomePage = () => {
       if(selectedProduct.idProduto){
         const respUpdate = await updateProduct(submitProduct)
         if(respUpdate.error){
-          setNote({
-            message: `${respUpdate.response.response.data.detail}`,
-            show: true,
-            type: "error"
-          });
-        } else { 
-          localStorage.setItem("product-operation", "Produto vendido!");
-          setOpenModalSales(false)
-          if(currentCategory){
-            handleAllButtonsValue(currentCategory)
-          }
+            setNote({
+              message: `${respUpdate.response.response.data.detail}`,
+              show: true,
+              type: "error"
+            });
+          } else { 
+            setNote({
+              message: "Foi adicionado quantidade ao produto com sucesso!",
+              show: true,
+              type: "success"
+            });
+            setOpenModalSales(false)
+            if(currentCategory){
+              handleAllButtonsValue(currentCategory)
+            }
         }
       }
       setLoading(false)
@@ -283,7 +287,14 @@ const HomePage = () => {
         type: "error"
       });
     } else {
-      getProducts();
+      setNote({
+        show: true,
+        message: "O produto foi excluído com sucesso!",
+        type: "success"
+      });
+      if(currentCategory){
+              handleAllButtonsValue(currentCategory)
+      }
     }
 
     setLoading(false);
@@ -296,53 +307,58 @@ const HomePage = () => {
 
     if (data.error) {
       if(data.response.response.status === 401) navigate("/login");
-
       setNote({
         show: true,
         message: `${data.response.response.data.detail}`,
         type: "error"
       });
     }else {
-      console.log("Dados que estão sendo pegos: ", data[1])
       setDataProduct(data[1]);
+      setTimeout(() =>{
+        setNote({
+        show: true,
+        message: "Listando os produtos do tipo: " + value,
+        type: "success"
+        });
+      }, 1500)
     }
 
     setLoading(false);
     console.log("Valor para pegar no banco: ", value)
   }
-  async function getProducts( ) {
-    setLoading(true);
-    const data = await listProducts();
+  // async function getProducts( ) {
+  //   setLoading(true);
+  //   const data = await listProducts();
 
-    if (data.error) {
-      if(data.response.response.status === 401) navigate("/login");
+  //   if (data.error) {
+  //     if(data.response.response.status === 401) navigate("/login");
 
-      setNote({
-        show: true,
-        message: `${data.response.response.data.detail}`,
-        type: "error"
-      });
+  //     setNote({
+  //       show: true,
+  //       message: `${data.response.response.data.detail}`,
+  //       type: "error"
+  //     });
 
-    } else {
-      setDataProduct(data[1]);
-    }
+  //   } else {
+  //     setDataProduct(data[1]);
+  //   }
 
-    setLoading(false);
-  }
+  //   setLoading(false);
+  // }
 
-  useEffect(() => {
-    if(!search) {
-      setResults(dataProduct);
-    } else {
-      const searchResult : Product[] = dataProduct.filter((element) => 
-        element.nome.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
-        element.data_validade.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
-        element.valor_compra.toString().indexOf(search.toLowerCase()) != -1 ||
-        element.quantidade.toString().indexOf(search.toLowerCase()) != -1
-      );
-      setResults(searchResult);
-    }
-  }, [search]);
+  // useEffect(() => {
+  //   if(!search) {
+  //     setResults(dataProduct);
+  //   } else {
+  //     const searchResult : Product[] = dataProduct.filter((element) => 
+  //       element.nome.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
+  //       element.data_validade.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
+  //       element.valor_compra.toString().indexOf(search.toLowerCase()) != -1 ||
+  //       element.quantidade.toString().indexOf(search.toLowerCase()) != -1
+  //     );
+  //     setResults(searchResult);
+  //   }
+  // }, [search]);
 
   useEffect(() => {
     setRangeList(0, 10);
@@ -353,18 +369,18 @@ const HomePage = () => {
     setRangeList(0, 10);
   }, [dataProduct]);
 
-  useEffect(() => {
-    // getProducts();
+  // useEffect(() => {
+  //   // getProducts();
     
-    if(localStorage.getItem("product-operation")) {
-      setNote({
-        show: true,
-        message: `${localStorage.getItem("product-operation")}`,
-        type: "success"
-      });
-      localStorage.removeItem("product-operation");
-    }
-  }, []);
+  //   if(localStorage.getItem("product-operation")) {
+  //     setNote({
+  //       show: true,
+  //       message: `${localStorage.getItem("product-operation")}`,
+  //       type: "success"
+  //     });
+  //     localStorage.removeItem("product-operation");
+  //   }
+  // }, []);
 
   return (
     <>
@@ -635,8 +651,6 @@ const HomePage = () => {
           </Table>
         </div>
       </div>
-      
-        
 
       <DeleteModal
         description='Tem certeza que deseja deletar este item? Ao fazer isso todos os registros relacionados a ele serão deletados também!'
@@ -659,7 +673,6 @@ const HomePage = () => {
        />
       )}
       
-
       <AddModal
         titleProduct={`${selectedProduct?.nome}`}
         open={isOpenModalAdd}
@@ -682,6 +695,7 @@ const HomePage = () => {
       {
         loading && <Loading/>
       }
+
       <Notification 
         note={note}
         setNote={setNote}
