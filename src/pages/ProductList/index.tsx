@@ -13,7 +13,7 @@ import Loading from '@Components/Loading';
 import Menu, { OptionMenuType } from '@Components/Menu';
 import Notification, { NotificationType } from '@Components/Notification';
 
-import { listProducts, deleteProduct, getProductByName, updateProduct } from '@Api/services/products';
+import { deleteProduct, getProductByName, updateProduct } from '@Api/services/products';
 import { Product } from '@Models/product';
 
 import { exportExcelProduct } from '@Utils/exportExcel';
@@ -69,7 +69,7 @@ const HomePage = () => {
     type: "info"
   });
 
-  const [results, setResults] = useState<Product[]>();
+  const [results, _setResults] = useState<Product[]>();
   const [productList, setProductList] = useState<Product[]>([]);
   const [dataProduct, setDataProduct] = useState<Product[]>([]);
 
@@ -326,39 +326,39 @@ const HomePage = () => {
     setLoading(false);
     console.log("Valor para pegar no banco: ", value)
   }
-  async function getProducts( ) {
-    setLoading(true);
-    const data = await listProducts();
+  // async function getProducts( ) {
+  //   setLoading(true);
+  //   const data = await listProducts();
 
-    if (data.error) {
-      if(data.response.response.status === 401) navigate("/login");
+  //   if (data.error) {
+  //     if(data.response.response.status === 401) navigate("/login");
 
-      setNote({
-        show: true,
-        message: `${data.response.response.data.detail}`,
-        type: "error"
-      });
+  //     setNote({
+  //       show: true,
+  //       message: `${data.response.response.data.detail}`,
+  //       type: "error"
+  //     });
 
-    } else {
-      setDataProduct(data[1]);
-    }
+  //   } else {
+  //     setDataProduct(data[1]);
+  //   }
 
-    setLoading(false);
-  }
+  //   setLoading(false);
+  // }
 
-  useEffect(() => {
-    if(!search) {
-      setResults(dataProduct);
-    } else {
-      const searchResult : Product[] = dataProduct.filter((element) => 
-        element.nome.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
-        element.data_validade.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
-        element.valor_compra.toString().indexOf(search.toLowerCase()) != -1 ||
-        element.quantidade.toString().indexOf(search.toLowerCase()) != -1
-      );
-      setResults(searchResult);
-    }
-  }, [search]);
+  // useEffect(() => {
+  //   if(!search) {
+  //     setResults(dataProduct);
+  //   } else {
+  //     const searchResult : Product[] = dataProduct.filter((element) => 
+  //       element.nome.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
+  //       element.data_validade.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
+  //       element.valor_compra.toString().indexOf(search.toLowerCase()) != -1 ||
+  //       element.quantidade.toString().indexOf(search.toLowerCase()) != -1
+  //     );
+  //     setResults(searchResult);
+  //   }
+  // }, [search]);
 
   useEffect(() => {
     setRangeList(0, 10);

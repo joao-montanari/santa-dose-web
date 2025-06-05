@@ -1,7 +1,6 @@
 import Modal from "@Components/Modal"
 import { useState } from "react"
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Notification, { NotificationType } from '@Components/Notification';
 
 const AddModal = ({
     isOpen, 
