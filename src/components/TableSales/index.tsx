@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import './style.sass';
 
 const TableSales = (
@@ -8,10 +8,13 @@ const TableSales = (
       salesColumTitle,
       totalLabel,
       daysInMonth,
+      nameAccount,
       onDayValueChange,
       titleNamesSpun,
       onTotalChange,
       initialSales,
+      sales,
+      setSales
 
     }
      : {
@@ -20,15 +23,15 @@ const TableSales = (
         salesColumTitle ?: string,
         totalLabel?: string,
         daysInMonth : number,
+        nameAccount?: string,
         titleNamesSpun?: string, 
         onDayValueChange ?: (day: number, value: number) => void
         onTotalChange?: (total: number) => void,
-        initialSales?: {dia: string, mes: string, valor: string}[];
+        initialSales?: {dia: string, mes: string, valor: string, motivo: string}[];
+        sales?: {day : string; value: string; reason: string}[],
+        setSales?: React.Dispatch<React.SetStateAction<{ day: string; value: string; reason: string}[]>>
     })  =>{
     //Estado para armazenar os valores de cada dia do mês
-    const [sales, setSales] = useState<{ day: string; value: string }[]>([]);
-
-    
 
     useEffect(() => {
         if (initialSales && daysInMonth > 0) {
@@ -36,37 +39,50 @@ const TableSales = (
                 const existingValue = initialSales.find(item => Number(item.dia) === i + 1);
                 return {
                     day: (i + 1).toString(),
+                    reason: existingValue ? existingValue.motivo : "",
                     value: existingValue ? existingValue.valor : "", 
                 };
             });
     
             console.log("Valores carregados em TableSales:", newSales);
-            setSales(newSales);
+            if(setSales){
+                setSales(newSales);
+            }
         }
-    }, [initialSales, daysInMonth]); 
+    }, [ daysInMonth]); 
     //Mudando os valores nos inputs
-    const handleInputChange = (index: number, value: string) => {
-        const sanitizedValue = value.replace(/[^0-9.]/g, "");
+    const handleInputChange = (index: number, field: "value" | "reason" | "day", inputValue: string) => {
 
-        setSales((prevSales) => {
-            const updatedSales = [...prevSales];
-            updatedSales[index] = { ...updatedSales[index], value: sanitizedValue };
+        if(setSales){
+            setSales((prevSales) => {
+                const updatedSales = [...prevSales];
 
-            const numericValue = sanitizedValue === "" ? 0 : parseInt(sanitizedValue, 10);
-
-            // Aguarde a renderização antes de atualizar o estado do pai
-            setTimeout(() => {
-                if (onDayValueChange) {
-                    onDayValueChange(index + 1, numericValue);
+                let sanitizedValue = inputValue;
+                if(field === "value"){
+                    const sanitizedValue = inputValue.replace(/[^0-9.]/g, "");
+                    console.log(sanitizedValue)
                 }
-                if (onTotalChange) {
-                    const total = calculateTotal(updatedSales);
-                    onTotalChange(total);
-                }
-            }, 0);
 
-            return updatedSales;
-        });
+                updatedSales[index] = { ...updatedSales[index], [field]: sanitizedValue,};
+
+                
+                if(field === "value"){
+                        const numericValue = sanitizedValue === "" ? 0 : parseInt(sanitizedValue, 10);
+                        setTimeout(() => {
+                        if (onDayValueChange) {
+                            onDayValueChange(index + 1, numericValue);
+                        }
+                        if (onTotalChange) {
+                            const total = calculateTotal(updatedSales);
+                            onTotalChange(total);
+                        }
+                    }, 0);
+                }
+                // Aguarde a renderização antes de atualizar o estado do pai
+                return updatedSales;
+            });
+        }
+        
           
         // clearTimeout(inputTimeout);
         // inputTimeout = setTimeout(() =>{
@@ -106,22 +122,24 @@ const TableSales = (
                     <thead>
                         <tr>
                             <th>{dayColumnTitle}</th>
+                            {nameAccount && <th>{nameAccount}</th>}                            
                             {titleNamesSpun && <th>{titleNamesSpun}</th>}
                             <th>{salesColumTitle}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {sales.map((sale, i) => (
+                        {sales && sales.map((sale, i) => (
                             <tr key={i}>
                                 <td>{i + 1}</td>
-                                {titleNamesSpun && <td><input className="input-style-table" type="text" value={sale.day} onChange={(e) => handleInputChange(i, e.target.value)} /></td>}
-                                <td><input className="input-style-table" value={sale.value || 0} onChange={(e) => handleInputChange(i, e.target.value)} /></td>
+                                {titleNamesSpun && <td><input className="input-style-table" type="text" value={sale.day} onChange={(e) => handleInputChange(i, "day", e.target.value)} /></td>}
+                                {nameAccount && <td><input className="input-style-table" type="text" value={sale.reason} onChange={(e) => handleInputChange(i, "reason", e.target.value)} /></td>}
+                                <td><input className="input-style-table" value={sale.value || 0} onChange={(e) => handleInputChange(i, "value", e.target.value)} /></td>
                             </tr>
                         ))}
                         <tr>
                             <td>{totalLabel}</td>
                             {titleNamesSpun && <td>Fim</td>}
-                            <td>{calculateTotal(sales).toFixed(2)}</td>
+                            <td>{calculateTotal(sales ?? []).toFixed(2)}</td>
                         </tr>
                     </tbody>
                 </table>
