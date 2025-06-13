@@ -243,6 +243,7 @@ const ExpensesCard = () => {
                         dia: key.split("-")[1], // Extrai o dia da chave "mes-dia"
                         mes: product.tipo, // Usa o mês selecionado 
                         valor: valor ? valor.toString() : "0", 
+                        motivo: ""
                     }))}
              />
 

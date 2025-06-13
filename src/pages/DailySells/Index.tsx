@@ -254,6 +254,7 @@ const DailySells = () =>{
                         dia: key.split("-")[1], // Extrai o dia da chave "mes-dia"
                         mes: product.tipo, // Usa o mês selecionado 
                         valor: valor ? valor.toString() : "0",
+                        motivo: "",
                     }))} /><div id="buttons-align">
                 <div id="buttons-justify">
                     <Button title="Pegar Valores Salvos No Mês" onClick={getDailySells} />
