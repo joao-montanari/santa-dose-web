@@ -19,6 +19,7 @@ const ExpensesCard = () => {
     const [product, setProduct] = useState({tipo: '', dia: 0});
     const [loading, setLoading] = useState(false)
     const [monthsTotal, setMonthsTotal] = useState<Record<string, number>>({});
+    const [sales, setSales] = useState<{day: string, value: string, reason: string, card?: string}[]>([])
     
     const [note, setNote] = useState<NotificationType>({
         message: "",
@@ -74,7 +75,10 @@ const ExpensesCard = () => {
                 .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
                 .map(([key, valor]) => {
                     const dia = key.split("-")[1]; // Extrai o dia da chave "mes-dia"
-                    return { mes: product.tipo, dia: Number(dia), valor };
+                    const sale = sales.find((s) => s.day === dia);
+                    const reason = sale?.reason || "";
+                    const cards = sale?.card || "";
+                    return { mes: product.tipo, dia: Number(dia), valor, cartao: cards, motivo: reason};
                 });
 
     
@@ -174,21 +178,43 @@ const ExpensesCard = () => {
         setLoading(true)
         try{
             const response = await getCardDaysExpensesValue(product.tipo);
-            console.log("Valores de initialSales antes de passar para a tabela: ", Object.entries(monthsTotal)
-                .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
-                .map(([key, valor]) => ({
-                    dia: key.split("-")[1], // Extrai o dia da chave "mes-dia"
-                    mes: product.tipo, // Usa o mês selecionado 
-                    valor: valor ? valor.toString() : "0", 
-            })))
-            if(response){
-                const novosValores: Record<string, number> = {};
-                response[1].forEach((registro: {dia: number, valor: number}) => {
-                novosValores[`${product.tipo}-${registro.dia}`] = registro.valor;
+            const novosGastos: { day: string; value: string; reason: string, card: string}[] = []
+            const novosValores: Record<string, number> = {}
+
+            for(let i = 1; i <= 31; i++){
+                const registro = response[1]?.find((r: {dia : number}) => r.dia === i);
+
+                // response[1].forEach((registro: {dia: number, valor: number, motivo?: string}) => {
+                    // novosValores[`${product.tipo}-${registro.dia}`] = registro.valor;
+                novosGastos.push({
+                        day: i.toString(),
+                        value: registro ? registro.valor.toString() : "",
+                        reason: registro ? registro.motivo || "" : "",
+                        card: registro ? registro.cartao || "" : ""
                 });
 
+                if(registro){
+                    novosValores[`${product.tipo}-${i}`] = registro.valor;
+                    }
+                }
+
+                setSales(novosGastos)
                 setMonthsTotal(novosValores)
-        }
+        //     console.log("Valores de initialSales antes de passar para a tabela: ", Object.entries(monthsTotal)
+        //         .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
+        //         .map(([key, valor]) => ({
+        //             dia: key.split("-")[1], // Extrai o dia da chave "mes-dia"
+        //             mes: product.tipo, // Usa o mês selecionado 
+        //             valor: valor ? valor.toString() : "0", 
+        //     })))
+        //     if(response){
+        //         const novosValores: Record<string, number> = {};
+        //         response[1].forEach((registro: {dia: number, valor: number}) => {
+        //         novosValores[`${product.tipo}-${registro.dia}`] = registro.valor;
+        //         });
+
+        //         setMonthsTotal(novosValores)
+        // }
         }catch (error){
             setNote({
                 message: "Erro ao carregar os valores do mês",
@@ -234,6 +260,8 @@ const ExpensesCard = () => {
                 dayColumnTitle="Dias"
                 salesColumTitle="Valores Cartão"
                 totalLabel="Total Do Mês"
+                cardExpense="Cartão"
+                nameAccount="Motivo Gasto"
                 daysInMonth={31}
                 onTotalChange={handleTotalChange}
                 onDayValueChange={handleDayValueChange}
@@ -243,8 +271,11 @@ const ExpensesCard = () => {
                         dia: key.split("-")[1], // Extrai o dia da chave "mes-dia"
                         mes: product.tipo, // Usa o mês selecionado 
                         valor: valor ? valor.toString() : "0", 
-                        motivo: ""
+                        motivo: "",
+                        card: ""
                     }))}
+                sales={sales}
+                setSales={setSales}
              />
 
             <div id="buttons-align">
