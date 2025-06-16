@@ -32,9 +32,9 @@ export async function getMonthValue(){
     )
 }
 
-export async function getDaysMonthValue(mes: string){
+export async function getDaysMonthValue(mes: string, tipo_venda: string){
     let request = await findRouter("getDaysMonthValues");
-    let url: string = `${request.router}${mes}`
+    let url: string = `${request.router}${mes}/${tipo_venda}`
 
     return selectMethod(
         url,
