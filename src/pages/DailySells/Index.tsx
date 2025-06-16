@@ -21,6 +21,7 @@ const DailySells = () =>{
     const [product, setProduct] = useState({tipo: '', dia: 0});
     const [loading, setLoading] = useState(false)
     const [monthsTotal, setMonthsTotal] = useState<Record<string, number>>({});
+    const [sales, setSales] = useState<{day: string, value: string, reason: string}[]>([])
     
     const [note, setNote] = useState<NotificationType>({
         message: "",
@@ -79,7 +80,9 @@ const DailySells = () =>{
                 .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
                 .map(([key, valor]) => {
                     const dia = key.split("-")[1]; // Extrai o dia da chave "mes-dia"
-                    return { mes: product.tipo, dia: Number(dia), valor };
+                    // const sale = sales.find((s) => s.day === dia);
+                    const reason = "";
+                    return { mes: product.tipo, dia: Number(dia), valor, motivo: reason};
                 });
 
     
@@ -179,21 +182,42 @@ const DailySells = () =>{
         setLoading(true)
         try{
             const response = await getDaysMonthValue(product.tipo);
-            console.log("Valores de initialSales antes de passar para a tabela: ", Object.entries(monthsTotal)
-                .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
-                .map(([key, valor]) => ({
-                    dia: key.split("-")[1], // Extrai o dia da chave "mes-dia"
-                    mes: product.tipo, // Usa o mês selecionado 
-                    valor: valor ? valor.toString() : "0", 
-            })))
-            if(response){
-                const novosValores: Record<string, number> = {};
-                response[1].forEach((registro: {dia: number, valor: number}) => {
-                novosValores[`${product.tipo}-${registro.dia}`] = registro.valor;
+            const novosGastos: { day: string; value: string; reason: string}[] = []
+            const novosValores: Record<string, number> = {}
+
+            for(let i = 1; i <= 31; i++){
+                const registro = response[1]?.find((r: {dia : number}) => r.dia === i);
+
+                // response[1].forEach((registro: {dia: number, valor: number, motivo?: string}) => {
+                    // novosValores[`${product.tipo}-${registro.dia}`] = registro.valor;
+                novosGastos.push({
+                        day: i.toString(),
+                        value: registro ? registro.valor.toString() : "",
+                        reason: registro ? registro.motivo || "" : ""
                 });
 
+                if(registro){
+                    novosValores[`${product.tipo}-${i}`] = registro.valor;
+                    }
+                }
+
+                setSales(novosGastos)
                 setMonthsTotal(novosValores)
-        }
+        //     console.log("Valores de initialSales antes de passar para a tabela: ", Object.entries(monthsTotal)
+        //         .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
+        //         .map(([key, valor]) => ({
+        //             dia: key.split("-")[1], // Extrai o dia da chave "mes-dia"
+        //             mes: product.tipo, // Usa o mês selecionado 
+        //             valor: valor ? valor.toString() : "0", 
+        //     })))
+        //     if(response){
+        //         const novosValores: Record<string, number> = {};
+        //         response[1].forEach((registro: {dia: number, valor: number}) => {
+        //         novosValores[`${product.tipo}-${registro.dia}`] = registro.valor;
+        //         });
+
+        //         setMonthsTotal(novosValores)
+        // }
         }catch (error){
             setNote({
                 message: "Erro ao carregar os valores do mês",
@@ -255,7 +279,11 @@ const DailySells = () =>{
                         mes: product.tipo, // Usa o mês selecionado 
                         valor: valor ? valor.toString() : "0",
                         motivo: "",
-                    }))} /><div id="buttons-align">
+                        card: ""
+                    }))} 
+                    sales={sales}
+                    setSales={setSales}
+                    /><div id="buttons-align">
                 <div id="buttons-justify">
                     <Button title="Pegar Valores Salvos No Mês" onClick={getDailySells} />
                     <Button title="Salvar Valores Do Dia" onClick={handleSubmitValuesDay} />
