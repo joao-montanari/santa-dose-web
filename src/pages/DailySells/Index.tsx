@@ -2,7 +2,7 @@ import TableSales from "@Components/TableSales"
 import Title from "@Components/Title"
 import "./style.sass"
 import SelectOption from "@Components/SelectOption"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { month_select } from "@Utils/selectsMonths.const"
 import { OptionSelect } from "@Utils/optionSelect"
 import Notification from "@Components/Notification"
@@ -15,9 +15,11 @@ import Menu, { OptionMenuType } from "@Components/Menu"
 import { AccountBox, LockReset, Logout } from "@mui/icons-material"
 import { addDaysMonthValue, getDaysMonthValue } from "@Api/services/fiadosMes"
 import getPhotoUser from "@Api/services/getPhotoUser"
+import { sell_type_select } from "@Utils/selectTypeSale.const"
 
 const DailySells = () =>{
     const navigate = useNavigate()
+    const [productFull, setProductFull] = useState({tipo: ''});
     const [product, setProduct] = useState({tipo: '', dia: 0});
     const [loading, setLoading] = useState(false)
     const [monthsTotal, setMonthsTotal] = useState<Record<string, number>>({});
@@ -42,6 +44,13 @@ const DailySells = () =>{
         }));
     }
 
+    const changeTypeSell = (key : string, value : string | number) => {
+        setProductFull(prevState => ({
+            ...prevState, 
+            [key] : value
+        }));
+    }
+
     const handleTotalChange = (total : number) =>{
         if(product.tipo) {
             setMonthsTotal((prev) => ({
@@ -55,10 +64,10 @@ const DailySells = () =>{
 
     
     const handleDayValueChange = (dia: number, valor: number) => {
-        if (product.tipo) {
+        if (product.tipo && productFull.tipo) {
             setMonthsTotal((prev) => ({
                 ...prev,
-                [`${product.tipo}-${dia}`]: valor,
+                [`${product.tipo}-${productFull.tipo}-${dia}`]: valor,
             }));
         }
     };  
@@ -72,20 +81,30 @@ const DailySells = () =>{
             });
             return;
         }
+
+        if (!productFull.tipo) {
+            setNote({
+                message: "Selecione um tipo de pagamento antes de enviar os valores do dia",
+                show: true,
+                type: "warning",
+            });
+            return;
+        }
     
         setLoading(true);
     
         try {
             const registrosDiarios = Object.entries(monthsTotal)
-                .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
+                .filter(([key]) => key.startsWith(`${product.tipo}-${productFull.tipo}-`)) // Filtra apenas os valores do mês selecionado
                 .map(([key, valor]) => {
-                    const dia = key.split("-")[1]; // Extrai o dia da chave "mes-dia"
+                    const dia = key.split("-")[2]; // Extrai o dia da chave "mes-dia"
                     // const sale = sales.find((s) => s.day === dia);
                     const reason = "";
-                    return { mes: product.tipo, dia: Number(dia), valor, motivo: reason};
+                    
+                    return { mes: product.tipo, dia: Number(dia), valor, motivo: reason, tipo_venda: productFull.tipo};
                 });
 
-    
+            console.log("Como está indo: ", registrosDiarios)
             for (const registro of registrosDiarios) {
             console.log("Dados enviados: ", registro)
 
@@ -178,10 +197,27 @@ const DailySells = () =>{
     }
 
     async function getDailySells(){
-        if(!product.tipo) return;
+        if (!product.tipo) {
+            setNote({
+                message: "Selecione um mês antes de enviar os valores do dia",
+                show: true,
+                type: "warning",
+            });
+            return;
+        }
+
+        if (!productFull.tipo) {
+            setNote({
+                message: "Selecione um tipo de pagamento antes de enviar os valores do dia",
+                show: true,
+                type: "warning",
+            });
+            return;
+        }
         setLoading(true)
         try{
-            const response = await getDaysMonthValue(product.tipo);
+            const response = await getDaysMonthValue(product.tipo, productFull.tipo);
+            console.log("Valores: ", response[1])
             const novosGastos: { day: string; value: string; reason: string}[] = []
             const novosValores: Record<string, number> = {}
 
@@ -250,7 +286,14 @@ const DailySells = () =>{
                     value={month_select.find((month) => month.value === product.tipo) || { value: '', label: '' }}
                     setValue={(selected: OptionSelect) => changeProduct('tipo', selected.value)}
                     selectList={month_select}
-                    width="45%" />
+                    width="23%" />
+                
+                <SelectOption
+                    title="Tipo de Pagamento"
+                    value={sell_type_select.find((type) => type.value === productFull.tipo) || { value: '', label: ''}}
+                    setValue={(selected: OptionSelect) => changeTypeSell('tipo', selected.value)}
+                    selectList={sell_type_select}
+                    width="23%" />
 
                 <Menu
                         icon={<img src={getPhotoUser()} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}} />}
