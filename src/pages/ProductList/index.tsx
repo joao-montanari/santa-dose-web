@@ -201,21 +201,21 @@ const HomePage = () => {
       console.log("Valor", button)
   }
 
-  const setRangeList = (start : number, amount : number) => {
-    const rangeList: Product[] = [];
-    const dataBase = search && results ? results : dataProduct;
+  // const setRangeList = (start : number, amount : number) => {
+  //   const rangeList: Product[] = [];
+  //   const dataBase = search && results ? results : dataProduct;
 
-    if (start < dataBase.length && start >= 0) {
-      for (let index = 0; index < amount; index++) {
-        if (start + index < dataBase.length) {
-          const product = dataBase[start + index];
-          rangeList.push(product);
-        }
-      }
-      setStartPage(start);
-      setProductList(rangeList);
-    }
-  }
+  //   if (start < dataBase.length && start >= 0) {
+  //     for (let index = 0; index < amount; index++) {
+  //       if (start + index < dataBase.length) {
+  //         const product = dataBase[start + index];
+  //         rangeList.push(product);
+  //       }
+  //     }
+  //     setStartPage(start);
+  //     setProductList(rangeList);
+  //   }
+  // }
 
   async function handleAddProduct(quantidadeAdd: number) {
     if(
@@ -360,13 +360,13 @@ const HomePage = () => {
   //   }
   // }, [search]);
 
-  useEffect(() => {
-    setRangeList(0, 10);
-  }, [results]);
+  // useEffect(() => {
+  //   // setRangeList(0, 10);
+  // }, [results]);
 
   useEffect(() => {
     setProductList(dataProduct);
-    setRangeList(0, 10);
+    // setRangeList(0, 10);
   }, [dataProduct]);
 
   // useEffect(() => {
@@ -597,8 +597,6 @@ const HomePage = () => {
 
       <div>
         <Table
-          onNextPage={() => setRangeList(startPage + 10, 10)}
-          onReturnPage={() => setRangeList(startPage - 10, 10)}
           onExportData={() => exportExcelProduct(dataProduct, "Lista de Produtos")}
           columns={[...(user?.is_admin ? ["Editar Produto"] : []),"Nome", "Validade", "Quantidade", "Valor Venda", ...(user?.is_admin ? ["% Ganho No Produto"] : []), "Vender Produto", "Adicionar Produto", "Excluir Produto" ]}//adiciona apenas se for admin 
           title="Lista de produtos"

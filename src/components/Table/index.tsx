@@ -4,15 +4,11 @@ import './style.sass';
 const Table = (
     { 
         children, 
-        onNextPage, 
-        onReturnPage,
         onExportData,
         columns,
         title,
     } : { 
         children : any, 
-        onNextPage : any, 
-        onReturnPage : any,
         onExportData : any,
         columns : string[],
         title : string
@@ -41,14 +37,6 @@ const Table = (
                 <div id="table-content">
                     {children}
                 </div>
-            </div>
-            <div id="table-section-select">
-                <ArrowBackIosNew 
-                    onClick={onReturnPage}
-                />
-                <ArrowForwardIos
-                    onClick={onNextPage}
-                />
             </div>
         </div>
     )
