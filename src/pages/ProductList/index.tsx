@@ -54,7 +54,7 @@ const HomePage = () => {
   const [showButtonsDoces, setShowButtonsDoces] = useState(false)
 
   const [search, setSearch] = useState<string>('');
-  const [startPage, setStartPage] = useState<number>(0);
+  // const [startPage, setStartPage] = useState<number>(0);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [isOpenModalAdd, setOpenModalAdd] = useState<boolean>(false);
 
@@ -69,7 +69,7 @@ const HomePage = () => {
     type: "info"
   });
 
-  const [results, _setResults] = useState<Product[]>();
+  const [_results, _setResults] = useState<Product[]>();
   const [productList, setProductList] = useState<Product[]>([]);
   const [dataProduct, setDataProduct] = useState<Product[]>([]);
 

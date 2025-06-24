@@ -1,4 +1,4 @@
-import { FileDownload, ArrowBackIosNew, ArrowForwardIos } from '@mui/icons-material';
+import { FileDownload } from '@mui/icons-material';
 import './style.sass';
 
 const Table = (

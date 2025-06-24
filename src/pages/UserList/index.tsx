@@ -24,7 +24,7 @@ const UserList = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [isOpenModal, setOpenModal] = useState<boolean>(false);
     const [selectUser, setSelectUser] = useState<User>();
-    const [startPage, setStartPage] = useState<number>(0);
+    const [_startPage, setStartPage] = useState<number>(0);
     const [note, setNote] = useState<NotificationType>({
         message: "",
         show: false,
@@ -156,8 +156,6 @@ const UserList = () => {
             </div>
 
             <Table
-                onNextPage={() => setRangeList(startPage + 10, 10)}
-                onReturnPage={() => setRangeList(startPage - 10, 10)}
                 onExportData={() => exportExcelUser(dataUsers, "Lista de Usuários")}
                 columns={["E-mail", "", "", "", "","Username de login do usuário", "Administrador", "Editar/Excluir Usuário"]}
                 title="Lista de usuários"
