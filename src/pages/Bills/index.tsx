@@ -71,14 +71,27 @@ const Bills = () =>{
         setLoading(true);
     
         try {
-            const registrosDiarios = Object.entries(monthsTotal)
-                .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
-                .map(([key, valor]) => {
-                    const dia = key.split("-")[1]; // Extrai o dia da chave "mes-dia"
-                    const sale = sales.find((s) => s.day === dia);
-                    const reason = sale?.reason || "";
-                    return { mes: product.tipo, dia: Number(dia), valor, motivo: reason};
-                });
+            const registrosDiarios = sales
+            .map(({ day, value, reason }) => {
+                const numericValue = value === "" ? 0 : parseFloat(value)
+                return{
+                    mes: product.tipo,
+                    dia: Number(day),
+                    valor: numericValue,
+                    motivo: reason || ""
+
+                }
+            })
+            .filter((registro) => registro.valor !== 0 || registro.motivo !== "")
+            // const registrosDiarios = Object.entries(monthsTotal)
+            //     .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
+            //     .map(([key, valor]) => {
+            //         const dia = key.split("-")[1]; // Extrai o dia da chave "mes-dia"
+            //         const sale = sales.find((s) => s.day === dia);
+            //         const reason = sale?.reason || "";
+            //         console.log("Valor: ", valor)
+            //         return { mes: product.tipo, dia: Number(dia), valor, motivo: reason};
+            //     });
 
     
             for (const registro of registrosDiarios) {

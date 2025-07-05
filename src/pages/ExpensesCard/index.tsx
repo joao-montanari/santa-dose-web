@@ -71,15 +71,33 @@ const ExpensesCard = () => {
         setLoading(true);
     
         try {
-            const registrosDiarios = Object.entries(monthsTotal)
-                .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
-                .map(([key, valor]) => {
-                    const dia = key.split("-")[1]; // Extrai o dia da chave "mes-dia"
-                    const sale = sales.find((s) => s.day === dia);
-                    const reason = sale?.reason || "";
-                    const cards = sale?.card || "";
-                    return { mes: product.tipo, dia: Number(dia), valor, cartao: cards, motivo: reason};
-                });
+            const registrosDiarios = sales
+            .map(({ day, value, reason, card }) => {
+                const numericValue = value === "" ? 0 : parseFloat(value)
+                console.log("card: ", card)
+
+                return{
+                    mes: product.tipo,
+                    dia: Number(day),
+                    valor: numericValue,
+                    motivo: reason || "",
+                    cartao: card || ""
+
+                }
+
+            })
+
+            .filter((registro) => registro.valor !== 0 || registro.motivo !== "" || registro.cartao !== "")
+            // .filter((registro) => registro.valor !== 0 || registro.motivo !== "")
+            // const registrosDiarios = Object.entries(monthsTotal)
+            //     .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
+            //     .map(([key, valor]) => {
+            //         const dia = key.split("-")[1]; // Extrai o dia da chave "mes-dia"
+            //         const sale = sales.find((s) => s.day === dia);
+            //         const reason = sale?.reason || "";
+            //         const cards = sale?.card || "";
+            //         return { mes: product.tipo, dia: Number(dia), valor, cartao: cards, motivo: reason};
+            //     });
 
     
             for (const registro of registrosDiarios) {

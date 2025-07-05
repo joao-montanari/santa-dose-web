@@ -602,8 +602,9 @@ const HomePage = () => {
           title="Lista de produtos"
         >
           {
-            //  productList?.length > 0 && 
-            productList.map((product, index) => (
+            [...productList]
+            .sort((a,b) => (a.valor_venda ?? 0) - (b.valor_venda ?? 0))
+            .map((product, index) => (
               <ul key={index}>
                 <li style={{ minWidth: "180px", paddingLeft: "20px", justifyContent: "center"}}>{<Edit
                     onClick={() => {
