@@ -33,10 +33,6 @@ export const category_select : TypeSelect[] = [
         label: 'Cerveja 600ml Alcoólica',
     },
     {
-        value: 'Cerveja 269mlNA',
-        label: 'Cerveja 269ml Não Alcoólica',
-    },
-    {
         value: 'Cerveja 330mlNA',
         label: 'Cerveja 330ml Não Alcoólica',
     },
