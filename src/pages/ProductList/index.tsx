@@ -519,8 +519,8 @@ const HomePage = () => {
 
                 {showButtonsRefrigerante &&(
                   <>
-                    <ButtonValue title='Refrigerante Descartável 2L' valueClick="Refrigerante Descartável" onClick={() => handleAllButtonsValue("Refrigerante descartavel")}/>
-                    <ButtonValue title='Refrigerante Retornável' valueClick="Refrigerante Retornável" onClick={() => handleAllButtonsValue("Refrigerante retornavel")}/>
+                    <ButtonValue title='Refrigerante Descartável 2L' valueClick="Refrigerante Descartavel" onClick={() => handleAllButtonsValue("Refrigerante descartavel")}/>
+                    <ButtonValue title='Refrigerante Retornável' valueClick="Refrigerante Retornavel" onClick={() => handleAllButtonsValue("Refrigerante retornavel")}/>
                     <ButtonValue title='Refrigerante 1L' valueClick="Refrigerante 1L" onClick={() => handleAllButtonsValue("Refrigerante 1l")}/>
                     <ButtonValue title='Refrigerante 600ml' valueClick="Refrigerante 600ml" onClick={() => handleAllButtonsValue("Refrigerante 600ml")}/>
                     <ButtonValue title='Refrigerante 200ml' valueClick="Refrigerante 200ml" onClick={() => handleAllButtonsValue("Refrigerante 200ml")}/>
@@ -544,9 +544,9 @@ const HomePage = () => {
                 {showButtonsEnergeticos &&(
                   <>
                     <ButtonValue title='Gatorade' valueClick='Gatorade' onClick={() => handleAllButtonsValue("Gatorade")}/>
-                    <ButtonValue title='Energéticos 2L' valueClick="Energéticos 2L" onClick={() => handleAllButtonsValue("Energéticos 2l")}/>
-                    <ButtonValue title='Energéticos Lata 473ml' valueClick="Energéticos Lata 473ml" onClick={() => handleAllButtonsValue("Energéticos lata 473ml")}/>
-                    <ButtonValue title='Energéticos Lata 269ml' valueClick="Energéticos Lata 269ml" onClick={() => handleAllButtonsValue("Energéticos lata 269ml")}/>
+                    <ButtonValue title='Energéticos 2L' valueClick="Energéticos 2L" onClick={() => handleAllButtonsValue("Energeticos 2l")}/>
+                    <ButtonValue title='Energéticos Lata 473ml' valueClick="Energéticos Lata 473ml" onClick={() => handleAllButtonsValue("Energeticos lata 473ml")}/>
+                    <ButtonValue title='Energéticos Lata 269ml' valueClick="Energéticos Lata 269ml" onClick={() => handleAllButtonsValue("Energeticos lata 269ml")}/>
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsEnergeticos)}/>
                   </>
                 )}
