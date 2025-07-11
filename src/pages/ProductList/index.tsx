@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ButtonValue from '@Components/ButtonValue';
 import Title from '@Components/Title';
 import Table from '@Components/Table';
@@ -599,6 +600,12 @@ const HomePage = () => {
           onExportData={() => exportExcelProduct(dataProduct, "Lista de Produtos")}
           columns={[...(user?.is_admin ? ["Editar Produto"] : []),"Nome", "Validade", "Quantidade", "Valor Venda", ...(user?.is_admin ? ["% Ganho No Produto"] : []), "Vender Produto", "Adicionar Produto", "Excluir Produto" ]}//adiciona apenas se for admin 
           title="Lista de produtos"
+          cartSales={<ShoppingCartIcon style={{ width: "40px", height: "100%" }} onClick={() => {
+                        setIsCartOpen(true)
+                        {isCartOpen &&(
+                          setIsCartOpen(false)
+                        )}
+                      }}/>}
         >
           {
             [...productList]
@@ -635,6 +642,16 @@ const HomePage = () => {
                     }}
                   />
                 </li>
+                {/* <li id="product-list-options" style={{ minWidth: "180px" }} >
+                  <ShoppingBasketIcon
+                      onClick={() => {
+                        setIsCartOpen(true)
+                        {isCartOpen &&(
+                          setIsCartOpen(false)
+                        )}
+                      }}
+                    />
+                </li> */}
                 <li id="product-list-options" style={{ minWidth: "180px" }} >
                   <Clear 
                     onClick={() => {
@@ -664,7 +681,7 @@ const HomePage = () => {
         open={isOpenModalSales}
         description='Tem certeza que deseja vender este item? Ao fazer, será reduzido da quantidade total do produto, a quantidade vendida, alterando o estoque total do item!'
         isOpen={setOpenModalSales}
-        setIsCartOpen={setIsCartOpen}
+        
         // price={selectedProduct?.valor_venda}
         // id={selectedProduct?.idProduto}
         // quantidadeEstoque={selectedProduct?.quantidade || 0}

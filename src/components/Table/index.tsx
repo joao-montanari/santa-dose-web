@@ -7,16 +7,19 @@ const Table = (
         onExportData,
         columns,
         title,
+        cartSales,
     } : { 
         children : any, 
         onExportData : any,
         columns : string[],
-        title : string
+        title : string,
+        cartSales ?: any,
     }) => {
     return (
         <div id='table-component-main'>
             <div id='table-title' >
                 <h2>{title}</h2>
+                <h2 id='cart-style'>{cartSales}</h2>
                 <button onClick={onExportData}>
                     Exportar Lista
                     <FileDownload/>
@@ -31,7 +34,6 @@ const Table = (
                                 index !== 0 && <li key={index}>{column}</li>
                             ))
                         }
-
                     </ul>
                 </div>
                 <div id="table-content">
