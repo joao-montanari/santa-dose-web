@@ -2,9 +2,10 @@
     position: fixed
     top: 0
     right: 0
-    width: 390px
-    height: 100vh
-    background-color: white
+    width: 20%
+    height: 100%
+    background-color: black
+    color: yellow
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1)
     padding: 16px
     overflow-y: auto
@@ -29,14 +30,27 @@
     width: 104%
 
 #itemInfo
+    display: flex
     font-weight: 500
-
+    button
+        cursor: pointer
+        width: 30px
+        margin: 1px
+        background-color: black
+        color: yellow
+        border: 1px solid white;
+        border-radius: 4px;
+    
+    button:hover
+        background-color: gold
+        color: black
+        
 #itemName
     font-size: 1.125rem
 
 #itemPrice
     font-size: 1.125rem
-    color: #4b5563
+    color: yellow
 
 #removeButton
     color: #dc2626
@@ -73,7 +87,7 @@
     width: 100%
     height: 100%
     justify-content: right
-    background-color: #fff
+    background-color: black
     color: red
     text-align: right
     border: none
@@ -91,7 +105,7 @@
 
 #radiobutton-together
     border: 3px solid black
-    width: 104%
+    width: 100%
 
 #total-close
     width: 104%

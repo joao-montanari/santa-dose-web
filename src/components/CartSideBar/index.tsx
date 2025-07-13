@@ -22,7 +22,7 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
     }) => 
     {
     
-    const { cart, removeFromCart, clearCart} = useCart();
+    const { cart, removeFromCart, updateItemQuantity, clearCart} = useCart();
     const total = cart.reduce((sum, item) => sum + (item.product.valor_venda ?? 0) * item.quantidade, 0);
     const [selectedPayment, setSelectedPayment] = useState<string>("")
     const [valorTotal, setValorTotal] = useState<number>(0)
@@ -149,7 +149,9 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
                             <li key={item.product.idProduto} id="cartItem">
                                 <div id="itemInfo">
                                     <p id="itemName">{item.product.nome}</p>
-                                    <p id="itemPrice">{item.quantidade} × {(item.product.valor_venda ?? 0).toFixed(2)}</p>
+                                    <p id="itemPrice">({item.quantidade} × {(item.product.valor_venda ?? 0).toFixed(2)})</p>
+                                    <button onClick={() => updateItemQuantity(item.product.idProduto ?? 0, item.quantidade + 1)}>+</button>
+                                    <button onClick={() => updateItemQuantity(item.product.idProduto ?? 0, item.quantidade - 1)}>-</button>
                                 </div>
                                 <button onClick={() => removeFromCart(item.product.idProduto ?? 0)} id="removeButton">X</button>
                             </li>
