@@ -172,6 +172,10 @@ const HomePage = () => {
           "Doces": () => {
             setShowButtonsDoces(true)
           },
+          "Fardos": () => {
+            setShowButtonsCarvaoGeloDrinksP(true)
+            getProductsBySpecific("Fardos");
+          },
           "Carvão": () => {
             setShowButtonsCarvaoGeloDrinksP(true)
             getProductsBySpecific("Carvao");
