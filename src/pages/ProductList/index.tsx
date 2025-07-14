@@ -426,6 +426,7 @@ const HomePage = () => {
                     <ButtonValue title='Combo' valueClick="Combo" onClick={() => handleAllButtonsValue("Combo")}/>
                     <ButtonValue title='Refrigerante' valueClick="Refrigerante" onClick={() => handleAllButtonsValue("Refrigerante")}/>
                     <ButtonValue title='Energéticos' valueClick="Energéticos" onClick={() => handleAllButtonsValue("Energéticos")}/>
+                    <ButtonValue title='Fardos' valueClick="Fardos" onClick={() => handleAllButtonsValue("Fardos")}/>
                     <ButtonValue title='Tabacaria' valueClick="Tabacaria" onClick={() => handleAllButtonsValue("Tabacaria")}/>
                     <ButtonValue title='Carvão' valueClick="Carvão" onClick={() => handleAllButtonsValue("Carvão")}/>
                     <ButtonValue title='Gelo' valueClick="Gelo" onClick={() => handleAllButtonsValue("Gelo")}/>
