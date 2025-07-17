@@ -33,6 +33,7 @@ const ProductForm = () => {
         idProduto: null,
         nome: '',
         quantidade: 1,
+        quantidadeUn: 0,
         tipo: '',
         valor_compra: 0,
         valor_venda: 0,
@@ -95,6 +96,7 @@ const ProductForm = () => {
             product.data_validade !== ""
             && product.nome !== ""
             && product.quantidade > 0
+            && product.quantidadeUn
             && product.tamanho !== ""
             && product.tipo !== ""
             && product.valor_compra > 0
@@ -178,71 +180,64 @@ const ProductForm = () => {
                 />
             </div>
             <form id='product-form-content' onSubmit={handleSubmit}>
-                <div id='product-form-container'>
-                    <Input
-                        title="Nome"
-                        value={product.nome}
-                        setValue={(value : string) => changeProduct('nome', value)}
-                        width="45%"
-                    />
-                    
-                    {/* <InputWithSelect
-                        title="Volume"
-                        value={{ label: product.tamanho, value: product.tamanho }}
-                        setValue={(value : string) => changeProduct('tamanho', value)}
-                        width="45%"
-                        options={unit_of_measure_select}
-                        type="number"
-                    /> */}
-
-                    <Input title="Volume" value={volume} setValue={(value : number) => setVolume(value)} width="22%" type="number"/>
-                    <SelectOption
-                        title="Unidade"
-                        value={{ label: product.tamanho.replace(/[0-9]/g, ''), value: product.tamanho.replace(/[0-9]/g, '') }}
-                        setValue={(value: OptionSelect) => changeProduct('tamanho', value.value)}
-                        selectList={unit_of_measure_select}
-                        width="22%"
-                    />
-                </div>
-                <div id='product-form-container'>
-                    <Input
-                        title="Data de validade"
-                        value={product.data_validade}
-                        setValue={(value : string) => changeProduct('data_validade', value)}
-                        width="30%"
-                        type="date"
-                    />
-                    <Input
-                        title="Preço Compra"
-                        value={product.valor_compra}
-                        setValue={(value : number) => changeProduct('valor_compra', value)}
-                        width="30%"
-                        type="number"
-                    />
-
-                    <Input
-                        title="Preço Venda"
-                        value={product.valor_venda ? product.valor_venda : 0}
-                        setValue={(value : number) => changeProduct('valor_venda', value)}
-                        width="30%"
-                        type="number"
-                    />
-                </div>
-                <div id='product-form-container'>
-                    <SelectNumber
-                        width="45%"
-                        title="Quantidade Unitária"
-                        value={product.quantidade}
-                        setValue={(value : string | number) => changeProduct('quantidade', value)}
-                    />
-                    <SelectOption
-                        title="Categoria"
-                        value={{ value: product.tipo, label: product.tipo }}
-                        setValue={(value:  OptionSelect) => changeProduct('tipo', value.value)}
-                        selectList={category_select}
-                        width="45%"
-                    />
-                </div>
+                    <>
+                        <div id="product-form-container">
+                            <Input
+                                title="Nome"
+                                value={product.nome}
+                                setValue={(value : string) => changeProduct('nome', value)}
+                                width="45%"
+                            />
+                            <Input title="Volume" value={volume} setValue={(value : number) => setVolume(value)} width="22%" type="number"/>
+                            <SelectOption
+                                title="Unidade"
+                                value={{ label: product.tamanho.replace(/[0-9]/g, ''), value: product.tamanho.replace(/[0-9]/g, '') }}
+                                setValue={(value: OptionSelect) => changeProduct('tamanho', value.value)}
+                                selectList={unit_of_measure_select}
+                                width="22%"
+                            />
+                        </div>
+                        <div id='product-form-container'>
+                            <Input
+                                title="Data de validade"
+                                value={product.data_validade}
+                                setValue={(value: string) => changeProduct('data_validade', value)}
+                                width="30%"
+                                type="date" />
+                            <Input
+                                title="Preço Compra"
+                                value={product.valor_compra}
+                                setValue={(value: number) => changeProduct('valor_compra', value)}
+                                width="30%"
+                                type="number" />
+                            <Input
+                                title="Preço Venda"
+                                value={product.valor_venda ? product.valor_venda : 0}
+                                setValue={(value: number) => changeProduct('valor_venda', value)}
+                                width="30%"
+                                type="number" />
+                        </div>
+                        <div id='product-form-container'>
+                                <SelectNumber
+                                    width="30%"
+                                    title="Quantidade"
+                                    value={product.quantidade}
+                                    setValue={(value: string | number) => changeProduct('quantidade', value)} />
+                                {product.tipo === "Fardos" &&(
+                                    <SelectNumber
+                                        width="30%"
+                                        title="Quantidade Fardos"
+                                        value={product.quantidadeUn}
+                                        setValue={(value: string | number) => changeProduct('quantidadeUn', value)} />
+                                )}
+                                <SelectOption
+                                    title="Categoria"
+                                    value={{ value: product.tipo, label: product.tipo }}
+                                    setValue={(value: OptionSelect) => changeProduct('tipo', value.value)}
+                                    selectList={category_select}
+                                    width="30%" />
+                        </div>
+                    </>
                 <button type="submit">
                     Salvar
                 </button>

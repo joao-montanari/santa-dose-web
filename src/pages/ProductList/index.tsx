@@ -246,9 +246,11 @@ const HomePage = () => {
         valor_compra: selectedProduct.valor_compra,
         valor_venda: selectedProduct.valor_venda,
         quantidade: novaQuantidade,
+        quantidadeUn : selectedProduct.quantidadeUn,
         data_validade: selectedProduct.data_validade,
       }
       setLoading(true);
+      console.log("Produto sendo enviado: ", submitProduct)
       if(selectedProduct.idProduto){
         const respUpdate = await updateProduct(submitProduct)
         if(respUpdate.error){
@@ -331,61 +333,10 @@ const HomePage = () => {
     setLoading(false);
     console.log("Valor para pegar no banco: ", value)
   }
-  // async function getProducts( ) {
-  //   setLoading(true);
-  //   const data = await listProducts();
-
-  //   if (data.error) {
-  //     if(data.response.response.status === 401) navigate("/login");
-
-  //     setNote({
-  //       show: true,
-  //       message: `${data.response.response.data.detail}`,
-  //       type: "error"
-  //     });
-
-  //   } else {
-  //     setDataProduct(data[1]);
-  //   }
-
-  //   setLoading(false);
-  // }
-
-  // useEffect(() => {
-  //   if(!search) {
-  //     setResults(dataProduct);
-  //   } else {
-  //     const searchResult : Product[] = dataProduct.filter((element) => 
-  //       element.nome.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
-  //       element.data_validade.toLowerCase().indexOf(search.toLowerCase()) != -1 ||
-  //       element.valor_compra.toString().indexOf(search.toLowerCase()) != -1 ||
-  //       element.quantidade.toString().indexOf(search.toLowerCase()) != -1
-  //     );
-  //     setResults(searchResult);
-  //   }
-  // }, [search]);
-
-  // useEffect(() => {
-  //   // setRangeList(0, 10);
-  // }, [results]);
 
   useEffect(() => {
     setProductList(dataProduct);
-    // setRangeList(0, 10);
   }, [dataProduct]);
-
-  // useEffect(() => {
-  //   // getProducts();
-    
-  //   if(localStorage.getItem("product-operation")) {
-  //     setNote({
-  //       show: true,
-  //       message: `${localStorage.getItem("product-operation")}`,
-  //       type: "success"
-  //     });
-  //     localStorage.removeItem("product-operation");
-  //   }
-  // }, []);
 
   return (
     <>
@@ -464,9 +415,6 @@ const HomePage = () => {
                   <>
                     <ButtonValue title='Cerveja Long Neck 330ml' valueClick="Cerveja Long Neck 330ml" onClick={() => handleAllButtonsValue("Cerveja long neck 330mlna")}/>
                     <ButtonValue title='Cerveja 350ml' valueClick="Cerveja 350ml" onClick={() => handleAllButtonsValue("Cerveja 350mlna")}/>
-                    <ButtonValue title='Cerveja Tubão' valueClick="Cerveja Tubão" onClick={() => handleAllButtonsValue("Cerveja tubaona")}/>
-                    <ButtonValue title='Cerveja 600ml' valueClick="Cerveja 600ml" onClick={() => handleAllButtonsValue("Cerveja 600mlna")}/>
-                    {/* <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsAlcoólicos)}/> */}
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleAllButtonsValue("VoltarCervejasNaoAlcoolicas")}/>
                   </>
                 )}
@@ -603,7 +551,7 @@ const HomePage = () => {
       <div>
         <Table
           onExportData={() => exportExcelProduct(dataProduct, "Lista de Produtos")}
-          columns={[...(user?.is_admin ? ["Editar Produto"] : []),"Nome", "Validade", "Quantidade", "Valor Venda", ...(user?.is_admin ? ["% Ganho No Produto"] : []), "Vender Produto", "Adicionar Produto", "Excluir Produto" ]}//adiciona apenas se for admin 
+          columns={[...(user?.is_admin ? ["Editar Produto"] : []),"Nome", "Validade", "Quantidade", ...(currentCategory === "Fardos" ? ["Quantidade Fardos"] : []),"Valor Venda", ...(user?.is_admin ? ["% Ganho No Produto"] : []), "Vender Produto", "Adicionar Produto", "Excluir Produto" ]}//adiciona apenas se for admin 
           title="Lista de produtos"
           cartSales={<ShoppingCartIcon style={{ width: "40px", height: "100%" }} onClick={() => {
                         setIsCartOpen(true)
@@ -625,6 +573,9 @@ const HomePage = () => {
                 <li style={{ width: "100%", justifyContent: "center", paddingLeft: "20px" }}>{product.nome}</li>
                 <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px' }}>{product.data_validade}</li>
                 <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px' }}>{product.quantidade}</li>
+                {currentCategory === "Fardos" && (
+                  <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px' }}>{product.quantidadeUn}</li>
+                )}
                 <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px' }}>{product.valor_venda}</li>
                 {user?.is_admin && (
                       <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px'}}>{formatPercent(product.percentual_lucro)} </li>
