@@ -45,11 +45,11 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
 
         for(const item of cart){
             const novaQuantidade = item.product.quantidade - item.quantidade;
-            let novaQuantidadeUn = item.product.quantidadeUn;
+            // let novaQuantidadeUn = item.product.quantidadeUn;
 
-            if(item.quantidade >= 6){
-                novaQuantidadeUn = item.product.quantidadeUn - 1
-            }
+            // if(item.quantidade >= 6){
+            //     novaQuantidadeUn = item.product.quantidadeUn - 1
+            // }
             const quantidadeT = cart.reduce((total, item) => {
                 return total + item.quantidade;
             }, 0)
@@ -64,11 +64,11 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
                 return;
             }
 
-            console.log("Quantidade un: ", novaQuantidadeUn)
+            // console.log("Quantidade un: ", novaQuantidadeUn)
             const updatedProduct = {
                 ...item.product,
                 quantidade: novaQuantidade,
-                quantidadeUn: novaQuantidadeUn,
+                // quantidadeUn: novaQuantidadeUn,
             };
 
             const addTotalWType = {

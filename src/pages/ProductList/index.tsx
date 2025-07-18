@@ -176,6 +176,14 @@ const HomePage = () => {
             setShowButtonsCarvaoGeloDrinksP(true)
             getProductsBySpecific("Fardos");
           },
+          "Agua": () => {
+            setShowButtonsCarvaoGeloDrinksP(true)
+            getProductsBySpecific("Agua");
+          },
+          "Sucos": () => {
+            setShowButtonsCarvaoGeloDrinksP(true)
+            getProductsBySpecific("Sucos");
+          },
           "Carvão": () => {
             setShowButtonsCarvaoGeloDrinksP(true)
             getProductsBySpecific("Carvao");
@@ -246,7 +254,7 @@ const HomePage = () => {
         valor_compra: selectedProduct.valor_compra,
         valor_venda: selectedProduct.valor_venda,
         quantidade: novaQuantidade,
-        quantidadeUn : selectedProduct.quantidadeUn,
+        // quantidadeUn : selectedProduct.quantidadeUn,
         data_validade: selectedProduct.data_validade,
       }
       setLoading(true);
@@ -382,6 +390,8 @@ const HomePage = () => {
                     <ButtonValue title='Refrigerante' valueClick="Refrigerante" onClick={() => handleAllButtonsValue("Refrigerante")}/>
                     <ButtonValue title='Energéticos' valueClick="Energéticos" onClick={() => handleAllButtonsValue("Energéticos")}/>
                     <ButtonValue title='Fardos' valueClick="Fardos" onClick={() => handleAllButtonsValue("Fardos")}/>
+                    <ButtonValue title='Sucos' valueClick="Sucos" onClick={() => handleAllButtonsValue("Sucos")}/>
+                    <ButtonValue title='Água' valueClick="Agua" onClick={() => handleAllButtonsValue("Agua")}/>
                     <ButtonValue title='Tabacaria' valueClick="Tabacaria" onClick={() => handleAllButtonsValue("Tabacaria")}/>
                     <ButtonValue title='Carvão' valueClick="Carvão" onClick={() => handleAllButtonsValue("Carvão")}/>
                     <ButtonValue title='Gelo' valueClick="Gelo" onClick={() => handleAllButtonsValue("Gelo")}/>
@@ -551,7 +561,7 @@ const HomePage = () => {
       <div>
         <Table
           onExportData={() => exportExcelProduct(dataProduct, "Lista de Produtos")}
-          columns={[...(user?.is_admin ? ["Editar Produto"] : []),"Nome", "Validade", "Quantidade", ...(currentCategory === "Fardos" ? ["Quantidade Fardos"] : []),"Valor Venda", ...(user?.is_admin ? ["% Ganho No Produto"] : []), "Vender Produto", "Adicionar Produto", "Excluir Produto" ]}//adiciona apenas se for admin 
+          columns={[...(user?.is_admin ? ["Editar Produto"] : []),"Nome", "Validade", "Quantidade", "Valor Venda", ...(user?.is_admin ? ["% Ganho No Produto"] : []), "Vender Produto", "Adicionar Produto", "Excluir Produto" ]}//adiciona apenas se for admin 
           title="Lista de produtos"
           cartSales={<ShoppingCartIcon style={{ width: "40px", height: "100%" }} onClick={() => {
                         setIsCartOpen(true)
@@ -573,9 +583,9 @@ const HomePage = () => {
                 <li style={{ width: "100%", justifyContent: "center", paddingLeft: "20px" }}>{product.nome}</li>
                 <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px' }}>{product.data_validade}</li>
                 <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px' }}>{product.quantidade}</li>
-                {currentCategory === "Fardos" && (
+                {/* {currentCategory === "Fardos" && (
                   <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px' }}>{product.quantidadeUn}</li>
-                )}
+                )} */}
                 <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px' }}>{product.valor_venda}</li>
                 {user?.is_admin && (
                       <li style={{ paddingLeft: "20px", justifyContent: "center", minWidth: '180px'}}>{formatPercent(product.percentual_lucro)} </li>

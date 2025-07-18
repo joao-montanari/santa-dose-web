@@ -162,6 +162,14 @@ export const category_select : TypeSelect[] = [
         label: 'Fardos',
     },
     {
+        value: 'Sucos',
+        label: 'Sucos',
+    },
+    {
+        value: 'Agua',
+        label: 'Água',
+    },
+    {
         value: 'Isqueiros',
         label: 'Isqueiros',
     },

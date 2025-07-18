@@ -33,7 +33,7 @@ const ProductForm = () => {
         idProduto: null,
         nome: '',
         quantidade: 1,
-        quantidadeUn: 0,
+        // quantidadeUn: 0,
         tipo: '',
         valor_compra: 0,
         valor_venda: 0,
@@ -96,7 +96,7 @@ const ProductForm = () => {
             product.data_validade !== ""
             && product.nome !== ""
             && product.quantidade > 0
-            && product.quantidadeUn
+            // && product.quantidadeUn
             && product.tamanho !== ""
             && product.tipo !== ""
             && product.valor_compra > 0
@@ -219,23 +219,23 @@ const ProductForm = () => {
                         </div>
                         <div id='product-form-container'>
                                 <SelectNumber
-                                    width="30%"
+                                    width="45%"
                                     title="Quantidade"
                                     value={product.quantidade}
                                     setValue={(value: string | number) => changeProduct('quantidade', value)} />
-                                {product.tipo === "Fardos" &&(
+                                {/* {product.tipo === "Fardos" &&(
                                     <SelectNumber
                                         width="30%"
                                         title="Quantidade Fardos"
                                         value={product.quantidadeUn}
                                         setValue={(value: string | number) => changeProduct('quantidadeUn', value)} />
-                                )}
+                                )} */}
                                 <SelectOption
                                     title="Categoria"
                                     value={{ value: product.tipo, label: product.tipo }}
                                     setValue={(value: OptionSelect) => changeProduct('tipo', value.value)}
                                     selectList={category_select}
-                                    width="30%" />
+                                    width="45%" />
                         </div>
                     </>
                 <button type="submit">
