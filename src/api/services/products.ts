@@ -4,6 +4,7 @@ import { findRouter }  from '@Api/mapRouters';
 import { MonthElements } from '@Models/monthsValue';
 import { TotalSellAndType } from '@Models/totalSellAndType';
 import { SallesAndTypee } from '@Models/SallesAndType';
+import { ProductLoose } from '@Models/productLoose';
 
 export async function createProduct(product : Product) {
     let request = await findRouter("postProduct");
@@ -78,6 +79,18 @@ export async function getProduct(id : number) {
     return selectMethod(
         url,
         request.method,
+    );
+}
+
+export async function updateProductLoose(nome: string, tipo: string, quantidade : ProductLoose) {
+    let request = await findRouter("updateProductLoose");
+
+    const urlComParams = `${request.router}?nome=${encodeURIComponent(nome)}&tipo=${encodeURIComponent(tipo)}`;
+
+    return selectMethod(
+        urlComParams,
+        request.method,
+        quantidade
     );
 }
 

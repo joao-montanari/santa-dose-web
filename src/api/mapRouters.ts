@@ -39,6 +39,11 @@ const backEndRouters : Router[] = [
         method: "PATCH"
     },
     {
+        router: "/produtos/atualizar_prod_soltos/",
+        name: "updateProductLoose",
+        method: "PATCH"
+    },
+    {
         router: "/produtos/delete_by_id/",
         name: "deleteProduct",
         method: "DELETE"

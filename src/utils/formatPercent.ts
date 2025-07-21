@@ -3,13 +3,11 @@ export default function formatPercent(percent : number | undefined | null) {
         return "0%";
     }
 
-    const strPercent: string = percent.toString();
+    //Arredonda o número para uma casa decimal e o transforma em string
+    const fixedPercent = percent.toFixed(1);
 
-    if(strPercent.includes('.')){
-        const splitPercent: string[] = strPercent.split('.');
-        return `${splitPercent[0]},${splitPercent[1].padEnd(2, "0")}%`;
-    }
+    const localizedPercent = fixedPercent.replace(".", ",");
 
-    
-    return `${percent}%`;
+    return `${localizedPercent}%`;
+
 }

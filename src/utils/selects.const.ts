@@ -158,8 +158,16 @@ export const category_select : TypeSelect[] = [
         label: 'Gatorade',
     },
     {
-        value: 'Fardos',
-        label: 'Fardos',
+        value: 'Fardos 269ml',
+        label: 'Fardos 269ml',
+    },
+    {
+        value: 'Fardos 350ml',
+        label: 'Fardos 350ml',
+    },
+    {
+        value: 'Fardos Barrigudinhas',
+        label: 'Fardos Barrigudinhas',
     },
     {
         value: 'Sucos',

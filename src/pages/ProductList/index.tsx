@@ -46,6 +46,8 @@ const HomePage = () => {
   const [showButtonsCombo, setShowButtonsCombo] = useState(false)
   const [showButtonsComboOptions, setShowButtonsComboOptions] = useState(false)
 
+  const [shwoButtonsFardos, setShowButtonsFardos] = useState(false)
+
   const [showButtonsRefrigerante, setShowButtonsRefrigerante] = useState(false)
   const [showButtonsBebidasQuente, setShowButtonsBebidasQuentes] = useState(false)
   const [showButtonsEnergeticos, setShowButtonsEnergeticos] = useState(false)
@@ -173,8 +175,8 @@ const HomePage = () => {
             setShowButtonsDoces(true)
           },
           "Fardos": () => {
-            setShowButtonsCarvaoGeloDrinksP(true)
-            getProductsBySpecific("Fardos");
+
+            setShowButtonsFardos(true)
           },
           "Agua": () => {
             setShowButtonsCarvaoGeloDrinksP(true)
@@ -514,6 +516,16 @@ const HomePage = () => {
                     <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsEnergeticos)}/>
                   </>
                 )}
+
+                {shwoButtonsFardos &&(
+                  <>
+                    <ButtonValue title='Fardos 269ml' valueClick='Fardos 269ml' onClick={() => handleAllButtonsValue("Fardos 269ml")}/>
+                    <ButtonValue title='Fardos 350ml' valueClick="Fardos 350ml" onClick={() => handleAllButtonsValue("Fardos 350ml")}/>
+                    <ButtonValue title='Fardos Barrigudinhas' valueClick="Fardos Barrigudinhas" onClick={() => handleAllButtonsValue("Fardos barrigudinhas")}/>
+                    <ButtonValue title='Voltar' valueClick="Voltar" onClick={() => handleVoltar(setShowButtonsFardos)}/>
+                  </>
+                )}
+
 
                 {showButtonsTabacaria &&(
                   <>

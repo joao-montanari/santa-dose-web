@@ -1,7 +1,7 @@
 import { useCart } from "@Components/CartContext";
 import React, {  Dispatch, SetStateAction, useEffect, useState } from "react";
 import "./style.sass"
-import { addSalesAndType, addTotalAndType, updateProduct } from "@Api/services/products";
+import { addSalesAndType, addTotalAndType, updateProduct, updateProductLoose } from "@Api/services/products";
 import RadioButton from "@Components/RadioButton";
 import Notification, { NotificationType } from '@Components/Notification';
 
@@ -82,9 +82,14 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
                 tipo : selectedPayment
             }
 
+            const payload = {
+                quantidade: item.quantidade,
+            }
+
             const respUpdate = await updateProduct(updatedProduct);
             const addTotalAndTypeV = await addTotalAndType(addTotalWType);
             const addTipoVendaGraficoS = await addSalesAndType(addTipoVendaGrafico);
+            const updateProdSoltos = await updateProductLoose(item.product.nome, item.product.tipo, payload);
 
             if(respUpdate.error){
                 setNote({
@@ -107,6 +112,14 @@ const CartsideBar: React.FC<CartSideBarProps> = ({
             if(addTipoVendaGraficoS.error){
                 setNote({
                     message: `${addTipoVendaGraficoS.response.response.data.detail}`,
+                    show: true,
+                    type: "error"
+                })
+            }
+
+            if(updateProdSoltos.error){
+                setNote({
+                    message: `${updateProdSoltos.response.response.data.detail}`,
                     show: true,
                     type: "error"
                 })
