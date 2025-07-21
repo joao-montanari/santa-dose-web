@@ -174,8 +174,7 @@ const HomePage = () => {
           "Doces": () => {
             setShowButtonsDoces(true)
           },
-          "Fardos": () => {
-
+          "FardosOf": () => {
             setShowButtonsFardos(true)
           },
           "Agua": () => {
@@ -391,7 +390,7 @@ const HomePage = () => {
                     <ButtonValue title='Combo' valueClick="Combo" onClick={() => handleAllButtonsValue("Combo")}/>
                     <ButtonValue title='Refrigerante' valueClick="Refrigerante" onClick={() => handleAllButtonsValue("Refrigerante")}/>
                     <ButtonValue title='Energéticos' valueClick="Energéticos" onClick={() => handleAllButtonsValue("Energéticos")}/>
-                    <ButtonValue title='Fardos' valueClick="Fardos" onClick={() => handleAllButtonsValue("Fardos")}/>
+                    <ButtonValue title='Fardos' valueClick="FardosOf" onClick={() => handleAllButtonsValue("FardosOf")}/>
                     <ButtonValue title='Sucos' valueClick="Sucos" onClick={() => handleAllButtonsValue("Sucos")}/>
                     <ButtonValue title='Água' valueClick="Agua" onClick={() => handleAllButtonsValue("Agua")}/>
                     <ButtonValue title='Tabacaria' valueClick="Tabacaria" onClick={() => handleAllButtonsValue("Tabacaria")}/>
