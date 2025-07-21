@@ -519,6 +519,7 @@ const HomePage = () => {
 
                 {shwoButtonsFardos &&(
                   <>
+                    <ButtonValue title='Fardos' valueClick="Fardos" onClick={() => handleAllButtonsValue("Fardos")}/>
                     <ButtonValue title='Fardos 269ml' valueClick='Fardos 269ml' onClick={() => handleAllButtonsValue("Fardos 269ml")}/>
                     <ButtonValue title='Fardos 350ml' valueClick="Fardos 350ml" onClick={() => handleAllButtonsValue("Fardos 350ml")}/>
                     <ButtonValue title='Fardos Barrigudinhas' valueClick="Fardos Barrigudinhas" onClick={() => handleAllButtonsValue("Fardos barrigudinhas")}/>
