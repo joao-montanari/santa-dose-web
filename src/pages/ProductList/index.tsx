@@ -181,6 +181,10 @@ const HomePage = () => {
             setShowButtonsCarvaoGeloDrinksP(true)
             getProductsBySpecific("Agua");
           },
+          "Unidades Soltas": () =>{
+            setShowButtonsCarvaoGeloDrinksP(true)
+            getProductsBySpecific("Unidades Soltas");
+          },
           "Sucos": () => {
             setShowButtonsCarvaoGeloDrinksP(true)
             getProductsBySpecific("Sucos");
@@ -391,6 +395,7 @@ const HomePage = () => {
                     <ButtonValue title='Refrigerante' valueClick="Refrigerante" onClick={() => handleAllButtonsValue("Refrigerante")}/>
                     <ButtonValue title='Energéticos' valueClick="Energéticos" onClick={() => handleAllButtonsValue("Energéticos")}/>
                     <ButtonValue title='Fardos' valueClick="Fardos" onClick={() => handleAllButtonsValue("Fardos")}/>
+                    <ButtonValue title='Unidades Soltas' valueClick="Unidades Soltas" onClick={() => handleAllButtonsValue("Unidades Soltas")}/>
                     <ButtonValue title='Sucos' valueClick="Sucos" onClick={() => handleAllButtonsValue("Sucos")}/>
                     <ButtonValue title='Água' valueClick="Agua" onClick={() => handleAllButtonsValue("Agua")}/>
                     <ButtonValue title='Tabacaria' valueClick="Tabacaria" onClick={() => handleAllButtonsValue("Tabacaria")}/>

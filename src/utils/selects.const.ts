@@ -157,6 +157,7 @@ export const category_select : TypeSelect[] = [
         value: 'Gatorade',
         label: 'Gatorade',
     },
+    
     {
         value: 'Fardos 269ml',
         label: 'Fardos 269ml',
@@ -168,6 +169,10 @@ export const category_select : TypeSelect[] = [
     {
         value: 'Fardos Barrigudinhas',
         label: 'Fardos Barrigudinhas',
+    },
+    {
+        value: 'Unidades Soltas',
+        label: 'Unidades Soltas',
     },
     {
         value: 'Sucos',
