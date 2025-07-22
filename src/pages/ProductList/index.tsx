@@ -174,7 +174,7 @@ const HomePage = () => {
           "Doces": () => {
             setShowButtonsDoces(true)
           },
-          "FardosOf": () => {
+          "Fardos": () => {
             setShowButtonsFardos(true)
           },
           "Agua": () => {
@@ -390,7 +390,7 @@ const HomePage = () => {
                     <ButtonValue title='Combo' valueClick="Combo" onClick={() => handleAllButtonsValue("Combo")}/>
                     <ButtonValue title='Refrigerante' valueClick="Refrigerante" onClick={() => handleAllButtonsValue("Refrigerante")}/>
                     <ButtonValue title='Energéticos' valueClick="Energéticos" onClick={() => handleAllButtonsValue("Energéticos")}/>
-                    <ButtonValue title='Fardos' valueClick="FardosOf" onClick={() => handleAllButtonsValue("FardosOf")}/>
+                    <ButtonValue title='Fardos' valueClick="Fardos" onClick={() => handleAllButtonsValue("Fardos")}/>
                     <ButtonValue title='Sucos' valueClick="Sucos" onClick={() => handleAllButtonsValue("Sucos")}/>
                     <ButtonValue title='Água' valueClick="Agua" onClick={() => handleAllButtonsValue("Agua")}/>
                     <ButtonValue title='Tabacaria' valueClick="Tabacaria" onClick={() => handleAllButtonsValue("Tabacaria")}/>
@@ -518,7 +518,6 @@ const HomePage = () => {
 
                 {shwoButtonsFardos &&(
                   <>
-                    <ButtonValue title='Fardos' valueClick="Fardos" onClick={() => handleAllButtonsValue("Fardos")}/>
                     <ButtonValue title='Fardos 269ml' valueClick='Fardos 269ml' onClick={() => handleAllButtonsValue("Fardos 269ml")}/>
                     <ButtonValue title='Fardos 350ml' valueClick="Fardos 350ml" onClick={() => handleAllButtonsValue("Fardos 350ml")}/>
                     <ButtonValue title='Fardos Barrigudinhas' valueClick="Fardos Barrigudinhas" onClick={() => handleAllButtonsValue("Fardos barrigudinhas")}/>
