@@ -139,7 +139,9 @@ const DailySells = () =>{
     }   
 
     async function handleSubmitValues() {
-        if(!product.tipo) {
+        const mesSelecionado = product.tipo
+
+        if(!mesSelecionado) {
             setNote({
                 message: "Selecione um mês antes de enviar os valores",
                 show: true,
@@ -148,7 +150,7 @@ const DailySells = () =>{
             return;
         }
             const totalValue = Object.entries(monthsTotal)
-                .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra valores do mês selecionado
+                .filter(([key]) => key.startsWith(`${mesSelecionado}-`)) // Filtra valores do mês selecionado
                 .reduce((acc, [, valor]) => acc + valor, 0);
 
             if(totalValue <= 0) {
@@ -169,6 +171,8 @@ const DailySells = () =>{
 
             try{
                 const response = await createMonthValue(submitData); // chamando para enviar os dados
+                console.log("Tipo de pagamento: ", productFull.tipo)
+                console.log("Total de valor: ", totalValue)
                 if (response.error){
                     setNote({
                         message: "Registro mensal já existente para o mês de " + product.tipo,
@@ -233,12 +237,17 @@ const DailySells = () =>{
                 });
 
                 if(registro){
-                    novosValores[`${product.tipo}-${i}`] = registro.valor;
+                    // novosValores[`${product.tipo}-${i}`] = registro.valor;
+                    novosValores[`${product.tipo}-${productFull.tipo}-${i}`] = registro.valor;
                     }
                 }
 
                 setSales(novosGastos)
-                setMonthsTotal(novosValores)
+                setMonthsTotal(prev => ({
+                    ...prev,
+                    ...novosValores
+                }))
+                // setMonthsTotal(novosValores)
         //     console.log("Valores de initialSales antes de passar para a tabela: ", Object.entries(monthsTotal)
         //         .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
         //         .map(([key, valor]) => ({
@@ -294,6 +303,7 @@ const DailySells = () =>{
                     setValue={(selected: OptionSelect) => changeTypeSell('tipo', selected.value)}
                     selectList={sell_type_select}
                     width="23%" />
+                
 
                 <Menu
                         icon={<img src={getPhotoUser()} style={{ width:"35px", borderRadius: "40px", color: "#9A9494", cursor: "pointer"}} />}
@@ -316,9 +326,9 @@ const DailySells = () =>{
                 onTotalChange={handleTotalChange}
                 onDayValueChange={handleDayValueChange}
                 initialSales={Object.entries(monthsTotal)
-                    .filter(([key]) => key.startsWith(`${product.tipo}-`)) // Filtra apenas os valores do mês selecionado
+                    .filter(([key]) => key.startsWith(`${product.tipo}-${productFull.tipo}-`))  // Filtra apenas os valores do mês selecionado
                     .map(([key, valor]) => ({
-                        dia: key.split("-")[1], // Extrai o dia da chave "mes-dia"
+                        dia: key.split("-")[2], // Extrai o dia da chave "mes-dia"
                         mes: product.tipo, // Usa o mês selecionado 
                         valor: valor ? valor.toString() : "0",
                         motivo: "",
